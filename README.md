@@ -4,22 +4,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of lighthouse is to ...
+The lighthouse package includes various utility functions used by staff at the 
+[Lighthouse Institute](https://www.chestnut.org/lighthouse-institute/), a 
+division of Chestnut Health Systems.
 
 ## Installation
 
-You can install the development version of lighthouse like so:
+Install the lighthouse package by running:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(lighthouse)
-## basic example code
+remotes::install_github("ccsarapas/lighthouse")
 ```
 
