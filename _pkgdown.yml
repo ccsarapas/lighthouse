@@ -1,21 +1,35 @@
-url: ~
+url: https://ccsarapas.github.io/lighthouse/
+
 template:
   bootstrap: 5
   bootswatch: sandstone
 
 footer:
-  left: package
-  right: built_with
+  structure:
+    left: package
+    right: built_with
 
 reference:
-- title: "Infix operators"
+- title: Infix operators
   contents:
   - "`%->%`"
   - "`%<-%`"
   - "`%!in%`"
   - "`%all_in%`"
   - "`%any_in%`"
-- title: "Statistical functions"
+- title: Grouping and summary functions
+  contents:
+  - cols_info
+  - count_duplicates
+  - count_multiple
+  - count_na
+  - count_pct
+  - count_unique
+  - count_with_total
+  - crosstab
+  - group_with_total
+  - summary_table
+- title: Statistical functions
   contents:
   - accuracy_stats
   - asterisks
@@ -36,31 +50,7 @@ reference:
   - se
   - winsorize
   - wkappa
-
-
-
-  - accuracy_stats
-  - asterisks
-  - cohen_w
-  - cumsum_desc
-  - d_to_OR
-  - OR_to_d
-  - p_to_OR
-  - median_dbl
-  - pmax_across
-  - pmin_across
-  - rbool
-  - row_sums_spss
-  - safe_max
-  - safe_min
-  - se
-  - wkappa
-
-
-
-
-
-- title: "Data restructuring"
+- title: Data restructuring
   contents:
   - add_empty_rows
   - add_header
@@ -69,7 +59,7 @@ reference:
   - reorder_dendro_by_label
   - rev_rows
   - t_tibble
-- title: "Working with missing values"
+- title: Working with missing values
   contents:
   - coerce_na_range
   - discard_na
@@ -82,19 +72,7 @@ reference:
   - na_to_null
   - null_to_na
   - pct_valid
-- title: "Grouping and summary functions"
-  contents:
-  - cols_info
-  - count_duplicates
-  - count_multiple
-  - count_na
-  - count_pct
-  - count_unique
-  - count_with_total
-  - crosstab
-  - group_with_total
-  - summary_table
-- title: "Working with dates"
+- title: Working with dates
   contents:
   - datetimes_to_date
   - days_diff
@@ -102,20 +80,7 @@ reference:
   - floor_month
   - floor_week
   - next_bizday
-- title: "Data transformation and filtering"
-  contents:
-  - fct_filter
-  - filter_drop
-  - fct_case_when
-  - fct_reorder_n
-  - reverse_key
-  - scale_mad
-  - scale_vec
-  - swap_if
-  - try_numeric
-  - winsorize
-
-- title: "Working with character vectors"
+- title: Working with character vectors
   contents:
   - glue_chr
   - str_collapse
@@ -123,7 +88,7 @@ reference:
   - str_prefix
   - str_starts_any
   - str_suffix
-- title: "Logical tests"
+- title: Logical tests
   contents:
   - is_coercible_integer
   - is_coercible_logical
@@ -135,20 +100,31 @@ reference:
   - is_TRUE_or_NA
   - is_spss
   - is_valid
-- title: "Displaying output"
+- title: Data transformation and filtering
+  contents:
+  - fct_filter
+  - filter_drop
+  - fct_case_when
+  - fct_reorder_n
+  - reverse_key
+  - scale_mad
+  - scale_vec
+  - swap_if
+  - try_numeric
+  - winsorize
+- title: Displaying output
   contents:
   - print_all
   - print_n
   - in_excel
-- title: "Holiday dates"
+- title: Holiday dates
   contents:
   - holidays_chestnut
   - holidays_il
   - holidays_us
-- title: "Miscellany"
+- title: Miscellany
   contents:
   - gain_ss_score
   - set_ggplot_opts
   - untidyselect
   - zap_everything
-
