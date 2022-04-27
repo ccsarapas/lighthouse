@@ -14,7 +14,7 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa."><!-- mathjax -
     
     <a class="navbar-brand me-2" href="../index.html">lighthouse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predictor       n Kappa Sensitivity Specificity   PPV   NPV</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250 0.902       0.964       0.952 0.909 0.981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250 0.897       0.947       0.960 0.911 0.977</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># can test multiple predictors simultaneously</span></span>
 <span class="r-in"><span class="va">ex_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -87,11 +87,11 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predictor       n Kappa Sensitivity Specificity   PPV   NPV</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250 0.902       0.964       0.952 0.909 0.981</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> prediction2   250 0.704       0.867       0.862 0.758 0.929</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> prediction3   250 0.202       0.639       0.587 0.434 0.766</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> prediction4   250 0.814       1           0.868 0.790 1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> prediction5   250 0.897       0.867       1     1     0.938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250 0.897       0.947       0.960 0.911 0.977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> prediction2   250 0.663       0.868       0.839 0.702 0.936</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> prediction3   250 0.211       0.605       0.632 0.418 0.786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> prediction4   250 0.800       1           0.868 0.768 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> prediction5   250 0.932       0.908       1     1     0.961</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># if `include_counts` = TRUE, will also return n of false positives,</span></span>
 <span class="r-in"><span class="co"># false negatives, etc., as well as and observed and expected % agreement</span></span>
@@ -100,11 +100,11 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predictor       n    TP    FP    TN    FN pAgreeObserved pAgreeExpected Kappa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250    80     8   159     3          0.956          0.550 0.902</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> prediction2   250    72    23   144    11          0.864          0.540 0.704</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> prediction3   250    53    69    98    30          0.604          0.504 0.202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> prediction4   250    83    22   145     0          0.912          0.527 0.814</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> prediction5   250    72     0   167    11          0.956          0.571 0.897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> prediction1   250    72     7   167     4          0.956          0.572 0.897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> prediction2   250    66    28   146    10          0.848          0.549 0.663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> prediction3   250    46    64   110    30          0.624          0.524 0.211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> prediction4   250    76    23   151     0          0.908          0.541 0.800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> prediction5   250    69     0   174     7          0.972          0.588 0.932</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: Sensitivity &lt;dbl&gt;, Specificity &lt;dbl&gt;, PPV &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   NPV &lt;dbl&gt;</span></span>
 <span class="r-in"></span>
