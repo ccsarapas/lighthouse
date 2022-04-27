@@ -934,7 +934,7 @@ untidyselect <- function(data, selection, syms = FALSE) {
       data
     )
   )
-  if (syms) syms(untidy) else untidy
+  if (syms) rlang::syms(untidy) else untidy
 }
 
 #' Alternative column ordering and naming for pivot_wider()
