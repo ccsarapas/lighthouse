@@ -1,6 +1,6 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: 
     person("Casey", "Sarapas", , "ccsarapas@chestnut.org", 
            role = c("aut", "cre"))
