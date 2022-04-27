@@ -1,22 +1,19 @@
 url: https://ccsarapas.github.io/lighthouse/
-
 template:
   bootstrap: 5
   bootswatch: sandstone
-
 footer:
   structure:
     left: package
     right: built_with
-
 reference:
 - title: Infix operators
   contents:
-  - "`%->%`"
-  - "`%<-%`"
-  - "`%!in%`"
-  - "`%all_in%`"
-  - "`%any_in%`"
+  - '`%->%`'
+  - '`%<-%`'
+  - '`%!in%`'
+  - '`%all_in%`'
+  - '`%any_in%`'
 - title: Grouping and summary functions
   contents:
   - cols_info
@@ -128,3 +125,4 @@ reference:
   - set_ggplot_opts
   - untidyselect
   - zap_everything
+
