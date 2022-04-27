@@ -108,7 +108,10 @@ data_ex \%>\%
 # multiple `names_from` vars, with different value vs. name separators
 ggplot2::mpg \%>\%
   dplyr::filter(class \%in\% c("compact", "subcompact", "midsize")) \%>\%
-  dplyr::group_by(manufacturer, trans = str_extract(trans, ".*(?=\\\\()"), year) \%>\%
+  dplyr::group_by(
+    manufacturer,
+    trans = stringr::str_extract(trans, ".*(?=\\\\()"), year
+  ) \%>\%
   dplyr::summarize(across(c(cty, hwy), mean)) \%>\%
   pivot_wider_alt(
     names_from = trans:year,

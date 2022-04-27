@@ -1009,7 +1009,10 @@ untidyselect <- function(data, selection, syms = FALSE) {
 #' # multiple `names_from` vars, with different value vs. name separators
 #' ggplot2::mpg %>%
 #'   dplyr::filter(class %in% c("compact", "subcompact", "midsize")) %>%
-#'   dplyr::group_by(manufacturer, trans = str_extract(trans, ".*(?=\\()"), year) %>%
+#'   dplyr::group_by(
+#'     manufacturer,
+#'     trans = stringr::str_extract(trans, ".*(?=\\()"), year
+#'   ) %>%
 #'   dplyr::summarize(across(c(cty, hwy), mean)) %>%
 #'   pivot_wider_alt(
 #'     names_from = trans:year,
@@ -1217,11 +1220,11 @@ summary_table <- function(.data,
 #' # create example data w predictors with different properties:
 #' ex_data <- tibble::tibble(
 #'   actual = rbinom(250, 1, .3),                                   # 250 cases, p(outcome) = .3
-#'   prediction1 = if_else(runif(250) <= .05, 1L - actual, actual), # 5% error rate
-#'   prediction2 = if_else(runif(250) <= .15, 1L - actual, actual), # 15% error rate
-#'   prediction3 = if_else(runif(250) <= .35, 1L - actual, actual), # 35% error rate
-#'   prediction4 = if_else(runif(250) <= .15, 1L, actual),          # 15% with positive bias
-#'   prediction5 = if_else(runif(250) <= .15, 0L, actual)           # 15% with negative bias
+#'   prediction1 = ifelse(runif(250) <= .05, 1L - actual, actual), # 5% error rate
+#'   prediction2 = ifelse(runif(250) <= .15, 1L - actual, actual), # 15% error rate
+#'   prediction3 = ifelse(runif(250) <= .35, 1L - actual, actual), # 35% error rate
+#'   prediction4 = ifelse(runif(250) <= .15, 1L, actual),          # 15% with positive bias
+#'   prediction5 = ifelse(runif(250) <= .15, 0L, actual)           # 15% with negative bias
 #' )
 #'
 #' # testing predicted v actual values
