@@ -13,7 +13,7 @@ expression as a character vector (default) or a list of symbols (if \code{syms} 
 }
 \examples{
 dplyr::storms \%>\%
-  untidyselect(c(name:hour, category, ends_with("diameter")))
+  untidyselect(c(name:hour, category, tidyselect::ends_with("diameter")))
 
  mtcars \%>\%
    untidyselect(mpg:drat, syms = TRUE)

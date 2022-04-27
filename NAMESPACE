@@ -3,6 +3,7 @@
 export("%!in%")
 export("%->%")
 export("%<-%")
+export("%>%")
 export("%all_in%")
 export("%any_in%")
 export(OR_to_d)

@@ -29,14 +29,14 @@ Removing or changing the grouping structure after calling
 \examples{
 ggplot2::mpg \%>\%
   group_with_total(class) \%>\%
-  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 
 ggplot2::mpg \%>\%
   group_with_total(year, drv, .label = "all years") \%>\%
-  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 
 ggplot2::mpg \%>\%
   group_with_total(year, drv, .totals_for = drv) \%>\%
-  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 
 }

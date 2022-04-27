@@ -10,8 +10,10 @@ scale_vec(x, center = TRUE, scale = TRUE)
 A wrapper around \code{base::scale()} that returns a vector instead of a matrix.
 }
 \examples{
-#compare output to base::scale()
+# using base::scale()
 scale(0:4)
+
+# using scale_vec()
 scale_vec(0:4)
 
 }

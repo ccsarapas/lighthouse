@@ -53,7 +53,9 @@ a column for each function passed to \code{...}.
 \examples{
 # example data
 mtcars2 <- mtcars \%>\%
-  dplyr::mutate(Transmission = recode(am, `0` = "auto", `1` = "manual"))
+  dplyr::mutate(
+    Transmission = dplyr::recode(am, `0` = "auto", `1` = "manual")
+  )
 
 # simple summary table. note specification of column and row names
 # for "n", "m", and "weight".
@@ -86,7 +88,7 @@ mtcars2 \%>\%
     )
   )
 
-# can alternatively pass a glue specification to `.cols_group_opts`
+# you can alternatively pass a glue specification to `.cols_group_opts`
 mtcars2 \%>\%
   summary_table(
     n = ~ sum(!is.na(.x)), m = mean, sd,

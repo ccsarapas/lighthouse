@@ -921,7 +921,7 @@ group_split_named <- function(.data,
 #'
 #' @examples
 #' dplyr::storms %>%
-#'   untidyselect(c(name:hour, category, ends_with("diameter")))
+#'   untidyselect(c(name:hour, category, tidyselect::ends_with("diameter")))
 #'
 #'  mtcars %>%
 #'    untidyselect(mpg:drat, syms = TRUE)
@@ -1117,7 +1117,9 @@ pivot_wider_alt <- function(data,
 #' @examples
 #' # example data
 #' mtcars2 <- mtcars %>%
-#'   dplyr::mutate(Transmission = recode(am, `0` = "auto", `1` = "manual"))
+#'   dplyr::mutate(
+#'     Transmission = dplyr::recode(am, `0` = "auto", `1` = "manual")
+#'   )
 #'
 #' # simple summary table. note specification of column and row names
 #' # for "n", "m", and "weight".
@@ -1150,7 +1152,7 @@ pivot_wider_alt <- function(data,
 #'     )
 #'   )
 #'
-#' # can alternatively pass a glue specification to `.cols_group_opts`
+#' # you can alternatively pass a glue specification to `.cols_group_opts`
 #' mtcars2 %>%
 #'   summary_table(
 #'     n = ~ sum(!is.na(.x)), m = mean, sd,
@@ -1799,15 +1801,15 @@ gain_ss_score <- function(..., .prefix = NULL) {
 #' @examples
 #' ggplot2::mpg %>%
 #'   group_with_total(class) %>%
-#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 #'
 #' ggplot2::mpg %>%
 #'   group_with_total(year, drv, .label = "all years") %>%
-#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 #'
 #' ggplot2::mpg %>%
 #'   group_with_total(year, drv, .totals_for = drv) %>%
-#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
 #'
 #' @export
 group_with_total <- function(.data,
@@ -1917,8 +1919,10 @@ pmin_across <- function(cols, na.rm = FALSE) {
 #' A wrapper around `base::scale()` that returns a vector instead of a matrix.
 #'
 #' @examples
-#' #compare output to base::scale()
+#' # using base::scale()
 #' scale(0:4)
+#'
+#' # using scale_vec()
 #' scale_vec(0:4)
 #'
 #' @export
