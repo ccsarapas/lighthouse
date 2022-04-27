@@ -111,9 +111,10 @@ reference:
   - winsorize
 - title: Displaying output
   contents:
+  - in_excel
   - print_all
   - print_n
-  - in_excel
+  - ggview
 - title: Holiday dates
   contents:
   - holidays_chestnut
@@ -125,4 +126,7 @@ reference:
   - set_ggplot_opts
   - untidyselect
   - zap_everything
-
+- title: Deprecated
+  contents:
+  - get_col_types
+  - rbool
