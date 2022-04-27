@@ -86,30 +86,26 @@ vector the same length as <code>x</code> testing each element of <code>x</code>.
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"-1.23"</span>, <span class="st">"$1,234"</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">is_coercible_numeric</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE    NA</span>
-<span class="r-in"><span class="co"># TRUE  TRUE FALSE    NA</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu">is_coercible_numeric</span><span class="op">(</span><span class="va">x</span>, na <span class="op">=</span> <span class="st">"TRUE"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE  TRUE</span>
-<span class="r-in"><span class="co"># TRUE  TRUE FALSE  TRUE</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu">is_coercible_numeric</span><span class="op">(</span><span class="va">x</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="co"># FALSE</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">is_coercible_integer</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE FALSE    NA</span>
-<span class="r-in"><span class="co"># TRUE FALSE FALSE    NA</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TRUE"</span>, <span class="st">"T"</span>, <span class="st">"F"</span>, <span class="st">"YES"</span>, <span class="st">"NA"</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">is_coercible_logical</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE  TRUE FALSE FALSE    NA</span>
-<span class="r-in"><span class="co"># TRUE  TRUE  TRUE FALSE FALSE    NA</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">.1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">is_coercible_logical</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE FALSE FALSE</span>
-<span class="r-in"><span class="co"># TRUE  TRUE FALSE FALSE FALSE</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu">is_coercible_logical</span><span class="op">(</span><span class="va">z</span>, numeric <span class="op">=</span> <span class="st">"any"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE TRUE TRUE</span>
-<span class="r-in"><span class="co"># TRUE TRUE TRUE TRUE TRUE</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

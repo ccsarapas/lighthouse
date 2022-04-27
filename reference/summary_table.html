@@ -79,17 +79,17 @@ specified). Output column names can optionally be specified. E.g.,
 <code>m = mean, sd, sem = ~ sd(.x) / sqrt(n())</code> yields output columns named <code>m</code>,
 <code>sd</code>, and <code>sem</code>.</p></dd>
 <dt>.vars</dt>
-<dd><p>&lt;<code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">tidy-select</a></code>&gt; Columns in <code>.data</code> to
+<dd><p>&lt;<code>tidy-select</code>&gt; Columns in <code>.data</code> to
 summarize. Each column passed to <code>.vars</code> will yield one row in the output
 table (or one row per group if <code>.rows_group_by</code> is specified).</p></dd>
 <dt>na.rm</dt>
 <dd><p>A logical value passed to any functions in <code>...</code> that take an
 <code>na.rm</code> argument.</p></dd>
 <dt>.rows_group_by</dt>
-<dd><p>&lt;<code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">tidy-select</a></code>&gt; Grouping
+<dd><p>&lt;<code>tidy-select</code>&gt; Grouping
 variable(s) for output rows.</p></dd>
 <dt>.cols_group_by</dt>
-<dd><p>&lt;<code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">tidy-select</a></code>&gt; Grouping
+<dd><p>&lt;<code>tidy-select</code>&gt; Grouping
 variable(s) for output columns.</p></dd>
 <dt>.cols_group_opts</dt>
 <dd><p>A list of arguments passed to
@@ -102,43 +102,32 @@ passed to <code>.vars</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simple summary table. note specification of column and row names</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># example data</span></span>
+<span class="r-in"><span class="va">mtcars2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">%&gt;%</span></span>
+<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Transmission <span class="op">=</span> <span class="fu">recode</span><span class="op">(</span><span class="va">am</span>, `0` <span class="op">=</span> <span class="st">"auto"</span>, `1` <span class="op">=</span> <span class="st">"manual"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars %&gt;% dplyr::mutate(Transmission = recode(am, `0` = "auto",     `1` = "manual")):</span> could not find function "%&gt;%"</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># simple summary table. note specification of column and row names</span></span>
 <span class="r-in"><span class="co"># for "n", "m", and "weight".</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">mtcars2</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">summary_table</span><span class="op">(</span></span>
 <span class="r-in">    n <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span>, m <span class="op">=</span> <span class="va">mean</span>, <span class="va">sd</span>,</span>
 <span class="r-in">    .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">hp</span>, weight <span class="op">=</span> <span class="va">wt</span><span class="op">)</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Variable     n      m     sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> mpg         32  20.1   6.03 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> hp          32 147.   68.6  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> weight      32   3.22  0.978</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars2 %&gt;% summary_table(n = ~sum(!is.na(.x)), m = mean, sd,     .vars = c(mpg, hp, weight = wt)):</span> could not find function "%&gt;%"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># with column and row groupings</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Transmission <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html" class="external-link">recode</a></span><span class="op">(</span><span class="va">am</span>, `0` <span class="op">=</span> <span class="st">"auto"</span>, `1` <span class="op">=</span> <span class="st">"manual"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">mtcars2</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">summary_table</span><span class="op">(</span></span>
 <span class="r-in">    n <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span>, m <span class="op">=</span> <span class="va">mean</span>, <span class="va">sd</span>,</span>
 <span class="r-in">    .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">hp</span>, weight <span class="op">=</span> <span class="va">wt</span><span class="op">)</span>,</span>
 <span class="r-in">    .cols_group_by <span class="op">=</span> <span class="va">cyl</span>,</span>
 <span class="r-in">    .rows_group_by <span class="op">=</span> <span class="va">Transmission</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Transmission Variable   n.4   m.4   sd.4   n.6    m.6   sd.6   n.8    m.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto         mpg          3 22.9   1.45      4  19.1   1.63     12  15.0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> auto         hp           3 84.7  19.7       4 115.    9.18     12 194.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> auto         weight       3  2.94  0.408     4   3.39  0.116    12   4.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> manual       mpg          8 28.1   4.48      3  20.6   0.751     2  15.4 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> manual       hp           8 81.9  22.7       3 132.   37.5       2 300.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> manual       weight       8  2.04  0.409     3   2.76  0.128     2   3.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: sd.8 &lt;dbl&gt;</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars2 %&gt;% summary_table(n = ~sum(!is.na(.x)), m = mean, sd,     .vars = c(mpg, hp, weight = wt), .cols_group_by = cyl, .rows_group_by = Transmission):</span> could not find function "%&gt;%"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># customize output column names with `.cols_group_opts`</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Transmission <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html" class="external-link">recode</a></span><span class="op">(</span><span class="va">am</span>, `0` <span class="op">=</span> <span class="st">"auto"</span>, `1` <span class="op">=</span> <span class="st">"manual"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">mtcars2</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">summary_table</span><span class="op">(</span></span>
 <span class="r-in">    n <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span>, m <span class="op">=</span> <span class="va">mean</span>, <span class="va">sd</span>,</span>
 <span class="r-in">    .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">hp</span>, weight <span class="op">=</span> <span class="va">wt</span><span class="op">)</span>,</span>
@@ -150,21 +139,10 @@ passed to <code>.vars</code>.</p></dd>
 <span class="r-in">      names_value_sep <span class="op">=</span> <span class="st">": "</span></span>
 <span class="r-in">    <span class="op">)</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Transmission Variable `cyl4: n` `cyl4: m` `cyl4: sd` `cyl6: n` `cyl6: m`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto         mpg              3     22.9       1.45          4     19.1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> auto         hp               3     84.7      19.7           4    115.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> auto         weight           3      2.94      0.408         4      3.39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> manual       mpg              8     28.1       4.48          3     20.6 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> manual       hp               8     81.9      22.7           3    132.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> manual       weight           8      2.04      0.409         3      2.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: `cyl6: sd` &lt;dbl&gt;, `cyl8: n` &lt;int&gt;, `cyl8: m` &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `cyl8: sd` &lt;dbl&gt;</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars2 %&gt;% summary_table(n = ~sum(!is.na(.x)), m = mean, sd,     .vars = c(mpg, hp, weight = wt), .cols_group_by = cyl, .rows_group_by = Transmission,     .cols_group_opts = list(names_value_first = FALSE, names_prefix = "cyl",         names_value_sep = ": ")):</span> could not find function "%&gt;%"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># can alternatively pass a glue specification to `.cols_group_opts`</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Transmission <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html" class="external-link">recode</a></span><span class="op">(</span><span class="va">am</span>, `0` <span class="op">=</span> <span class="st">"auto"</span>, `1` <span class="op">=</span> <span class="st">"manual"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">mtcars2</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">summary_table</span><span class="op">(</span></span>
 <span class="r-in">    n <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span>, m <span class="op">=</span> <span class="va">mean</span>, <span class="va">sd</span>,</span>
 <span class="r-in">    .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">hp</span>, weight <span class="op">=</span> <span class="va">wt</span><span class="op">)</span>,</span>
@@ -172,17 +150,7 @@ passed to <code>.vars</code>.</p></dd>
 <span class="r-in">    .rows_group_by <span class="op">=</span> <span class="va">Transmission</span>,</span>
 <span class="r-in">    .cols_group_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>names_glue <span class="op">=</span> <span class="st">"{.value}: {cyl}-cyl"</span><span class="op">)</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Transmission Variable `n: 4-cyl` `m: 4-cyl` `sd: 4-cyl` `n: 6-cyl` `m: 6-cyl`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto         mpg               3      22.9        1.45           4      19.1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> auto         hp                3      84.7       19.7            4     115.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> auto         weight            3       2.94       0.408          4       3.39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> manual       mpg               8      28.1        4.48           3      20.6 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> manual       hp                8      81.9       22.7            3     132.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> manual       weight            8       2.04       0.409          3       2.76</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: `sd: 6-cyl` &lt;dbl&gt;, `n: 8-cyl` &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `m: 8-cyl` &lt;dbl&gt;, `sd: 8-cyl` &lt;dbl&gt;</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars2 %&gt;% summary_table(n = ~sum(!is.na(.x)), m = mean, sd,     .vars = c(mpg, hp, weight = wt), .cols_group_by = cyl, .rows_group_by = Transmission,     .cols_group_opts = list(names_glue = "{.value}: {cyl}-cyl")):</span> could not find function "%&gt;%"</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

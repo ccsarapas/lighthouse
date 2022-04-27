@@ -68,9 +68,9 @@ found in right operand (<code>rhs</code>). Equivalent to <code>!(lhs %in% rhs)</
 <span class="r-in"></span>
 <span class="r-in"><span class="va">some_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">letters</span><span class="op">[</span><span class="va">letters</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">some_letters</span><span class="op">]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "c" "e" "h" "k" "m" "n" "o" "r" "t" "z"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "d" "n" "o" "p" "q" "t" "v" "w" "y"</span>
 <span class="r-in"><span class="va">letters</span><span class="op">[</span><span class="va">letters</span> <span class="op">%!in%</span> <span class="va">some_letters</span><span class="op">]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "d" "f" "g" "i" "j" "l" "p" "q" "s" "u" "v" "w" "x" "y"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b" "c" "e" "f" "g" "h" "i" "j" "k" "l" "m" "r" "s" "u" "x" "z"</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
