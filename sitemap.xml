@@ -166,9 +166,6 @@
     <loc>https://ccsarapas.github.io/lighthouse/reference/p_to_OR.html</loc>
   </url>
   <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/pipe.html</loc>
-  </url>
-  <url>
     <loc>https://ccsarapas.github.io/lighthouse/reference/pivot_wider_alt.html</loc>
   </url>
   <url>
@@ -182,6 +179,9 @@
   </url>
   <url>
     <loc>https://ccsarapas.github.io/lighthouse/reference/rbool.html</loc>
+  </url>
+  <url>
+    <loc>https://ccsarapas.github.io/lighthouse/reference/reexports.html</loc>
   </url>
   <url>
     <loc>https://ccsarapas.github.io/lighthouse/reference/reorder_dendro_by_label.html</loc>
