@@ -1,0 +1,154 @@
+url: ~
+template:
+  bootstrap: 5
+  bootswatch: sandstone
+
+footer:
+  left: package
+  right: built_with
+
+reference:
+- title: "Infix operators"
+  contents:
+  - "`%->%`"
+  - "`%<-%`"
+  - "`%!in%`"
+  - "`%all_in%`"
+  - "`%any_in%`"
+- title: "Statistical functions"
+  contents:
+  - accuracy_stats
+  - asterisks
+  - cohen_w
+  - cumsum_desc
+  - d_to_OR
+  - OR_to_d
+  - p_to_OR
+  - median_dbl
+  - pmax_across
+  - pmin_across
+  - reverse_key
+  - row_sums_spss
+  - safe_max
+  - safe_min
+  - scale_mad
+  - scale_vec
+  - se
+  - winsorize
+  - wkappa
+
+
+
+  - accuracy_stats
+  - asterisks
+  - cohen_w
+  - cumsum_desc
+  - d_to_OR
+  - OR_to_d
+  - p_to_OR
+  - median_dbl
+  - pmax_across
+  - pmin_across
+  - rbool
+  - row_sums_spss
+  - safe_max
+  - safe_min
+  - se
+  - wkappa
+
+
+
+
+
+- title: "Data restructuring"
+  contents:
+  - add_empty_rows
+  - add_header
+  - group_split_named
+  - pivot_wider_alt
+  - reorder_dendro_by_label
+  - rev_rows
+  - t_tibble
+- title: "Working with missing values"
+  contents:
+  - coerce_na_range
+  - discard_na
+  - drop_na_cols
+  - find_na_cols
+  - is_valid
+  - n_pct_valid
+  - n_valid
+  - na_like
+  - na_to_null
+  - null_to_na
+  - pct_valid
+- title: "Grouping and summary functions"
+  contents:
+  - cols_info
+  - count_duplicates
+  - count_multiple
+  - count_na
+  - count_pct
+  - count_unique
+  - count_with_total
+  - crosstab
+  - group_with_total
+  - summary_table
+- title: "Working with dates"
+  contents:
+  - datetimes_to_date
+  - days_diff
+  - floor_days
+  - floor_month
+  - floor_week
+  - next_bizday
+- title: "Data transformation and filtering"
+  contents:
+  - fct_filter
+  - filter_drop
+  - fct_case_when
+  - fct_reorder_n
+  - reverse_key
+  - scale_mad
+  - scale_vec
+  - swap_if
+  - try_numeric
+  - winsorize
+
+- title: "Working with character vectors"
+  contents:
+  - glue_chr
+  - str_collapse
+  - str_detect_any
+  - str_prefix
+  - str_starts_any
+  - str_suffix
+- title: "Logical tests"
+  contents:
+  - is_coercible_integer
+  - is_coercible_logical
+  - is_coercible_numeric
+  - is_duplicate
+  - is_FALSE
+  - is_FALSE_or_NA
+  - is_TRUE
+  - is_TRUE_or_NA
+  - is_spss
+  - is_valid
+- title: "Displaying output"
+  contents:
+  - print_all
+  - print_n
+  - in_excel
+- title: "Holiday dates"
+  contents:
+  - holidays_chestnut
+  - holidays_il
+  - holidays_us
+- title: "Miscellany"
+  contents:
+  - gain_ss_score
+  - set_ggplot_opts
+  - untidyselect
+  - zap_everything
+
