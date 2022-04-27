@@ -1,4 +1,4 @@
-#' Dates of CHS holidays over a 20-year period
+#' CHS holidays over a 20-year period
 #'
 #' A dataset containing dates of Chestnut Health System holidays from 2010-12-31
 #' through 2030-12-31.
@@ -10,7 +10,7 @@
 #' }
 "holidays_chestnut"
 
-#' Dates of Illinois state holidays over a 20-year period
+#' Illinois state holidays over a 20-year period
 #'
 #' A dataset containing dates of State of Illinois holidays from 2010-12-31
 #' through 2030-12-31.
@@ -22,7 +22,7 @@
 #' }
 "holidays_il"
 
-#' Dates of US federal holidays over a 20-year period
+#' US federal holidays over a 20-year period
 #'
 #' A dataset containing dates of United States federal holidays from 2010-12-31
 #' through 2030-12-31.

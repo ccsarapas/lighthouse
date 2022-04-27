@@ -24,7 +24,7 @@
 ggview <- function(plot = ggplot2::last_plot(),
                    width = NULL,
                    height = NULL,
-                   type = c("png", "svg")) {
+                   type = c("svg", "png")) {
   device <- match.arg(type)
   img_dir <- file.path(tempdir(), "img")
   if (!dir.exists(img_dir)) {
@@ -584,6 +584,7 @@ reverse_key <- function(x,
 #' Returns a dataframe with all datetime columns (i.e., class `POSIXct` or
 #' `POSIXlt`) converted to `Date`.
 #'
+#' @export
 datetimes_to_date <- function(.data) {
   .data %>%
     dplyr::mutate(
@@ -593,6 +594,7 @@ datetimes_to_date <- function(.data) {
 
 #' Test whether a dataframe contains SPSS variable or value labels.
 #'
+#' @export
 is_spss <- function(.data) {
   if (!requireNamespace("haven", quietly = TRUE)) {
     stop('"labelled" package must be installed to use `is_spss()`.')
