@@ -63,13 +63,16 @@ expression as a character vector (default) or a list of symbols (if <code>syms</
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/storms.html" class="external-link">storms</a></span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">untidyselect</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">hour</span>, <span class="va">category</span>, <span class="fu">ends_with</span><span class="op">(</span><span class="st">"diameter"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::storms %&gt;% untidyselect(c(name:hour, category, ends_with("diameter"))):</span> could not find function "%&gt;%"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/storms.html" class="external-link">storms</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
+<span class="r-in">  <span class="fu">untidyselect</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">hour</span>, <span class="va">category</span>, <span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"diameter"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "name"                         "year"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "month"                        "day"                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "hour"                         "category"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7] "tropicalstorm_force_diameter" "hurricane_force_diameter"    </span>
 <span class="r-in"></span>
-<span class="r-in"> <span class="va">mtcars</span> <span class="op">%&gt;%</span></span>
+<span class="r-in"> <span class="va">mtcars</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">   <span class="fu">untidyselect</span><span class="op">(</span><span class="va">mpg</span><span class="op">:</span><span class="va">drat</span>, syms <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mtcars %&gt;% untidyselect(mpg:drat, syms = TRUE):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in syms(untidy):</span> could not find function "syms"</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

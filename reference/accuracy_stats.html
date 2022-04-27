@@ -75,20 +75,20 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa.</p>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if_else(runif(250) &lt;= 0.05, 1L - actual, actual):</span> could not find function "if_else"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># testing predicted v actual values</span></span>
-<span class="r-in"><span class="va">ex_data</span> <span class="op">%&gt;%</span></span>
+<span class="r-in"><span class="va">ex_data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">accuracy_stats</span><span class="op">(</span><span class="va">actual</span>, <span class="va">prediction1</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ex_data %&gt;% accuracy_stats(actual, prediction1):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::select(., true_values = {    {        true_values    }}, ...):</span> object 'ex_data' not found</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># can test multiple predictors simultaneously</span></span>
-<span class="r-in"><span class="va">ex_data</span> <span class="op">%&gt;%</span></span>
+<span class="r-in"><span class="va">ex_data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">accuracy_stats</span><span class="op">(</span><span class="va">actual</span>, <span class="va">prediction1</span><span class="op">:</span><span class="va">prediction5</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ex_data %&gt;% accuracy_stats(actual, prediction1:prediction5):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::select(., true_values = {    {        true_values    }}, ...):</span> object 'ex_data' not found</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># if `include_counts` = TRUE, will also return n of false positives,</span></span>
 <span class="r-in"><span class="co"># false negatives, etc., as well as and observed and expected % agreement</span></span>
-<span class="r-in"><span class="va">ex_data</span> <span class="op">%&gt;%</span></span>
+<span class="r-in"><span class="va">ex_data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">accuracy_stats</span><span class="op">(</span><span class="va">actual</span>, <span class="va">prediction1</span><span class="op">:</span><span class="va">prediction5</span>, include_counts <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ex_data %&gt;% accuracy_stats(actual, prediction1:prediction5, include_counts = TRUE):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::select(., true_values = {    {        true_values    }}, ...):</span> object 'ex_data' not found</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

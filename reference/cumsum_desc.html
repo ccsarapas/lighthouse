@@ -57,13 +57,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/diamonds.html" class="external-link">diamonds</a></span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">cut</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/diamonds.html" class="external-link">diamonds</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
+<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">cut</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span class="r-in">    or_worse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
 <span class="r-in">    or_better <span class="op">=</span> <span class="fu">cumsum_desc</span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
 <span class="r-in">  <span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in ggplot2::diamonds %&gt;% dplyr::count(cut) %&gt;% dplyr::mutate(or_worse = cumsum(n),     or_better = cumsum_desc(n)):</span> could not find function "%&gt;%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cut           n or_worse or_better</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Fair       <span style="text-decoration: underline;">1</span>610     <span style="text-decoration: underline;">1</span>610     <span style="text-decoration: underline;">53</span>940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Good       <span style="text-decoration: underline;">4</span>906     <span style="text-decoration: underline;">6</span>516     <span style="text-decoration: underline;">52</span>330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Very Good <span style="text-decoration: underline;">12</span>082    <span style="text-decoration: underline;">18</span>598     <span style="text-decoration: underline;">47</span>424</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Premium   <span style="text-decoration: underline;">13</span>791    <span style="text-decoration: underline;">32</span>389     <span style="text-decoration: underline;">35</span>342</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Ideal     <span style="text-decoration: underline;">21</span>551    <span style="text-decoration: underline;">53</span>940     <span style="text-decoration: underline;">21</span>551</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
