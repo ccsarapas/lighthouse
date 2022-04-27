@@ -32,7 +32,4 @@ by_cyl_gear2 <- mtcars \%>\%
 by_cyl_gear2$cyl_6
 by_cyl_gear2$cyl_6$gear_4
 
-# cleanup
-rm(by_cyl_gear1, by_cyl_gear2)
-
 }

@@ -27,16 +27,16 @@ Removing or changing the grouping structure after calling
 \code{group_with_total()} but before aggregating may yield inaccurate results.
 }
 \examples{
-mpg \%>\%
+ggplot2::mpg \%>\%
   group_with_total(class) \%>\%
-  summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 
-mpg \%>\%
+ggplot2::mpg \%>\%
   group_with_total(year, drv, .label = "all years") \%>\%
-  summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 
-mpg \%>\%
+ggplot2::mpg \%>\%
   group_with_total(year, drv, .totals_for = drv) \%>\%
-  summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+  dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 
 }

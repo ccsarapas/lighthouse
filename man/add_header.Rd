@@ -17,11 +17,9 @@ add_header(
 Inserts header rows in \code{to} using unique values of \code{from}.
 }
 \examples{
-library(dplyr)
-
-starwars \%>\%
+dplyr::starwars \%>\%
   head(13) \%>\%
-  arrange(species) \%>\%
+  dplyr::arrange(species) \%>\%
   add_header(from = species, to = name, indent = "  ")
 
 }

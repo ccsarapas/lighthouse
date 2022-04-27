@@ -14,14 +14,11 @@ Returns substring beginnings or endings common to all elements in vector.
 }
 \examples{
 test_words <- c("antidote", "antimony", "antimatter", "antisense")
-str_prefix(test_words) # "anti"
+str_prefix(test_words)
 
 wdays <- c(
   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 )
-str_suffix(wdays) # "day"
-
-# cleanup
-rm(test_words, wdays)
+str_suffix(wdays)
 
 }

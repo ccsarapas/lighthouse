@@ -16,7 +16,7 @@ computes Cohen's w from results from a chi-squared test.
 }
 \examples{
 
-chisq_out <- chisq.test(diamonds$cut, diamonds$color)
+chisq_out <- chisq.test(ggplot2::diamonds$cut, ggplot2::diamonds$color)
 cohen_w(chisq_out)
 
 }

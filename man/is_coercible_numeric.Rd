@@ -36,23 +36,19 @@ examples.
 \examples{
 x <- c("1", "-1.23", "$1,234", NA)
 is_coercible_numeric(x)
-# TRUE  TRUE FALSE    NA
+
 is_coercible_numeric(x, na = "TRUE")
-# TRUE  TRUE FALSE  TRUE
+
 is_coercible_numeric(x, all = TRUE)
-# FALSE
 
 is_coercible_integer(x)
-# TRUE FALSE FALSE    NA
 
 y <- c("TRUE", "T", "F", "YES", "NA", NA)
 is_coercible_logical(y)
-# TRUE  TRUE  TRUE FALSE FALSE    NA
 
 z <- c(0, 1, 2, .1, -1)
 is_coercible_logical(z)
-# TRUE  TRUE FALSE FALSE FALSE
+
 is_coercible_logical(z, numeric = "any")
-# TRUE TRUE TRUE TRUE TRUE
 
 }

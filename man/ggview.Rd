@@ -8,28 +8,10 @@ ggview(
   plot = ggplot2::last_plot(),
   width = NULL,
   height = NULL,
-  type = c("png", "svg")
+  type = c("svg", "png")
 )
 }
 \description{
 Saves ggplot object as .svg in R temp directory, then displays in RStudio
 Viewer pane. Results in better image quality on Windows machines.
-}
-\examples{
-# example data and plot
-ex_data <- ggplot2::diamonds \%>\%
-  filter(carat > .5, carat <= 3, color \%in\% LETTERS[5:8]) \%>\%
-  mutate(carat = ordered(cut(carat, seq(.5, 3, .5))))
-
-p <- ggplot(ex_data) +
-  geom_density(aes(price, fill = carat)) +
-  facet_wrap(vars(color)) +
-  theme_minimal()
-
-# default rendering in Plots pane
-p
-
-# rendering in Viewer pane w ggview()
-ggview(p)
-
 }

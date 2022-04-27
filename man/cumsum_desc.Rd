@@ -10,9 +10,9 @@ cumsum_desc(x)
 Returns a cumulative sum beginning with the last element of \code{x}.
 }
 \examples{
-diamonds \%>\%
-  count(cut) \%>\%
-  mutate(
+ggplot2::diamonds \%>\%
+  dplyr::count(cut) \%>\%
+  dplyr::mutate(
     or_worse = cumsum(n),
     or_better = cumsum_desc(n)
   )

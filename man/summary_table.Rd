@@ -51,17 +51,20 @@ Generates a summary table, with a row for each variable passed to \code{.vars} a
 a column for each function passed to \code{...}.
 }
 \examples{
+# example data
+mtcars2 <- mtcars \%>\%
+  dplyr::mutate(Transmission = recode(am, `0` = "auto", `1` = "manual"))
+
 # simple summary table. note specification of column and row names
 # for "n", "m", and "weight".
-mtcars \%>\%
+mtcars2 \%>\%
   summary_table(
     n = ~ sum(!is.na(.x)), m = mean, sd,
     .vars = c(mpg, hp, weight = wt)
   )
 
 # with column and row groupings
-mtcars \%>\%
-  mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) \%>\%
+mtcars2 \%>\%
   summary_table(
     n = ~ sum(!is.na(.x)), m = mean, sd,
     .vars = c(mpg, hp, weight = wt),
@@ -70,8 +73,7 @@ mtcars \%>\%
   )
 
 # customize output column names with `.cols_group_opts`
-mtcars \%>\%
-  mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) \%>\%
+mtcars2 \%>\%
   summary_table(
     n = ~ sum(!is.na(.x)), m = mean, sd,
     .vars = c(mpg, hp, weight = wt),
@@ -85,8 +87,7 @@ mtcars \%>\%
   )
 
 # can alternatively pass a glue specification to `.cols_group_opts`
-mtcars \%>\%
-  mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) \%>\%
+mtcars2 \%>\%
   summary_table(
     n = ~ sum(!is.na(.x)), m = mean, sd,
     .vars = c(mpg, hp, weight = wt),

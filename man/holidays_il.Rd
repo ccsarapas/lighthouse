@@ -3,7 +3,7 @@
 \docType{data}
 \name{holidays_il}
 \alias{holidays_il}
-\title{Dates of Illinois state holidays over a 20-year period}
+\title{Illinois state holidays over a 20-year period}
 \format{
 A tibble with 252 rows and 2 variables:
 \describe{

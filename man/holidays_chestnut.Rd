@@ -3,7 +3,7 @@
 \docType{data}
 \name{holidays_chestnut}
 \alias{holidays_chestnut}
-\title{Dates of CHS holidays over a 20-year period}
+\title{CHS holidays over a 20-year period}
 \format{
 A tibble with 140 rows and 2 variables:
 \describe{

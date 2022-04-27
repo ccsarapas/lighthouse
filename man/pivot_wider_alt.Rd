@@ -77,12 +77,12 @@ different separator between \code{{.value}} and \code{{column}} than between mul
 }
 \examples{
 data_ex <- ggplot2::diamonds \%>\%
-  group_by(cut, color) \%>\%
-  summarize(Min = min(price), Median = median(price), Max = max(price))
+  dplyr::group_by(cut, color) \%>\%
+  dplyr::summarize(Min = min(price), Median = median(price), Max = max(price))
 
 # default pivot_wider() behavior
 data_ex \%>\%
-  pivot_wider(
+  tidyr::pivot_wider(
     id_cols = color,
     names_from = cut,
     values_from = Min:Max
@@ -107,17 +107,14 @@ data_ex \%>\%
 
 # multiple `names_from` vars, with different value vs. name separators
 ggplot2::mpg \%>\%
-  filter(class \%in\% c("compact", "subcompact", "midsize")) \%>\%
-  group_by(manufacturer, trans = str_extract(trans, ".*(?=\\\\()"), year) \%>\%
-  summarize(across(c(cty, hwy), mean)) \%>\%
+  dplyr::filter(class \%in\% c("compact", "subcompact", "midsize")) \%>\%
+  dplyr::group_by(manufacturer, trans = str_extract(trans, ".*(?=\\\\()"), year) \%>\%
+  dplyr::summarize(across(c(cty, hwy), mean)) \%>\%
   pivot_wider_alt(
     names_from = trans:year,
     values_from = cty:hwy,
     names_sep = "_",
     names_value_sep = ": "
   )
-
-# cleanup
-rm(data_ex)
 
 }

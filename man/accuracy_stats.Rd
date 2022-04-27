@@ -13,7 +13,7 @@ value (PPV), negative predictive value (NPV), and Cohen's kappa.
 }
 \examples{
 # create example data w predictors with different properties:
-ex_data <- tibble(
+ex_data <- tibble::tibble(
   actual = rbinom(250, 1, .3),                                   # 250 cases, p(outcome) = .3
   prediction1 = if_else(runif(250) <= .05, 1L - actual, actual), # 5\% error rate
   prediction2 = if_else(runif(250) <= .15, 1L - actual, actual), # 15\% error rate
@@ -34,8 +34,5 @@ ex_data \%>\%
 # false negatives, etc., as well as and observed and expected \% agreement
 ex_data \%>\%
   accuracy_stats(actual, prediction1:prediction5, include_counts = TRUE)
-
-# cleanup
-rm(ex_data)
 
 }

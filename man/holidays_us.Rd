@@ -3,7 +3,7 @@
 \docType{data}
 \name{holidays_us}
 \alias{holidays_us}
-\title{Dates of US federal holidays over a 20-year period}
+\title{US federal holidays over a 20-year period}
 \format{
 A tibble with 212 rows and 2 variables:
 \describe{

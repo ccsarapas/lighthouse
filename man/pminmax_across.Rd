@@ -19,12 +19,12 @@ Wrappers around \code{base::pmin()} and \code{base::pmax()} that accept
 \examples{
 # using `base::pmax()`
 mtcars \%>\%
-  mutate(
+  dplyr::mutate(
     max_val = pmax(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
   )
 
 # using `pmax_across()`
 mtcars \%>\%
-  mutate(max_val = pmax_across(mpg:carb))
+  dplyr::mutate(max_val = pmax_across(mpg:carb))
 
 }

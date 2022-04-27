@@ -3,23 +3,6 @@
 #' Saves ggplot object as .svg in R temp directory, then displays in RStudio
 #' Viewer pane. Results in better image quality on Windows machines.
 #'
-#' @examples
-#' # example data and plot
-#' ex_data <- ggplot2::diamonds %>%
-#'   filter(carat > .5, carat <= 3, color %in% LETTERS[5:8]) %>%
-#'   mutate(carat = ordered(cut(carat, seq(.5, 3, .5))))
-#'
-#' p <- ggplot(ex_data) +
-#'   geom_density(aes(price, fill = carat)) +
-#'   facet_wrap(vars(color)) +
-#'   theme_minimal()
-#'
-#' # default rendering in Plots pane
-#' p
-#'
-#' # rendering in Viewer pane w ggview()
-#' ggview(p)
-#'
 #' @export
 ggview <- function(plot = ggplot2::last_plot(),
                    width = NULL,
@@ -549,9 +532,9 @@ rev_rows <- function(.data) dplyr::arrange(.data, rev(dplyr::row_number()))
 #' Returns a cumulative sum beginning with the last element of `x`.
 #'
 #' @examples
-#' diamonds %>%
-#'   count(cut) %>%
-#'   mutate(
+#' ggplot2::diamonds %>%
+#'   dplyr::count(cut) %>%
+#'   dplyr::mutate(
 #'     or_worse = cumsum(n),
 #'     or_better = cumsum_desc(n)
 #'   )
@@ -827,11 +810,9 @@ named_fn_list <- function(...) {
 #' Inserts header rows in `to` using unique values of `from`.
 #'
 #' @examples
-#' library(dplyr)
-#'
-#' starwars %>%
+#' dplyr::starwars %>%
 #'   head(13) %>%
-#'   arrange(species) %>%
+#'   dplyr::arrange(species) %>%
 #'   add_header(from = species, to = name, indent = "  ")
 #'
 #' @export
@@ -881,9 +862,6 @@ add_header <- function(data,
 #'   group_split_named(cyl, gear, .col_names = TRUE, .nested = TRUE)
 #' by_cyl_gear2$cyl_6
 #' by_cyl_gear2$cyl_6$gear_4
-#'
-#' # cleanup
-#' rm(by_cyl_gear1, by_cyl_gear2)
 #'
 #' @export
 group_split_named <- function(.data,
@@ -1000,12 +978,12 @@ untidyselect <- function(data, selection, syms = FALSE) {
 #'
 #' @examples
 #' data_ex <- ggplot2::diamonds %>%
-#'   group_by(cut, color) %>%
-#'   summarize(Min = min(price), Median = median(price), Max = max(price))
+#'   dplyr::group_by(cut, color) %>%
+#'   dplyr::summarize(Min = min(price), Median = median(price), Max = max(price))
 #'
 #' # default pivot_wider() behavior
 #' data_ex %>%
-#'   pivot_wider(
+#'   tidyr::pivot_wider(
 #'     id_cols = color,
 #'     names_from = cut,
 #'     values_from = Min:Max
@@ -1030,18 +1008,15 @@ untidyselect <- function(data, selection, syms = FALSE) {
 #'
 #' # multiple `names_from` vars, with different value vs. name separators
 #' ggplot2::mpg %>%
-#'   filter(class %in% c("compact", "subcompact", "midsize")) %>%
-#'   group_by(manufacturer, trans = str_extract(trans, ".*(?=\\()"), year) %>%
-#'   summarize(across(c(cty, hwy), mean)) %>%
+#'   dplyr::filter(class %in% c("compact", "subcompact", "midsize")) %>%
+#'   dplyr::group_by(manufacturer, trans = str_extract(trans, ".*(?=\\()"), year) %>%
+#'   dplyr::summarize(across(c(cty, hwy), mean)) %>%
 #'   pivot_wider_alt(
 #'     names_from = trans:year,
 #'     values_from = cty:hwy,
 #'     names_sep = "_",
 #'     names_value_sep = ": "
 #'   )
-#'
-#' # cleanup
-#' rm(data_ex)
 #'
 #' @export
 pivot_wider_alt <- function(data,
@@ -1140,17 +1115,20 @@ pivot_wider_alt <- function(data,
 #' passed to `.vars`.
 #'
 #' @examples
+#' # example data
+#' mtcars2 <- mtcars %>%
+#'   dplyr::mutate(Transmission = recode(am, `0` = "auto", `1` = "manual"))
+#'
 #' # simple summary table. note specification of column and row names
 #' # for "n", "m", and "weight".
-#' mtcars %>%
+#' mtcars2 %>%
 #'   summary_table(
 #'     n = ~ sum(!is.na(.x)), m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt)
 #'   )
 #'
 #' # with column and row groupings
-#' mtcars %>%
-#'   mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) %>%
+#' mtcars2 %>%
 #'   summary_table(
 #'     n = ~ sum(!is.na(.x)), m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt),
@@ -1159,8 +1137,7 @@ pivot_wider_alt <- function(data,
 #'   )
 #'
 #' # customize output column names with `.cols_group_opts`
-#' mtcars %>%
-#'   mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) %>%
+#' mtcars2 %>%
 #'   summary_table(
 #'     n = ~ sum(!is.na(.x)), m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt),
@@ -1174,8 +1151,7 @@ pivot_wider_alt <- function(data,
 #'   )
 #'
 #' # can alternatively pass a glue specification to `.cols_group_opts`
-#' mtcars %>%
-#'   mutate(Transmission = recode(am, `0` = "auto", `1` = "manual")) %>%
+#' mtcars2 %>%
 #'   summary_table(
 #'     n = ~ sum(!is.na(.x)), m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt),
@@ -1237,7 +1213,7 @@ summary_table <- function(.data,
 #'
 #' @examples
 #' # create example data w predictors with different properties:
-#' ex_data <- tibble(
+#' ex_data <- tibble::tibble(
 #'   actual = rbinom(250, 1, .3),                                   # 250 cases, p(outcome) = .3
 #'   prediction1 = if_else(runif(250) <= .05, 1L - actual, actual), # 5% error rate
 #'   prediction2 = if_else(runif(250) <= .15, 1L - actual, actual), # 15% error rate
@@ -1258,9 +1234,6 @@ summary_table <- function(.data,
 #' # false negatives, etc., as well as and observed and expected % agreement
 #' ex_data %>%
 #'   accuracy_stats(actual, prediction1:prediction5, include_counts = TRUE)
-#'
-#' # cleanup
-#' rm(ex_data)
 #'
 #' @export
 accuracy_stats <- function(.data, true_values, ..., include_counts = FALSE) {
@@ -1321,24 +1294,20 @@ accuracy_stats <- function(.data, true_values, ..., include_counts = FALSE) {
 #' @examples
 #' x <- c("1", "-1.23", "$1,234", NA)
 #' is_coercible_numeric(x)
-#' # TRUE  TRUE FALSE    NA
+#'
 #' is_coercible_numeric(x, na = "TRUE")
-#' # TRUE  TRUE FALSE  TRUE
+#'
 #' is_coercible_numeric(x, all = TRUE)
-#' # FALSE
 #'
 #' is_coercible_integer(x)
-#' # TRUE FALSE FALSE    NA
 #'
 #' y <- c("TRUE", "T", "F", "YES", "NA", NA)
 #' is_coercible_logical(y)
-#' # TRUE  TRUE  TRUE FALSE FALSE    NA
 #'
 #' z <- c(0, 1, 2, .1, -1)
 #' is_coercible_logical(z)
-#' # TRUE  TRUE FALSE FALSE FALSE
+#'
 #' is_coercible_logical(z, numeric = "any")
-#' # TRUE TRUE TRUE TRUE TRUE
 #'
 #' @export
 is_coercible_numeric <- function(x, all = FALSE, na = c("NA", "TRUE")) {
@@ -1732,7 +1701,7 @@ null_to_na <- function(x, unlist = FALSE) {
 #'
 #' @examples
 #'
-#' chisq_out <- chisq.test(diamonds$cut, diamonds$color)
+#' chisq_out <- chisq.test(ggplot2::diamonds$cut, ggplot2::diamonds$color)
 #' cohen_w(chisq_out)
 #'
 #' @export
@@ -1749,15 +1718,12 @@ cohen_w <- function(chisq) {
 #'
 #' @examples
 #' test_words <- c("antidote", "antimony", "antimatter", "antisense")
-#' str_prefix(test_words) # "anti"
+#' str_prefix(test_words)
 #'
 #' wdays <- c(
 #'   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 #' )
-#' str_suffix(wdays) # "day"
-#'
-#' # cleanup
-#' rm(test_words, wdays)
+#' str_suffix(wdays)
 #'
 #' @export
 str_prefix <- function(string, na.rm = FALSE) {
@@ -1831,17 +1797,17 @@ gain_ss_score <- function(..., .prefix = NULL) {
 #' `group_with_total()` but before aggregating may yield inaccurate results.
 #'
 #' @examples
-#' mpg %>%
+#' ggplot2::mpg %>%
 #'   group_with_total(class) %>%
-#'   summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 #'
-#' mpg %>%
+#' ggplot2::mpg %>%
 #'   group_with_total(year, drv, .label = "all years") %>%
-#'   summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 #'
-#' mpg %>%
+#' ggplot2::mpg %>%
 #'   group_with_total(year, drv, .totals_for = drv) %>%
-#'   summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
+#'   dplyr::summarize(n = n(), cty = mean(cty), hwy = mean(hwy))
 #'
 #' @export
 group_with_total <- function(.data,
@@ -1916,13 +1882,13 @@ safe_min <- function(..., na.rm = TRUE) {
 #' @examples
 #' # using `base::pmax()`
 #' mtcars %>%
-#'   mutate(
+#'   dplyr::mutate(
 #'     max_val = pmax(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
 #'   )
 #'
 #' # using `pmax_across()`
 #' mtcars %>%
-#'   mutate(max_val = pmax_across(mpg:carb))
+#'   dplyr::mutate(max_val = pmax_across(mpg:carb))
 #'
 pminmax_across <- function(cols, na.rm, .fn) {
   col_names <- untidyselect(dplyr::cur_data(), !!cols, syms = TRUE)
