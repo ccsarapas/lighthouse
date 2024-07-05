@@ -23,7 +23,11 @@ add_rows_at_value(
 
 \item{where}{where to insert rows relative to the values in \code{vals}.}
 
-\item{.nrows}{number of empty rows to insert at each location.}
+\item{nrows}{number of empty rows to insert at each location.}
+
+\item{...}{these dots are included to support error-checking and must be empty.}
+
+\item{nomatch}{what to do if a value in \code{vals} doesn't appear in \code{col}.}
 }
 \value{
 An updated version of \code{.data} with new empty rows inserted.
@@ -32,6 +36,12 @@ An updated version of \code{.data} with new empty rows inserted.
 Adds empty row(s) based on specified value(s) in \code{col}. By default, will
 insert one empty row after the last occurrence in \code{col} of each value passed
 to \code{vals}.
+}
+\details{
+In the pre-release version of this function, used in some lighthouse code, values to search for were passed to
+\code{...} as unquoted symbols. Values must now be now instead be passed to \code{vals}
+as a character vector. The arguments \code{.where} and \code{.nrows} have also been renamed to \code{where} and \code{nrows}. The function will attempt to detect and give an informative warning if it is called with "old" parameters (e.g., with a deprecated argument or with a list of symbols rather than a character vector).
+Also see \code{\link[=syms_to_chr]{syms_to_chr()}}, which is provided as a utility for adapting old code.
 }
 \examples{
 set.seed(13)

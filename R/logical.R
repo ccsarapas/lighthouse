@@ -42,38 +42,19 @@ is_duplicate <- function(..., nmax = 1, incomparables = FALSE) {
 
 #' Test whether a data frame contains SPSS variable or value labels
 #'
-#' Checks if a data frame contains any SPSS-style variable or value labels, as used by the 'haven' package.
+#' Checks if a data frame contains any SPSS / haven variable labels, value labels, or format attributes.
 #'
 #' @param .data A data frame.
 #'
 #' @return `TRUE` if the data frame contains any SPSS labels, `FALSE` otherwise.
 #'
-#' @details
-#' This function checks for the presence of any of the following in the supplied data frame:
-#'
-#' - Variable labels, as set by [labelled::var_label()].
-#' - Value labels, as indicated by [labelled::is.labelled()].
-#' - The `\"format.spss\"` attribute, set by 'haven' functions.
-#'
-#' @examples
-#' # Example data frame without SPSS labels
-#' df1 <- data.frame(x = 1:3, y = c(\"a\", \"b\", \"c\"))
-#' is_spss(df1)
-#'
-#' \\dontrun{
-#' # Example data frame with SPSS labels
-#' df2 <- haven::read_sav(\"data.sav\")
-#' is_spss(df2)
-#' }
-#'
-#' @importFrom purrr some
 #' @export
 is_spss <- function(.data) {
-  check_pkg("haven")
+  rlang::check_installed(c("haven", "labelled"))
   purrr::some(
     .data,
-    ~ !is.null(labelled::var_label(.x)) | labelled::is.labelled(.x) |
-      "format.spss" %in% names(attributes(.x))
+    \(x) !is.null(labelled::var_label(x)) | labelled::is.labelled(x) |
+      "format.spss" %in% names(attributes(x))
   )
 }
 

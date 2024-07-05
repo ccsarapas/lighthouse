@@ -107,7 +107,7 @@ safe_min <- function(..., na.rm = TRUE) {
 #' This function was deprecated in lighthouse v0.7.0 because (1) it's always
 #' been buggy and (2) its main purpose was to pass appropriate `NA`s to
 #' `dplyr::if_else()` and `case_when()`, but this is no longer necessary with
-#' \link{changes introduced in dplyr v1.1.0}{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}.
+#' \href{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}{changes introduced in dplyr v1.1.0}
 #'
 #' Returns compatible `NA` based on `x`. This is usually of the same type as `x`
 #' (e.g., `NA_real_` if `x` is a double vector). If `x` is a factor, will
@@ -129,7 +129,7 @@ na_like <- function(x, factor_as_character = TRUE, match_length = FALSE) {
 #'
 #' @description
 #' Deprecated in lighthouse v0.7.0. The main use case for this function was to avoid type errors in `dplyr::if_else()` and `case_when()`, but this is no longer necessary with
-#' \link{changes introduced in dplyr v1.1.0}{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}.
+#' \href{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}{changes introduced in dplyr v1.1.0}.
 #'
 #' Returns median of `x` as a double vector. Alternative to `stats::median()`
 #' when a consistent return value is needed.

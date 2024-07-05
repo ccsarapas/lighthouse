@@ -9,7 +9,7 @@ scales::percent
 #' @export
 scales::comma
 
-#' @importFrom rlang := !!! %||% caller_env
+#' @importFrom rlang := !!!
 NULL
 
 utils::globalVariables("where")

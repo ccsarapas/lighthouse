@@ -18,7 +18,7 @@ in the right-hand side.
 \verb{\%all_in\%} returns \code{TRUE} if all elements of left operand (\code{lhs}) are found
 in right operand (\code{rhs}). Equivalent to \code{all(lhs \%in\% rhs)}.
 
-\verb{\%any_in} returns \code{TRUE} if any elements of left operand (\code{lhs}) are found
+\verb{\%any_in\%} returns \code{TRUE} if any elements of left operand (\code{lhs}) are found
 in right operand (\code{rhs}). Equivalent to \code{any(lhs \%in\% rhs)}.
 }
 \examples{

@@ -28,7 +28,9 @@ Suggests:
   broom,
   dunn.test,
   haven,
+  hrbrthemes,
   labelled,
+  officer,
   openxlsx,
   psych,
   rstudioapi

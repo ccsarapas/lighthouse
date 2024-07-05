@@ -98,7 +98,7 @@ print_all <- function(x, ..., max = NULL) {
 #' @export
 add_plot_slide <- function(pptx,
                            title = NULL,
-                           plot = last_plot(),
+                           plot = ggplot2::last_plot(),
                            w = 7,
                            h = 4,
                            bg = "white",
@@ -106,7 +106,7 @@ add_plot_slide <- function(pptx,
                            h_margin = 0.15,
                            layout = "Title and Content",
                            ...) {
-  check_pkg("officer")
+  rlang::check_installed("officer")
   pptx <- officer::add_slide(pptx, layout = layout)
   if (!is.null(title)) {
     pptx <- officer::ph_with(pptx, title, location = officer::ph_location_type("title"))

@@ -108,7 +108,7 @@ OR_to_d <- function(OR) log(OR) * (sqrt(3) / pi)
 #' A tidyverse-friendly wrapper around `psych::cohen.kappa()`.
 #' @export
 wkappa <- function(.data, x, y) {
-  check_pkg(c("broom", "psych"))
+  rlang::check_installed(c("broom", "psych"))
   .data %>%
     dplyr::select({{x}}, {{y}}) %>%
     as.data.frame() %>%
@@ -589,7 +589,7 @@ dunn_test <- function(x,
                                           "hs",
                                           "none"),
                       alpha = 0.05) {
-  check_pkg("dunn.test")
+  rlang::check_installed("dunn.test")
   p.adjust.method <- match.arg(p.adjust.method)
   x <- dplyr::pull(data, {{x}})
   groups <- dplyr::pull(data, {{groups}})

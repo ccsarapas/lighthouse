@@ -103,10 +103,6 @@ Future extensions may allow handling of other dichotomous variables (e.g.,
 Instead, consider converting these to a logical indicator, e.g., \code{Pregnant = PregnancyStatus == "Pregnant"}.
 }
 
-\section{Changes from pre-release}{
-
-}
-
 \examples{
 \dontrun{
 # create a report using pre-processed SOR data

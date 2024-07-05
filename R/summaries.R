@@ -154,13 +154,11 @@ summary_table <- function(.data,
 #' - `label`: SPSS variable label (if applicable)
 #'
 #' @examples
-#' cols_info(mtcars)
+#' cols_info(dplyr::starwars)
 #'
-#' @importFrom labelled var_label
-#' @importFrom purrr map_chr map_dbl
 #' @export
 cols_info <- function(x, zap_spss = TRUE) {
-  if (requireNamespace("labelled", quietly = TRUE)) {
+  if (rlang::is_installed("labelled")) {
     spss_data <- is_spss(x)
     if (spss_data) {
       var_labels <- labelled::var_label(x) %>%
@@ -451,7 +449,7 @@ cont <- meas_wrap_error
 #'
 #' @param x,y a pair of data frames
 #' @param suffix suffixes to indicate source data frame in output.
-#' @param keep <[tidy-select]> Columns to include in the output even if they have no differences.
+#' @param keep <[`tidy-select`][dplyr_tidy_select> Columns to include in the output even if they have no differences.
 #'
 #' @return A data frame with rows and columns that have differing values between
 #'   `x` and `y`. Differing columns are included twice, with suffixes appended.

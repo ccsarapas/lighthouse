@@ -21,9 +21,19 @@
 #' `base_theme`.
 #'
 #' @export
-set_ggplot_opts <- function(base_theme = hrbrthemes::theme_ipsum_rc,
+set_ggplot_opts <- function(base_theme = NULL,
                             brewer_pal_discrete = "Set1",
                             ...) {
+  if (is.null(base_theme)) {
+    if (rlang::is_installed("hrbrthemes")) {
+      base_theme <- hrbrthemes::theme_ipsum_rc
+    } else {
+      stop(
+        'install "hrbrthemes" (https://github.com/hrbrmstr/hrbrthemes) or pass another installed theme to `base_theme` to use this function.)'
+      )
+    }
+  }
+  hrbrthemes::theme_ipsum_rc
   scale_color_brewer_d <- function(...) {
     ggplot2::scale_color_brewer(palette = brewer_pal_discrete, ...)
   }
@@ -100,18 +110,18 @@ set_ggplot_opts <- function(base_theme = hrbrthemes::theme_ipsum_rc,
 #' @name opacity
 #' @export
 after_opacity <- function(color, alpha, bg = "white") {
-  before <- as.numeric(col2rgb(color))
-  bg <- as.numeric(col2rgb(bg))
+  before <- as.numeric(grDevices::col2rgb(color))
+  bg <- as.numeric(grDevices::col2rgb(bg))
   after <- pmin(pmax((((1 - alpha) * bg) + before * alpha), 0), 255)
-  do.call(rgb, c(as.list(after), list(maxColorValue = 255)))
+  do.call(grDevices::rgb, c(as.list(after), list(maxColorValue = 255)))
 }
 #' @rdname opacity
 #' @export
 before_opacity <- function(color, alpha, bg = "white") {
-  after <- as.numeric(col2rgb(color))
-  bg <- as.numeric(col2rgb(bg))
+  after <- as.numeric(grDevices::col2rgb(color))
+  bg <- as.numeric(grDevices::col2rgb(bg))
   before <- pmin(pmax((after - ((1 - alpha) * bg)) / alpha, 0), 255)
-  do.call(rgb, c(as.list(before), list(maxColorValue = 255)))
+  do.call(grDevices::rgb, c(as.list(before), list(maxColorValue = 255)))
 }
 
 #' Add crossings to a dataframe for area charts

@@ -28,13 +28,10 @@
 #' summary(model_size)
 #' summary(model_trans)
 #'
-#' # cleanup
-#' rm(cyl4, cyl6, cyl8, G3, G4, G5, model_hp, model_size, model_trans)
-#'
 #' @name unpack-assign
 #'
 #' @export
-`%<-%` <- function(lhs, rhs, envr = caller_env()) {
+`%<-%` <- function(lhs, rhs, envr = rlang::caller_env()) {
   char_if_valid <- function(x) {
     if (is.symbol(x) || rlang::is_scalar_character(x)) {
       as.character(x)

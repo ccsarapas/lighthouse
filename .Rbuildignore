@@ -1,9 +1,11 @@
 ^lighthouse\.Rproj$
-^\.Rproj\.user$
+\.Rproj\.user
+lock_file$
 ^LICENSE\.md$
 ^data-raw$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^\.github$
+
 ^\.Rproj\.user$

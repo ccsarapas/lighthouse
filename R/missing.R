@@ -147,7 +147,7 @@ null_to_na <- function(x, unlist = FALSE) {
 #' @note Previously known as `coerce_na_range`, which is retained as an alias for backward compatibility.
 #'
 #' @export
-na_if_range <- function(x, ...) UseMethod("na_if_range")
+na_if_range <- function(x, range_min = -Inf, range_max = -1) UseMethod("na_if_range")
 #' @rdname na_if_range
 #' @export
 na_if_range.numeric <- function(x, range_min = -Inf, range_max = -1) {
@@ -174,6 +174,7 @@ na_if_range.factor <- function(x, range_min = -Inf, range_max = -1) {
 #' @rdname na_if_range
 #' @export
 na_if_range.labelled <- function(x, range_min = -Inf, range_max = -1) {
+  rlang::check_installed("labelled")
   cls <- class(x)
   if (any(c("double", "integer", "numeric") %in% cls)) {
     x <- na_if_range.numeric(x, range_min, range_max)

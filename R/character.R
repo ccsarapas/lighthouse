@@ -303,7 +303,6 @@ str_collapse <- function(..., sep = "", join = NULL) {
 #' \code{\link[stringr]{str_starts}}
 #' }
 #'
-#' @name str_any
 #' @export
 str_detect_any <- function(string,
                            patterns,
@@ -312,8 +311,7 @@ str_detect_any <- function(string,
                            negate = FALSE) {
   str_any(string, patterns, whole_word, negate, fn = stringr::str_detect)
 }
-#'
-#' @rdname str_any
+#' @rdname str_detect_any
 #' @export
 str_starts_any <- function(string,
                            patterns,
@@ -322,8 +320,7 @@ str_starts_any <- function(string,
                            negate = FALSE) {
   str_any(string, patterns, whole_word, negate, fn = stringr::str_starts)
 }
-#'
-#' @rdname str_any
+#' @rdname str_detect_any
 #' @export
 str_ends_any <- function(string,
                          patterns,

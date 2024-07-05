@@ -117,7 +117,7 @@ count_pct <- function(.data,
                       .drop = dplyr::group_by_drop_default()) {
   if (!is.null(rlang::enexpr(.by))) {
     if (dplyr::is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
-      cli::cli_abort(
+      stop(
         "Can't supply `.by` when `.data` is a grouped or rowwise data frame."
       )
     }
@@ -204,7 +204,7 @@ count_multiple <- function(.data,
   }
   if (!is.null(rlang::enexpr(.by))) {
     if (dplyr::is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
-      cli::cli_abort(
+      stop(
         "Can't supply `.by` when `.data` is a grouped or rowwise data frame."
       )
     }

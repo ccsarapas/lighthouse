@@ -6,7 +6,7 @@
 #'
 #' @export
 zap_everything <- function(.data, ..., .as_factor = TRUE) {
-  check_pkg("haven")
+  rlang::check_installed("haven")
   .data <- .data %>%
     dplyr::mutate(dplyr::across(
       where(is.character),
