@@ -120,7 +120,7 @@
 #' `%all_in%` returns `TRUE` if all elements of left operand (`lhs`) are found
 #' in right operand (`rhs`). Equivalent to `all(lhs %in% rhs)`.
 #'
-#' `%any_in` returns `TRUE` if any elements of left operand (`lhs`) are found
+#' `%any_in%` returns `TRUE` if any elements of left operand (`lhs`) are found
 #' in right operand (`rhs`). Equivalent to `any(lhs %in% rhs)`.
 #'
 #' @examples

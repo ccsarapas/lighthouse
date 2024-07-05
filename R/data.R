@@ -34,3 +34,41 @@
 #' }
 #' @source \url{https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/}
 "holidays_us"
+
+#' Missing codes for GAIN ABS
+#'
+#' Labelled missings used in GAIN datasets.
+#'
+#' @format A named numeric vector.
+"gain_missing_codes"
+
+#' US state and territory data
+#'
+#' @description
+#' `state.terr.name` and `state.terr.abb` expand the built-in `state.name` and
+#' `state.abb` vectors by adding US territories and the District of Columbia.
+#' This includes:
+#' \itemize{
+#'   \item American Samoa
+#'   \item District of Columbia
+#'   \item Guam
+#'   \item Northern Mariana Islands
+#'   \item Puerto Rico
+#'   \item Virgin Islands
+#' }
+#'
+#' `state.terr.data` includes names, abbreviations, and FIPS codes for US states
+#' and territories.
+#'
+#' @seealso
+#' \code{\link[datasets]{state.name}}
+#'
+#' @name territory
+"state.terr.name"
+#'
+#' @rdname territory
+"state.terr.abb"
+#'
+#' @rdname territory
+"state.terr.data"
+

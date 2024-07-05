@@ -13,7 +13,9 @@ str_detect_any(
 )
 }
 \description{
-Returns TRUE if any element of \code{patterns} is present in \code{string}. Matches
-whole words if \code{whole_word} = TRUE (FALSE by default). Case sensitive unless
-\code{ignore_case} = TRUE (FALSE by default).
+Returns TRUE if any element of \code{patterns} is present in \code{string} (for
+\code{str_detect_any()}) or at the start or end of \code{string} (for
+\code{str_starts_any()} and \code{str_ends_any()}). Matches whole words if \code{whole_word}
+= TRUE (FALSE by default). Case sensitive unless \code{ignore_case} = TRUE (FALSE
+by default).
 }

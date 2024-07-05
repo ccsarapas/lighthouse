@@ -23,6 +23,7 @@ holidays_us <-local({
       )),
       Year = NULL
     ) %>%
+    dplyr::filter(Holiday != "Inauguration Day") %>%
     dplyr::arrange(Date)
 })
 
@@ -34,9 +35,9 @@ holidays_il <- local({
       Date = Date + 1
     )
   lincolns_bday <- data.frame(
-    Holiday = "Lincoln's Birthday",
-    Date = lubridate::mdy(str_c("02-12-", 2011:2030))
-  ) %>%
+      Holiday = "Lincoln's Birthday",
+      Date = lubridate::mdy(stringr::str_c("02-12-", 2011:2030))
+    ) %>%
     dplyr::mutate(
       Date = dplyr::case_when(
         weekdays(Date) == "Saturday" ~ Date - 1,
@@ -44,16 +45,18 @@ holidays_il <- local({
         TRUE ~ Date
       )
     )
-  election_day <- data.frame(
-    Holiday = "General Election Day",
-    Date = lubridate::mdy(c("11-03-2020", "11-08-2022"))
-  )
-  dplyr::bind_rows(
-    dplyr::filter(holidays_us, Holiday != "Inauguration Day"),
-    thanksgiving_fri,
-    lincolns_bday,
-    election_day
-  )
+  election_day <- tidyr::expand_grid(
+      y = seq(2022, 2030, by = 2),
+      m = 11,
+      d = 2:8
+    ) %>%
+    dplyr::transmute(
+      Holiday = "General Election Day",
+      Date = lubridate::make_date(y, m, d)
+    ) %>%
+    dplyr::filter(lubridate::wday(Date) == 3)
+  dplyr::bind_rows(holidays_us, thanksgiving_fri, lincolns_bday, election_day) %>%
+    dplyr::arrange(Date)
 })
 
 holidays_chestnut <- holidays_us %>%
@@ -70,20 +73,24 @@ holidays_chestnut <- holidays_us %>%
 business_days <- local({
   dates_start <- lubridate::ymd("2010-12-31")
   dates_end <- lubridate::ymd("2030-12-31")
-  alldates <- weekends <- seq(from = dates_start, to = dates_end, by = 1)
+  alldates <- seq(from = dates_start, to = dates_end, by = 1)
   wkdays <- alldates[weekdays(alldates) %!in% c("Saturday", "Sunday")]
   map(
-    list(Chestnut = holidays_chestnut,
-         Illinois = holidays_il,
-         federal = holidays_us
+    list(
+      Chestnut = holidays_chestnut,
+      Illinois = holidays_il,
+      federal = holidays_us
     ),
-    ~ wkdays %>%
-      magrittr::extract(. %!in% .x$Date) %>%
-      magrittr::set_attributes(
-        c(attributes(.), list(start = dates_start, end = dates_end))
+    \(hdays) {
+      out <- wkdays[wkdays %!in% hdays$Date]
+      attributes(out) <- c(
+        attributes(out),
+        list(start = dates_start, end = dates_end)
       )
+      out
+    }
   )
 })
 
-usethis::use_data(holidays_chestnut, holidays_il , holidays_us)
-usethis::use_data(business_days, internal = TRUE)
+usethis::use_data(holidays_chestnut, holidays_il, holidays_us, overwrite = TRUE)
+usethis::use_data(business_days, internal = TRUE, overwrite = TRUE)

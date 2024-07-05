@@ -15,12 +15,14 @@ Assigns a vector of values to an equal-length vector of names.
 }
 \details{
 The \verb{\%<-\%} operator and its left-to-right variant (\verb{\%->\%}) allow parallel
-assignment, similar to (e.g.) Python:\preformatted{# python
+assignment, similar to (e.g.) Python:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# python
 var1, var2, var3 = [2, 4, 6]
 
 # R
 c(var1, var2, var3) \%<-\% c(2, 4, 6)
-}
+}\if{html}{\out{</div>}}
 
 See the \code{zeallot} package for a
 similar operator with more advanced functionality.

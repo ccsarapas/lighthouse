@@ -1,6 +1,6 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.6.1
+Version: 0.7.0
 Authors@R: 
     person("Casey", "Sarapas", , "ccsarapas@chestnut.org", 
            role = c("aut", "cre"))
@@ -16,22 +16,26 @@ Imports:
   purrr,
   rlang,
   readr,
+  scales,
   stats,
   stringr,
   tibble,
   tidyr,
   tidyselect,
-  utils
+  utils,
+  vctrs
 Suggests:
   broom,
+  dunn.test,
   haven,
   labelled,
+  openxlsx,
   psych,
   rstudioapi
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1
 Depends: 
     R (>= 2.10)
 LazyData: true
