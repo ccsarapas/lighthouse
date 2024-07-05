@@ -154,6 +154,9 @@ count_pct <- function(.data,
 #' @param sort If `TRUE`, sort output by frequency.
 #' @param name Name for the frequency column. Default is \"n\".
 #' @param na.rm If `TRUE`, remove rows with `NA` values.
+#' @param .by a selection of columns to group by for just this operation,
+#'   functioning as an alternative to [dplyr::group_by()]. Percentages will be
+#'   computed within each group rather than for the grand total. See examples.
 #' @param .drop If `TRUE` (default), drop unused factor levels.
 #'
 #' @return A data frame with columns:
