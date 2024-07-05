@@ -55,6 +55,7 @@
 
 ## Bug fixes:
 * The `.cols_group_by` argument in `summary_table()` no longer throws an error (fixes #6).
+* `count_with_total()` no longer throws an error when the column to be totaled isn't a character vector or factor (fixes #10).
 * `days_diff()` now handles inputs of different types (e.g., a date and a datetime) with a warning.
 * Added General Election Day to `holidays_il` and arranged by date (fixes #1).
 * Removed Inauguration Day from `holidays_us`.
