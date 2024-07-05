@@ -1,130 +1,76 @@
 # lighthouse 0.7.0
 ## New functions:
-    * Data visualization:
-        * `add_crossings()` is a helper for creating area charts with different fills for positive vs negative values.
-        * `after_opacity()` and `before_opacity()` are utilities for color blending.
-    * Exporting results:
-        * `add_plot_slide()` is a helper for exporting plots to PowerPoint with easier control of size and positioning.
-        * `write_xlsx_styled()` writes to xlsx with basic column formatting.
-    * Data restructuring:
-        * `add_rows_at_value()` is similar to `add_blank_rows()`, but allows specifying position by column values rather than row numbers. Note there have been some changes in the function interface from the pre-release version; see the "Details" section of the documentation.
-        * `pad_vectors()` pads a list of vectors with `NA`s to a common length.
-    * Variable transformation:
-        * `fct_collapse_alt()` is a variant of `forcats::fct_collapse()` with options to handle non-existent values and level ordering.
-        * `fct_na_if()` is a variant of `dplyr::na_if()` that also removes the specified value from a factor's levels.
-    * For working with missing values:
-        * `drop_na_rows()` drops rows where all columns or a specific subset of columns are all `NA`.
-        * `first_valid()`, `last_valid()`, `nth_valid()` return the nth non-missing value in a vector.
-        * `na_if_range()` is a renamed, expanded, and bug-fixed version of `coerce_na_range()`. `coerce_na_range()` is retained as an alias for back compatibility.
-    * For working with strings:
-        * `str_c_narm()` is a variant of `stringr::str_c()` with alternative handling of `NA`s.
-        * `str_c_tidy()` is a variant of `stringr::str_c()` that accepts tidyselect expressions.
-        * `str_ends_any()` was added to complement `str_starts_any()` and `str_detect_any()`.
-    * For working with dates:
-        * `ffy()` and `sfy_il()` return the federal fiscal year or Illinois state fiscal year for a given date. They wrap `fiscal_year()`, which returns  the fiscal year based on a specified starting month.
-        * `nth_bizday()` is a generalization of `next_bizday()`.
-        * `strftime_no_lead()` formats a date without leading zeroes (e.g., "6/7/2024" instead of "06/07/2024").
-    * For working with service cascades:
-        * `cascade_fill_bwd()` and `cascade_fill_fwd()` impute values into service cascade data based on previous or subsequent cascade steps.
-        * `cascade_summarize()` returns a summary table for service cascade data.
-        * These functions are not yet fully documented.
-    * Statistical and math functions:
-        * `ci_sig()` tests if a confidence interval indicates statistical significance.
-        * `dunn_test()` performs Dunn's test, a pairwise post-hoc test for following up a Kruskal-Wallis test.
-        * `sum_if_any()`, `min_if_any()`, and `max_if_any()` are variants of `sum()`, `min()`, and `max()` that remove `NA`s unless all values are `NA`. `min_if_any()` and `max_if_any()` were renamed from `safe_min()` and `safe_max()`.
-        * `OR_to_p1()` and `OR_to_p2()` convert odds ratios to probabilities. 
-      *** `row_sums_across()` is a variant of `base::rowSums()` that accepts tidyselect expressions and has alternative `NA` handling.
-      *** `se_mean()` and `se_prop()` compute standard error of the mean and of a proportion, respectively. `se_mean()` supersedes `se()`.
-    * Summary functions:
-        * `df_compare()` is a utility for identifying differences between data frames. Given two data frames, it returns only rows and columns with differences.
-        * `summary_report()` returns a summary of multiple variables, summarizing each variable based on its level of measurement.
-    * Datasets:
-        *
-    * Other:
-        * `eq_shape()`
-        * `open_file()`, `open_location()`
-        * `set_compare()`
-        * `suppress_messages_if()`
-        * `suppress_warnings_if()`
-      *** `syms_to_chr()`
+* Data visualization:
+    * `add_crossings()` is a helper for creating area charts with different fills for positive vs negative values.
+    * `after_opacity()` and `before_opacity()` are utilities for color blending.
+* Exporting results:
+    * `add_plot_slide()` is a helper for exporting plots to PowerPoint with easier control of size and positioning.
+    * `write_xlsx_styled()` writes to xlsx with basic column formatting.
+* Data restructuring:
+    * `add_rows_at_value()` is similar to `add_blank_rows()`, but allows specifying position by column values rather than row numbers. Note there have been some changes in the function interface from the pre-release version; see the "Details" section of the documentation.
+    * `pad_vectors()` pads a list of vectors with `NA`s to a common length.
+* Variable transformation:
+    * `fct_collapse_alt()` is a variant of `forcats::fct_collapse()` with options to handle non-existent values and level ordering.
+    * `fct_na_if()` is a variant of `dplyr::na_if()` that also removes the specified value from a factor's levels.
+* For working with missing values:
+    * `drop_na_rows()` drops rows where all columns or a specific subset of columns are all `NA`.
+    * `first_valid()`, `last_valid()`, `nth_valid()` return the nth non-missing value in a vector.
+    * `na_if_range()` is a renamed, expanded, and bug-fixed version of `coerce_na_range()`. `coerce_na_range()` is retained as an alias for back compatibility.
+* For working with strings:
+    * `str_c_narm()` is a variant of `stringr::str_c()` with alternative handling of `NA`s.
+    * `str_c_tidy()` is a variant of `stringr::str_c()` that accepts tidyselect expressions.
+    * `str_ends_any()` was added to complement `str_starts_any()` and `str_detect_any()`.
+* For working with dates:
+    * `ffy()` and `sfy_il()` return the federal fiscal year or Illinois state fiscal year for a given date. They wrap `fiscal_year()`, which returns  the fiscal year based on a specified starting month.
+    * `nth_bizday()` is a generalization of `next_bizday()`.
+    * `strftime_no_lead()` formats a date without leading zeroes (e.g., "6/7/2024" instead of "06/07/2024").
+* For working with service cascades:
+    * `cascade_fill_bwd()` and `cascade_fill_fwd()` impute values into service cascade data based on previous or subsequent cascade steps.
+    * `cascade_summarize()` returns a summary table for service cascade data.
+    * These functions are not yet fully documented.
+* Statistical and math functions:
+    * `ci_sig()` tests if a confidence interval indicates statistical significance.
+    * `dunn_test()` performs Dunn's test, a pairwise post-hoc test for following up a Kruskal-Wallis test.
+    * `sum_if_any()`, `min_if_any()`, and `max_if_any()` are variants of `sum()`, `min()`, and `max()` that remove `NA`s unless all values are `NA`. `min_if_any()` and `max_if_any()` were renamed from `safe_min()` and `safe_max()`.
+    * `OR_to_p1()` and `OR_to_p2()` convert odds ratios to probabilities. 
+    * `row_sums_across()` is a variant of `base::rowSums()` that accepts tidyselect expressions and has alternative `NA` handling.
+    * `se_mean()` and `se_prop()` compute standard error of the mean and of a proportion, respectively. `se_mean()` supersedes `se()`.
+* Summary functions:
+    * `df_compare()` is a utility for identifying differences between data frames. Given two data frames, it returns only rows and columns with differences.
+    * `summary_report()` returns a summary of multiple variables, summarizing each variable based on its level of measurement.
+* Datasets:
+    * `gain_missing_codes` is a quick reference for missing value labels used in GAIN datasets.
+    * `state.terr.name` and `state.terr.abb` are versions of `state.name` and `state.abb` that include US territories and the District of Columbia. `state.terr.data` includes names, abbreviations, and FIPS codes for US states, territories, and the District of Columbia.
+* Other:
+    * `eq_shape()` checks if two objects have the same number of dimensions and same length along each dimension.
+    * `open_file()` (alias `file.open()`) opens a file with its default application. `open_folder()` (alias `dir.open()`) opens a folder in the system file manager.
+    * Given two vectors, `set_compare()` returns labelled subsets of unique and shared elements.
+    * `suppress_warnings_if()` and `suppress_messages_if()` conditionally suppress warnings or messages based on their text.
       
-      
-      
-* New functions:
-    * Data visualization:
-        * add_crossings()
-        * after_opacity(), before_opacity()
-    * Exporting results:
-        * add_plot_slide()
-        * write_xlsx_styled()
-    * Data restructuring:
-        * add_rows_at_value()
-        * pad_vectors()
-    * Variable transformation:
-        * fct_collapse_alt()
-        * fct_na_if()
-    * For working with missing values:
-        * drop_na_rows()
-        * first_valid(), last_valid(), nth_valid()
-        * %in_na%()
-      *** na_if_range()
-    * For working with strings:
-        * str_c_narm()
-        * str_c_tidy()
-        * str_ends_any()
-    * For working with dates:
-        * fiscal_year(), ffy(), sfy_il()
-      *** nth_bizday()
-        * strftime_no_lead()
-    * For working with service cascades:
-        * cascade_fill_bwd(), cascade_fill_fwd()
-        * cascade_summarize()
-    * Statistical and math functions:
-        * ci_sig()
-        * dunn_test()
-      *** min_if_any(), max_if_any(), sum_if_any()
-        * OR_to_p1(), OR_to_p2()
-      *** row_sums_across()
-      *** se_mean(), se_prop()
-    * Summary functions:
-        * df_compare()
-        * summary_report()
-    * Datasets:
-        *
-    * Other:
-        * eq_shape()
-        * open_file(), open_location()
-        * set_compare()
-        * suppress_messages_if()
-        * suppress_warnings_if()
-      *** syms_to_chr()
-* Added state / territory data
-* Added GAIN missing codes
-* Changes to holiday datasets:
-    * Added General Election Day to `holidays_il` and arranged by date (#1)
-    * Removed Inauguration Day from `holidays_us`
-* Added `warn_factor` argument to `try_numeric()`
+## Added functionality:
+* `count_pct()` and `count_multiple()` now support the `.by` argument for per-operation grouping. Integration into other `count_*()` functions is planned for a future update.
+* In `summary_table()`, the column of variable names can be dropped when only one variable is included by setting `.var_col_name = NULL` (#9). 
 * `count_duplicates()` now returns both the unique and total number of duplicated values. (e.g., `c(2, 2, 4, 4)` has two unique and four total values.)
-* `.by` argument for some count functions
+* Added `warn_factor` argument to `try_numeric()`
+
+## Bug fixes:
+* The `.cols_group_by` argument in `summary_table()` no longer throws an error (fixes #6).
 * `days_diff()` now handles inputs of different types (e.g., a date and a datetime) with a warning.
-* Added `nth_bizday()`, which `next_bizday()` now calls.
-* `row_sums_spss()` deprecated in favor of `row_sums_across()`.
-* `safe_min()` and `safe_max()` renamed to `min_if_any()` and `max_if_any()`; added `sum_if_any()`.
-* `na_if_range()` - renamed from `coerce_na_range()`; methods added for numeric, labelled, and haven_labelled inputs; fixed bug due to non-exported methods. fixes #5.
+* Added General Election Day to `holidays_il` and arranged by date (fixes #1).
+* Removed Inauguration Day from `holidays_us`.
+
+## Other changes:
 * `asterisks()` - changed default for `include_key` from `TRUE` to `FALSE`.
-* `se_mean()` and `se_prop()` as more specific replacements for `se()`. `se()` is deprecated and calls `se_mean()` with a warning.
 * `percent()` and `comma()` re-exported from scales (#11)
-* `summary_table()`:
-   - Bug fix for #6 - `.cols_group_by` arg works again!
-   - Column of variable names can be dropped when only one variable is included by setting (#9) `.var_col_name = NULL`
-   - Now uses `tidyr::pivot_wider()` instead of `lighthouse::pivot_wider_alt()`.
-* `add_rows_at_value()` added -- note change from pre-release in how values are passed.
-    - `syms_to_chr()` as helper to adapt old code
-** look through and see if anything can be better classified:
-    - "misc"
-    - "display"
-    - "transform_filter"
-    - "output" (currently empty)
+
+## Lifecycle changes:
+* `rbool()` has been *un*-deprecated. It was previously deprecated in favor of `purrr::rbernoulli()`, but `purrr::rbernoulli()` has since been deprecated itself.
+* `na_like()` and `median_dbl()` are deprecated. They are no longer needed given more flexible handling of mixed classes by `dplyr::if_else()` and `dplyr::case_when()` as of [dplyr v1.1.0][https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}]. (Plus `na_like()` was quite buggy and unreliable; resolves #2).
+* `row_sums_spss()` deprecated in favor of `row_sums_across()`.
+* `safe_min()` and `safe_max()` renamed to `min_if_any()` and `max_if_any()`; the old names are deprecated.
+* `se()` renamed to `se_mean()`; the old name is deprecated.
+
+    
 # lighthouse 0.6.0
 * New functions:
     * Grouping and summary functions:
