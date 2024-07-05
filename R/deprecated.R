@@ -12,7 +12,9 @@ ggview <- function(plot = ggplot2::last_plot(),
                    width = NULL,
                    height = NULL,
                    type = c("svg", "png")) {
-  .Deprecated()
+  .Deprecated(
+    msg = "`ggview()` is deprecated. Improvements to R graphics on Windows have rendered it unnecessary."
+  )
   device <- match.arg(type)
   img_dir <- file.path(tempdir(), "img")
   if (!dir.exists(img_dir)) {
@@ -114,7 +116,9 @@ safe_min <- function(..., na.rm = TRUE) {
 #'
 #' @export
 na_like <- function(x, factor_as_character = TRUE, match_length = FALSE) {
-  .Deprecated()
+  .Deprecated(
+    msg = "`na_like()` is deprecated. Its main use case no longer applies given newly flexible class handling in `dplyr::if_else()` and `dplyr::case_when()`."
+  )
   stopifnot("`x` must be an atomic vector" = is.atomic(x))
   type_out <- if (factor_as_character && is.factor(x)) "character" else typeof(x)
   length_out <- if (match_length) length(x) else 1L
@@ -144,6 +148,9 @@ na_like <- function(x, factor_as_character = TRUE, match_length = FALSE) {
 #'
 #' @export
 median_dbl <- function(x, na.rm = FALSE, ...) {
+  .Deprecated(
+    msg = "`median_dbl()` is deprecated. Its intended use case no longer applies given newly flexible class handling in `dplyr::if_else()` and `dplyr::case_when()`."
+  )
   stopifnot(typeof(x) %in% c("double", "integer", "logical"))
   as.double(stats::median(x, na.rm = na.rm, ...))
 }
