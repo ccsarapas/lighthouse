@@ -11,7 +11,7 @@ df_compare(x, y, suffix = c(".x", ".y"), keep = NULL)
 
 \item{suffix}{suffixes to indicate source data frame in output.}
 
-\item{keep}{<\link{tidy-select}> Columns to include in the output even if they have no differences.}
+\item{keep}{<[\code{tidy-select}][dplyr_tidy_select> Columns to include in the output even if they have no differences.}
 }
 \value{
 A data frame with rows and columns that have differing values between

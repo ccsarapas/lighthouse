@@ -6,20 +6,18 @@
 \alias{last_valid}
 \title{Get the nth, first, or last non-\code{NA} value in a vector}
 \usage{
-nth_valid(x, n, order_by = NULL, default = NULL)
+nth_valid(x, n, default = NA)
 
-first_valid(x, order_by = NULL, default = NULL)
+first_valid(x, default = NA)
 
-last_valid(x, order_by = NULL, default = NULL)
+last_valid(x, default = NA)
 }
 \arguments{
 \item{x}{A vector.}
 
-\item{n}{For \code{nth_valid}, the position of the value to return. Negative values start from the end of the vector. Ignored for \code{first_valid} and \code{last_valid}.}
+\item{n}{integer. Position of non-\code{NA} value to return. Negative values start from the end of the vector.}
 
-\item{order_by}{An optional vector to use for ordering \code{x} before finding the value. Must be the same length as \code{x}.}
-
-\item{default}{A default value to return if there are fewer than \code{n} non-\code{NA} values in \code{x}. When set to \code{NULL} (default), an error is thrown if \code{n} is beyond the number of non-\code{NA} values.}
+\item{default}{a default value to use if there are fewer than \code{n} non-\code{NA} values in \code{x}. Will be cast to the type of \code{x}.}
 }
 \value{
 \itemize{
@@ -29,13 +27,23 @@ last_valid(x, order_by = NULL, default = NULL)
 }
 }
 \description{
-These functions retrieve the nth, first or last non-\code{NA} value in a vector, optionally ordered by another vector. If there are fewer than n non-\code{NA} values, a default value can be returned.
+These functions retrieve the nth, first or last non-\code{NA} value in a vector. If there are fewer than \code{n} non-\code{NA} values, a default value can be returned.
 }
 \examples{
-x <- c(NA, 2, NA, 4, 5)
-nth_valid(x, n = 2)
-nth_valid(x, n = 10, default = 0)
+x <- c(NA, 7, NA, 5, 4, NA, 2, NA)
+
 first_valid(x)
 last_valid(x)
 
+nth_valid(x, 2)
+nth_valid(x, -2)
+
+nth_valid(x, 6)
+nth_valid(x, 6, default = -Inf)
+
+}
+\seealso{
+{
+\code{\link[dplyr]{nth()}}
+}
 }

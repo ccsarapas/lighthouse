@@ -9,24 +9,24 @@
 nth_bizday(
   x,
   n,
-  include_today = TRUE,
+  include_today = FALSE,
   holidays = c("Chestnut", "Illinois", "federal")
 )
 
 next_bizday(
   x,
-  include_today = TRUE,
+  include_today = FALSE,
   holidays = c("Chestnut", "Illinois", "federal")
 )
 }
 \arguments{
-\item{x}{A date or vector of dates.}
+\item{x}{a date or vector of dates.}
 
-\item{n}{A single integer specifying which future business day to find.}
+\item{n}{integer indicating ow many business days forward to find.}
 
-\item{include_today}{Logical, indicating whether the provided date(s) should be considered as potential dates to return. Defaults to \code{TRUE}.}
+\item{include_today}{logical indicating whether \code{x} be counted as one day (assuming it's a business day)?}
 
-\item{holidays}{A character string specifying which set of holidays to use. Defaults to "Chestnut".}
+\item{holidays}{character indicating which set of holidays to use.}
 }
 \value{
 \itemize{
@@ -35,18 +35,11 @@ next_bizday(
 }
 }
 \description{
-These functions find the nth or next business day from a given date, optionally excluding or including the provided date. The set of holidays used to determine business days can be specified.
-}
-\details{
-\code{nth_bizday} returns the nth business day from the given date(s), where n is specified by the \code{n} argument.
-
-\code{next_bizday} is a shortcut for \code{nth_bizday} with \code{n = 1}, returning the next business day from the given date(s).
-
-The \code{holidays} argument specifies the set of holidays to consider when determining business days. Available options are "Chestnut" (default), "Illinois", and "federal".
+\code{nth_bizday()} returns the nth business day from a given date, based on CHS, Illinois, or federal holidays. \code{next_bizday()} is a wrapper for
 }
 \examples{
-nth_bizday(as.Date("2023-07-01"), 5)
-next_bizday(as.Date("2023-07-01"))
-nth_bizday(as.Date("2023-07-01"), 1, include_today = FALSE)
+next_bizday(as.Date("2024-07-02"))
+nth_bizday(as.Date("2024-07-02"), 5)
+nth_bizday(as.Date("2024-07-02"), 5, include_today = TRUE)
 
 }

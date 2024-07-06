@@ -168,6 +168,12 @@ median_dbl <- function(x, na.rm = FALSE, ...) {
 #'
 #' @export
 se <- function(x, na.rm = FALSE) {
-  .Deprecated(msg = "`se()` is defunct. Use `se_mean()` or `se_prop()` instead.")
+  .Deprecated(msg = "`se()` is deprecated. Use `se_mean()` or `se_prop()` instead.")
+  se_mean(x, na.rm)
+}
+
+
+se <- function(x, na.rm = FALSE) {
+  .Deprecated(msg = "`se()` is deprecated. Use `se_mean()` or `se_prop()` instead.")
   se_mean(x, na.rm)
 }

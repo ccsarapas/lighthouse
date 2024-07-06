@@ -30,6 +30,6 @@ data frame was imported from an SPSS .sav file and the \"labelled\" package is
 installed, SPSS variable labels will also be included.
 }
 \examples{
-cols_info(mtcars)
+cols_info(dplyr::starwars)
 
 }

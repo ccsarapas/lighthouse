@@ -13,25 +13,5 @@ is_spss(.data)
 \code{TRUE} if the data frame contains any SPSS labels, \code{FALSE} otherwise.
 }
 \description{
-Checks if a data frame contains any SPSS-style variable or value labels, as used by the 'haven' package.
-}
-\details{
-This function checks for the presence of any of the following in the supplied data frame:
-\itemize{
-\item Variable labels, as set by \code{\link[labelled:var_label]{labelled::var_label()}}.
-\item Value labels, as indicated by \code{\link[labelled:reexports]{labelled::is.labelled()}}.
-\item The \verb{\\"format.spss\\"} attribute, set by 'haven' functions.
-}
-}
-\examples{
-# Example data frame without SPSS labels
-df1 <- data.frame(x = 1:3, y = c(\"a\", \"b\", \"c\"))
-is_spss(df1)
-
-\\\\dontrun{
-# Example data frame with SPSS labels
-df2 <- haven::read_sav(\"data.sav\")
-is_spss(df2)
-}
-
+Checks if a data frame contains any SPSS / haven variable labels, value labels, or format attributes.
 }

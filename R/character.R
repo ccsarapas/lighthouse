@@ -126,6 +126,10 @@ glue_chr <- function(...) {
 #' 4 NA    NA    NA    NA
 #' }
 #'
+#' #' @seealso{
+#' \code{\link{str_c_tidy}}
+#' }
+#'
 #' @examples
 #' str_c_narm(c("a", NA), c("b", "c"), sep = "_")
 #' str_c_narm(c("a", NA), c("b", NA), if_all_na = "NA")
@@ -187,6 +191,10 @@ str_c_narm <- function(...,
 #'
 #' If `na.rm = TRUE`, the function will remove missing values before concatenation. It does this by temporarily replacing `NA` with a placeholder string, concatenating, and then removing the placeholder and any trailing separators.
 #'
+#' @seealso{
+#' \code{\link{str_c_narm}}
+#' }
+#'
 #' @examples
 #' df <- tibble::tribble(
 #'   ~x, ~y, ~z,
@@ -195,8 +203,8 @@ str_c_narm <- function(...,
 #'   "g", "h", NA
 #' )
 #'
-#' df %>% mutate(combined = str_c_tidy(x, y, z))
-#' df %>% mutate(combined = str_c_tidy(starts_with("y"), z, na.rm = TRUE))
+#' df %>% dplyr::mutate(combined = str_c_tidy(x:z))
+#' df %>% dplyr::mutate(combined = str_c_tidy(x:z, na.rm = TRUE))
 #'
 #' @export
 str_c_tidy <- function(.cols, sep = "", collapse = NULL, na.rm = FALSE) {
@@ -206,22 +214,22 @@ str_c_tidy <- function(.cols, sep = "", collapse = NULL, na.rm = FALSE) {
       "The `collapse` argument is untested and may give unpredictable results."
     )
   }
-  out <- dplyr::pick(everything())
+  out <- dplyr::pick(tidyselect::everything())
   if (na.rm) {
     sep_out <- sep
     sep <- "__SEP__"
     out <- dplyr::mutate(out, dplyr::across(
-      .cols,
-      ~ if_else(
-        if_all(.cols, is.na),
+      {{ .cols }},
+      \(x) dplyr::if_else(
+        dplyr::if_all({{ .cols }}, is.na),
         NA_character_,
-        str_replace_na(.x, "__NA__")
+        stringr::str_replace_na(x, "__NA__")
       )
     ))
   }
   out <- out %>%
     dplyr::mutate(joined = stringr::str_c(
-      !!!untidyselect(., .cols, syms = TRUE),
+      !!!untidyselect(out, {{ .cols }}, syms = TRUE),
       sep = sep,
       collapse = collapse
     )) %>%
@@ -292,11 +300,11 @@ str_collapse <- function(..., sep = "", join = NULL) {
 #' `string`. `str_starts_any()` and `str_ends_any()` match only at the beginning
 #' or end of strings.
 #'
-#' @param string Either a character vector, or something coercible to one.
-#' @param patterns Character vector containing regular expressions to look for.
-#' @param whole_word Logical. Match only whole words in `string` (as defined by `"\\b"` word boundary).
-#' @param ignore_case Logical. Ignore case when matching `patterns` to `string`.
-#' @param negate Logical. If `TRUE`, inverts the resulting boolean vector.
+#' @param string a character vector or something coercible to one.
+#' @param patterns a character vector containing regular expressions to look for.
+#' @param whole_word logical. Match only whole words in `string` (as defined by `"\\b"` word boundary)?
+#' @param ignore_case logical. Ignore case when matching `patterns` to `string`?
+#' @param negate Logical. if `TRUE`, inverts the resulting boolean vector.
 #'
 #' @seealso{
 #' \code{\link[stringr]{str_detect}}
@@ -309,7 +317,7 @@ str_detect_any <- function(string,
                            whole_word = FALSE,
                            ignore_case = FALSE,
                            negate = FALSE) {
-  str_any(string, patterns, whole_word, negate, fn = stringr::str_detect)
+  str_any(string, patterns, whole_word, ignore_case, negate, fn = stringr::str_detect)
 }
 #' @rdname str_detect_any
 #' @export
@@ -318,7 +326,7 @@ str_starts_any <- function(string,
                            whole_word = FALSE,
                            ignore_case = FALSE,
                            negate = FALSE) {
-  str_any(string, patterns, whole_word, negate, fn = stringr::str_starts)
+  str_any(string, patterns, whole_word, ignore_case, negate, fn = stringr::str_starts)
 }
 #' @rdname str_detect_any
 #' @export
@@ -327,10 +335,10 @@ str_ends_any <- function(string,
                          whole_word = FALSE,
                          ignore_case = FALSE,
                          negate = FALSE) {
-  str_any(string, patterns, whole_word, negate, fn = stringr::str_ends)
+  str_any(string, patterns, whole_word, ignore_case, negate, fn = stringr::str_ends)
 }
 
-str_any <- function(string, patterns, whole_word, negate, fn) {
+str_any <- function(string, patterns, whole_word, ignore_case, negate, fn) {
   if (ignore_case) {
     patterns <- stringr::str_to_lower(patterns)
     string <- stringr::str_to_lower(string)

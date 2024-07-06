@@ -34,7 +34,12 @@ df <- tibble::tribble(
   "g", "h", NA
 )
 
-df \%>\% mutate(combined = str_c_tidy(x, y, z))
-df \%>\% mutate(combined = str_c_tidy(starts_with("y"), z, na.rm = TRUE))
+df \%>\% dplyr::mutate(combined = str_c_tidy(x:z))
+df \%>\% dplyr::mutate(combined = str_c_tidy(x:z, na.rm = TRUE))
 
+}
+\seealso{
+{
+\code{\link{str_c_narm}}
+}
 }

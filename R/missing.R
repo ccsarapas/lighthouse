@@ -201,43 +201,43 @@ coerce_na_range <- na_if_range
 
 #' Get the nth, first, or last non-`NA` value in a vector
 #'
-#' These functions retrieve the nth, first or last non-`NA` value in a vector, optionally ordered by another vector. If there are fewer than n non-`NA` values, a default value can be returned.
+#' These functions retrieve the nth, first or last non-`NA` value in a vector. If there are fewer than `n` non-`NA` values, a default value can be returned.
 #'
 #' @param x A vector.
-#' @param n For `nth_valid`, the position of the value to return. Negative values start from the end of the vector. Ignored for `first_valid` and `last_valid`.
-#' @param order_by An optional vector to use for ordering `x` before finding the value. Must be the same length as `x`.
-#' @param default A default value to return if there are fewer than `n` non-`NA` values in `x`. When set to `NULL` (default), an error is thrown if `n` is beyond the number of non-`NA` values.
+#' @param n integer. Position of non-`NA` value to return. Negative values start from the end of the vector.
+#' @param default a default value to use if there are fewer than `n` non-`NA` values in `x`. Will be cast to the type of `x`.
 #'
 #' @return
 #' - `nth_valid`: The nth non-`NA` value in `x`.
 #' - `first_valid`: The first non-`NA` value in `x`.
 #' - `last_valid`: The last non-`NA` value in `x`.
 #'
+#' @seealso{
+#' \code{\link[dplyr]{nth()}}
+#' }
+#'
 #' @examples
-#' x <- c(NA, 2, NA, 4, 5)
-#' nth_valid(x, n = 2)
-#' nth_valid(x, n = 10, default = 0)
+#' x <- c(NA, 7, NA, 5, 4, NA, 2, NA)
+#'
 #' first_valid(x)
 #' last_valid(x)
 #'
+#' nth_valid(x, 2)
+#' nth_valid(x, -2)
+#'
+#' nth_valid(x, 6)
+#' nth_valid(x, 6, default = -Inf)
+#'
 #' @export
-nth_valid <- function(x, n, order_by = NULL, default = NULL) {
-  if (is.null(default)) {
-    nth(discard_na(x), n = n, order_by = order_by)
-  } else {
-    nth(discard_na(x), n = n, order_by = order_by, default = default)
-  }
+nth_valid <- function(x, n, default = NA) {
+  dplyr::nth(discard_na(x), n = n, default = default)
 }
 #' @rdname nth_valid
 #' @export
-first_valid <- function(x, order_by = NULL, default = NULL) {
-  nth_valid(x, n = 1L, order_by = order_by, default = default)
-}
+first_valid <- function(x, default = NA) nth_valid(x, n = 1L, default = default)
 #' @rdname nth_valid
 #' @export
-last_valid <- function(x, order_by = NULL, default = NULL) {
-  nth_valid(x, n = -1L, order_by = order_by, default = default)
-}
+last_valid <- function(x, default = NA) nth_valid(x, n = -1L, default = default)
 
 #' Convert specified factor levels to `NA`
 #'

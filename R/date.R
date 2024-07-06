@@ -15,34 +15,27 @@ datetimes_to_date <- function(.data) {
 
 #' Find the nth or next business day
 #'
-#' These functions find the nth or next business day from a given date, optionally excluding or including the provided date. The set of holidays used to determine business days can be specified.
+#' `nth_bizday()` returns the nth business day from a given date, based on CHS, Illinois, or federal holidays. `next_bizday()` is a wrapper for
 #'
-#' @param x A date or vector of dates.
-#' @param n A single integer specifying which future business day to find.
-#' @param include_today Logical, indicating whether the provided date(s) should be considered as potential dates to return. Defaults to `TRUE`.
-#' @param holidays A character string specifying which set of holidays to use. Defaults to "Chestnut".
-#'
-#' @details
-#' `nth_bizday` returns the nth business day from the given date(s), where n is specified by the `n` argument.
-#'
-#' `next_bizday` is a shortcut for `nth_bizday` with `n = 1`, returning the next business day from the given date(s).
-#'
-#' The `holidays` argument specifies the set of holidays to consider when determining business days. Available options are "Chestnut" (default), "Illinois", and "federal".
+#' @param x a date or vector of dates.
+#' @param n integer indicating ow many business days forward to find.
+#' @param include_today logical indicating whether `x` be counted as one day (assuming it's a business day)?
+#' @param holidays character indicating which set of holidays to use.
 #'
 #' @return
 #' - `nth_bizday` returns the nth business day from the provided date(s).
 #' - `next_bizday` returns the next business day from the provided date(s).
 #'
 #' @examples
-#' nth_bizday(as.Date("2023-07-01"), 5)
-#' next_bizday(as.Date("2023-07-01"))
-#' nth_bizday(as.Date("2023-07-01"), 1, include_today = FALSE)
+#' next_bizday(as.Date("2024-07-02"))
+#' nth_bizday(as.Date("2024-07-02"), 5)
+#' nth_bizday(as.Date("2024-07-02"), 5, include_today = TRUE)
 #'
 #' @name bizday
 #' @export
 nth_bizday <- function (x,
                         n,
-                        include_today = TRUE,
+                        include_today = FALSE,
                         holidays = c("Chestnut", "Illinois", "federal")) {
   bizdays <- lighthouse:::business_days[[match.arg(holidays)]]
   inrange <- dplyr::between(x, attr(bizdays, "start"), attr(bizdays,
@@ -55,13 +48,13 @@ nth_bizday <- function (x,
          attr(bizdays, "end"), " are not currently supported.")
   if (!include_today)
     x <- x + lubridate::days(1)
-  purrr::map(lubridate::as_date(x), ~bizdays[bizdays >= .x][[n]]) %>%
-    do.call(c, .)
+  x <- purrr::map(lubridate::as_date(x), \(x) bizdays[bizdays >= x][[n]])
+  do.call(c, x)
 }
 #' @rdname bizday
 #' @export
 next_bizday <- function(x,
-                        include_today = TRUE,
+                        include_today = FALSE,
                         holidays = c("Chestnut", "Illinois", "federal")) {
   nth_bizday(x = x, n = 1, include_today = include_today, holidays = holidays)
 }
@@ -114,8 +107,8 @@ floor_days <- function(x,
 #' Returns number of days between two dates.
 #' @export
 days_diff <- function (d1, d2, warn = TRUE) {
-  if (xor(is.POSIXct(d1), is.POSIXt(d2))) {
-    if (warn) warning("Datetime converted to date to compute days difference")
+  if (xor(lubridate::is.POSIXt(d1), lubridate::is.POSIXt(d2))) {
+    if (warn) warning("Datetime converted to Date to compute days difference")
     if (is.POSIXct(d1)) d1 <- as.Date(d1)
     else d2 <- as.Date(d2)
   }

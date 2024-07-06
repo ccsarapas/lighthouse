@@ -41,7 +41,4 @@ c(model_hp, model_size, model_trans) \%<-\% purrr::map(
 summary(model_size)
 summary(model_trans)
 
-# cleanup
-rm(cyl4, cyl6, cyl8, G3, G4, G5, model_hp, model_size, model_trans)
-
 }

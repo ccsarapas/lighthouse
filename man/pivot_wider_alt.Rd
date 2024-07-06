@@ -51,13 +51,20 @@ variables. See Details and Examples.}
 \item{names_prefix, names_glue, names_repair, values_from, values_fill, values_fn}{See documentation at \code{\link[=pivot_wider]{tidyr::pivot_wider()}}.}
 }
 \description{
+Note that as of 2024, some of \code{pivot_wider_alt()}'s functionality is now
+supported in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}. In particular, the functionality of
+\code{names_value_first = TRUE} in \code{pivot_wider_alt()} can now be achieved by
+using \code{names_vary = "slowest"} in \code{pivot_wider()}. The functionality of
+\code{names_value_sep} can be achieved using the \code{names_glue} argument in
+\code{pivot_wider()}.
+
 A wrapper around \code{\link[=pivot_wider]{tidyr::pivot_wider()}} with additional
 options for sorting and naming of output columns, with arguments
 \code{sort_by_col}, \code{names_value_first}, and \code{names_value_sep} These options are
 only relevant when more than one input column is passed to \code{values_from}.
 }
 \details{
-The \code{names_value_sep} argument allows output column names that use a
+#' The \code{names_value_sep} argument allows output column names that use a
 different separator between \code{{.value}} and \code{{column}} than between multiple
 \code{{columns}}s. Example:
 

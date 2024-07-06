@@ -7,7 +7,7 @@
 add_plot_slide(
   pptx,
   title = NULL,
-  plot = last_plot(),
+  plot = ggplot2::last_plot(),
   w = 7,
   h = 4,
   bg = "white",

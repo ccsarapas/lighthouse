@@ -4,11 +4,7 @@
 \alias{set_ggplot_opts}
 \title{Nicer default theme and palettes for \code{ggplot2}}
 \usage{
-set_ggplot_opts(
-  base_theme = hrbrthemes::theme_ipsum_rc,
-  brewer_pal_discrete = "Set1",
-  ...
-)
+set_ggplot_opts(base_theme = NULL, brewer_pal_discrete = "Set1", ...)
 }
 \description{
 Changes default theme and color scales for \code{ggplot2}.

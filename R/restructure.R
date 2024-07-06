@@ -264,15 +264,24 @@ group_split_named <- function(.data,
 
 
 ### is this made obsolete by updates to pivot_wider()? deprecate? will need to update other functions that call it.
-
 #' Alternative column ordering and naming for pivot_wider()
+#'
+#' @description
+#'
+#' Note that as of 2024, some of `pivot_wider_alt()`'s functionality is now
+#' supported in [`tidyr::pivot_wider()`]. In particular, the functionality of
+#' `names_value_first = TRUE` in `pivot_wider_alt()` can now be achieved by
+#' using `names_vary = "slowest"` in `pivot_wider()`. The functionality of
+#' `names_value_sep` can be achieved using the `names_glue` argument in
+#' `pivot_wider()`.
 #'
 #' A wrapper around [`tidyr::pivot_wider()`][pivot_wider] with additional
 #' options for sorting and naming of output columns, with arguments
 #' `sort_by_col`, `names_value_first`, and `names_value_sep` These options are
 #' only relevant when more than one input column is passed to `values_from`.
 #'
-#' The `names_value_sep` argument allows output column names that use a
+#' @details
+#' #' The `names_value_sep` argument allows output column names that use a
 #' different separator between `{.value}` and `{column}` than between multiple
 #' `{columns}`s. Example:
 #' ```
@@ -363,18 +372,14 @@ pivot_wider_alt <- function(data,
                             values_from = value,
                             values_fill = NULL,
                             values_fn = NULL) {
-  # lighthouse 0.6.0:
-  # fixed bug by naming args to `pivot_wider_spec`
-  # with tidyr 1.2.0, `pivot_wider` now has more options for column sorting etc -
-  # may want to use those and simplify this Fx
   names_from_untidy <- untidyselect(data, {{ names_from }}, syms = TRUE)
   pivot_spec <- tidyr::build_wider_spec(
     data,
-    {{ names_from }},
-    {{ values_from }},
-    names_prefix,
-    names_sep,
-    names_glue
+    names_from = {{ names_from }},
+    values_from = {{ values_from }},
+    names_prefix = names_prefix,
+    names_sep = names_sep,
+    names_glue = names_glue
   )
   if (sort_by_col) {
     pivot_spec <- dplyr::arrange(pivot_spec, !!!names_from_untidy)

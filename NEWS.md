@@ -66,6 +66,7 @@
 
 ## Lifecycle changes:
 * `rbool()` has been *un*-deprecated. It was previously deprecated in favor of `purrr::rbernoulli()`, but `purrr::rbernoulli()` has since been deprecated itself.
+* `pivot_wider_alt()` is defunct. Changes to `tidyr::pivot_wider()` made its most important functionality unnecessary. Further changes to tidyr broke it, and it was judged not worth the effort of fixing.
 * `na_like()` and `median_dbl()` are deprecated. They are no longer needed given more flexible handling of mixed classes by `dplyr::if_else()` and `dplyr::case_when()` as of [dplyr v1.1.0][https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}]. (Plus `na_like()` was quite buggy and unreliable; resolves #2).
 * `row_sums_spss()` deprecated in favor of `row_sums_across()`.
 * `safe_min()` and `safe_max()` renamed to `min_if_any()` and `max_if_any()`; the old names are deprecated.

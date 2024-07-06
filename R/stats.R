@@ -80,7 +80,7 @@ se_prop <- function(x,
   if (low_var_action != "ignore" && npq < min_var) {
     if (low_var_action == "error") {
       stop(
-        "The variance (n*p*q = ", round(npq, 3), ") is < ", round(min_variance, 3), ". See `?se_prop`."
+        "The variance (n*p*q = ", round(npq, 3), ") is < ", round(min_var, 3), ". See `?se_prop`."
       )
     }
     warning(
@@ -177,7 +177,7 @@ reverse_key <- function(x,
 row_sums_across <- function(cols, na.rm = FALSE) {
   out <- rowSums(dplyr::pick({{ cols }}), na.rm = na.rm)
   if (na.rm) {
-    if_else(dplyr::if_all({{ cols }}, is.na), NA, out)
+    dplyr::if_else(dplyr::if_all({{ cols }}, is.na), NA, out)
   } else {
     out
   }
