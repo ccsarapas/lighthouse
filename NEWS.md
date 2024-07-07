@@ -60,7 +60,9 @@
 * `eq_shape()` checks if two objects have the same number of dimensions and same length along each dimension.
 
 ## New datasets
+
 * `gain_missing_codes` is a quick reference for missing value labels used in GAIN datasets.
+
 * `state.terr.name` and `state.terr.abb` are versions of `state.name` and `state.abb` that include US territories and the District of Columbia. `state.terr.data` is a data frame including names, abbreviations, and FIPS codes for US states, territories, and the District of Columbia.
       
 ## Added functionality
