@@ -2,8 +2,10 @@ Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
 Version: 0.7.0
 Authors@R: 
-    person("Casey", "Sarapas", , "ccsarapas@chestnut.org", 
-           role = c("aut", "cre"))
+    person("Casey", "Sarapas", 
+           email = "ccsarapas@chestnut.org", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8668-1462"))
 Description: Utility functions for Lighthouse Institute projects.
 Imports: 
   dplyr,

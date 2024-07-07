@@ -1,22 +1,24 @@
 
 #' Identify duplicates within a vector or vectors
 #'
-#' This function checks for duplicated values within a vector or a set of vectors of equal length and returns a logical vector indicating whether each row is duplicated. Rows are considered duplicates if the values in all columns are equal and appear more than `nmax` times.
+#' This function checks for duplicated values within a vector or a set of vectors.
 #'
-#' @param ... One or more vectors of equal length.
-#' @param nmax The maximum number of times a value can appear before being considered a duplicate. Default is 1.
-#' @param incomparables If `TRUE`, missing (`NA`) and non-finite (`NaN`, `Inf`, `-Inf`) values are considered comparable and can be marked as duplicates. If `FALSE` (default), missing and non-finite values are never considered duplicates.
+#' @param ... one or more vectors of equal length.
+#' @param nmax maximum number of times a value can appear before being considered a duplicate.
+#' @param incomparables should missing values (including `NaN`) be considered duplicates?
 #'
-#' @return A logical vector indicating whether each row (element of the vector, or combination of elements at the same position in multiple vectors) is a duplicate.
+#' @return a logical vector.
 #'
 #' @examples
 #' x <- c(1, 2, 2, 3, 3, 3)
 #' y <- c(1, 1, 2, 1, 2, 2)
 #' is_duplicate(x)
-#' is_duplicate(x, y)
 #' is_duplicate(x, nmax = 2)
-#' is_duplicate(c(1, NA, NA))
-#' is_duplicate(c(1, NA, NA), incomparables = TRUE)
+#' is_duplicate(x, y)
+#'
+#' z <- c(1, NA, NA)
+#' is_duplicate(z)
+#' is_duplicate(z, incomparables = TRUE)
 #'
 #' @export
 is_duplicate <- function(..., nmax = 1, incomparables = FALSE) {
@@ -30,14 +32,14 @@ is_duplicate <- function(..., nmax = 1, incomparables = FALSE) {
   )
   x <- dplyr::add_count(x, dplyr::across(tidyselect::everything()))
   if (!incomparables) {
-    x <- x %>%
-      dplyr::mutate(
-        is_dup = !dplyr::if_any(!n, ~ is.na(.x) | is.nan(.x)) & n > nmax
-      )
+    x <- dplyr::mutate(
+      x,
+      is_dup = !dplyr::if_any(!n, ~ is.na(.x) | is.nan(.x)) & n > nmax
+    )
+    x$is_dup
   } else {
-    x <- dplyr::mutate(x, is_dup = n > nmax)
+    x$n > nmax
   }
-  x$is_dup
 }
 
 #' Test whether a data frame contains SPSS variable or value labels
@@ -57,15 +59,6 @@ is_spss <- function(.data) {
       "format.spss" %in% names(attributes(x))
   )
 }
-
-#' Generate random logicals
-#'
-#' Returns a vector of random logicals of length `n`, drawn from binomial
-#' distribution with trial probability `prob` (default = .5).
-#'
-#' @export
-rbool <- function(n, prob = .5) as.logical(stats::rbinom(n, 1, prob))
-
 
 #' Test for data encoded as other formats
 #'

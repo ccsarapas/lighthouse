@@ -33,10 +33,10 @@ datetimes_to_date <- function(.data) {
 #'
 #' @name bizday
 #' @export
-nth_bizday <- function (x,
-                        n,
-                        include_today = FALSE,
-                        holidays = c("Chestnut", "Illinois", "federal")) {
+nth_bizday <- function(x,
+                       n,
+                       include_today = FALSE,
+                       holidays = c("Chestnut", "Illinois", "federal")) {
   bizdays <- business_days[[match.arg(holidays)]]
   inrange <- dplyr::between(x, attr(bizdays, "start"), attr(bizdays,
                                                             "end"))
@@ -106,7 +106,7 @@ floor_days <- function(x,
 #'
 #' Returns number of days between two dates.
 #' @export
-days_diff <- function (d1, d2, warn = TRUE) {
+days_diff <- function(d1, d2, warn = TRUE) {
   if (xor(lubridate::is.POSIXt(d1), lubridate::is.POSIXt(d2))) {
     if (warn) warning("Datetime converted to Date to compute days difference")
     if (lubridate::is.POSIXct(d1)) d1 <- as.Date(d1)
@@ -205,8 +205,7 @@ strftime_no_lead <- function(x,
 }
 
 # bugfix -- changed `is.null()` to `missing()` in second `if` statement
-t_tibble <- function (x, names_to = "Variable", names_from = NULL)
-{
+t_tibble <- function(x, names_to = "Variable", names_from = NULL) {
   if (!missing(names_from)) {
     names.t <- dplyr::pull(x, {{names_from}})
     x <- dplyr::select(x, !{{names_from}})

@@ -183,6 +183,15 @@ suppress_messages_if <- function(expr,
   )
 }
 
+
+#' Generate random logicals
+#'
+#' Returns a vector of random logicals of length `n`, drawn from binomial
+#' distribution with trial probability `prob` (default = .5).
+#'
+#' @export
+rbool <- function(n, prob = .5) as.logical(stats::rbinom(n, 1, prob))
+
 #' Open a file or directory
 #'
 #' Functions to open a file with its default program or open a file's location in the file explorer.

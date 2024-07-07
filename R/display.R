@@ -8,7 +8,7 @@
 #' @param na (Optional) The string to use for missing values in the .csv file. Defaults to an empty string.
 #'
 #' @export
-in_excel <- function (df, name, na = "") {
+in_excel <- function(df, name, na = "") {
   csv_dir <- file.path(tempdir(), "csv")
   if (!dir.exists(csv_dir)) {
     dir.create(csv_dir)

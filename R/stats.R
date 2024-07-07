@@ -17,7 +17,7 @@
 #' OR_to_p1(0.6, 2.25)
 #'
 #' @export
-p_to_OR <- function (p1, p2) (p2 / (1 - p2)) / (p1 / (1 - p1))
+p_to_OR <- function(p1, p2) (p2 / (1 - p2)) / (p1 / (1 - p1))
 #' @rdname p_to_OR
 #' @export
 OR_to_p2 <- function(p1, OR) {
@@ -114,73 +114,6 @@ wkappa <- function(.data, x, y) {
     as.data.frame() %>%
     psych::cohen.kappa() %>%
     broom::tidy()
-}
-
-
-#' Descending cumulative sum
-#'
-#' Returns a cumulative sum beginning with the last element of `x`.
-#'
-#' @examples
-#' ggplot2::diamonds %>%
-#'   dplyr::count(cut) %>%
-#'   dplyr::mutate(
-#'     or_worse = cumsum(n),
-#'     or_better = cumsum_desc(n)
-#'   )
-#'
-#' @export
-cumsum_desc <- function(x) rev(cumsum(rev(x)))
-
-#' Reverse key a numeric vector
-#'
-#' Reverses a numeric vector `x` by subtracting from `min` and adding `max`.
-#' Observed minimum and maximum of `x` are used unless otherwise specified.
-#'
-#' @examples
-#' reverse_key(1:5)
-#' reverse_key(3:5)
-#' reverse_key(3:5, min = 1, max = 5)
-#'
-#' @export
-reverse_key <- function(x,
-                        na.rm = FALSE,
-                        max = NULL,
-                        min = NULL) {
-  if (is.null(max)) max <- max(x, na.rm = na.rm)
-  if (is.null(min)) min <- min(x, na.rm = na.rm)
-  max - x + min
-}
-
-
-#' Row sums for selected columns with `NA` handling
-#'
-#' This function calculates row sums for selected columns using tidyselect expressions. Unlike `rowSums`, it returns `NA` rather than `0` when `na.rm = TRUE` and all selected columns are `NA`.
-#'
-#' @param cols <[`tidy-select`][dplyr_tidy_select]> columns to sum across.
-#' @param na.rm Should missing values (including `NaN`) be removed?
-#'
-#' @examples
-#' df <- tibble::tibble(
-#'   x = c(1, 2, NA, NA),
-#'   y = c(5, NA, 7, NA),
-#'   z = c(9, 10, 11, NA)
-#' )
-#'
-#' df %>%
-#'   dplyr::mutate(
-#'     row_sums = row_sums_across(x:z),
-#'     row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
-#'   )
-#'
-#' @export
-row_sums_across <- function(cols, na.rm = FALSE) {
-  out <- rowSums(dplyr::pick({{ cols }}), na.rm = na.rm)
-  if (na.rm) {
-    dplyr::if_else(dplyr::if_all({{ cols }}, is.na), NA, out)
-  } else {
-    out
-  }
 }
 
 
@@ -374,63 +307,6 @@ asterisks <- function(p,
 }
 
 
-
-#' Scale based on median absolute deviation
-#'
-#' Scales a vector of values based on the median absolute deviation. Values may
-#' be centered around the median (default), mean, or not centered. Compare to
-#' `base::scale()`, which uses standard deviation and centers around the mean by
-#' default.
-#'
-#' @export
-scale_mad <- function(x,
-                      center = c("median", "mean", "none"),
-                      mad_constant = 1.4826) {
-  center <- match.arg(center)
-  ctr <- switch(
-    center,
-    median = stats::median(x, na.rm = TRUE),
-    mean = mean(x, na.rm = TRUE),
-    none = 0
-  )
-  (x - ctr) / stats::mad(x, center = ctr, constant = mad_constant, na.rm = TRUE)
-}
-
-#' Winsorize extreme values
-#'
-#' Sets all values more than `max_dev` deviations from center to be `max_dev`
-#' deviations from center. Deviations defined as standard deviation (the
-#' default) or mean absolute deviation (if `method = "mad"`). Center defined as
-#' mean for `method = "sd"` and median for `method = "mad"`, unless otherwise
-#' specified in `center` argument.
-#'
-#' @export
-winsorize <- function(x,
-                      max_dev = 3,
-                      method = c("sd", "mad"),
-                      mad.center = c("median", "mean")) {
-  method <- match.arg(method)
-  if (method == "sd" && !missing(mad.center)) {
-    warning('Argument `mad.center` ignored when `method` = "sd"')
-  }
-  if (method == "sd") {
-    cent <- mean(x, na.rm = TRUE)
-    dev <- stats::sd(x, na.rm = TRUE)
-  } else {
-    mad.center <- match.arg(mad.center)
-    cent <- switch(
-      mad.center,
-      median = stats::median(x, na.rm = TRUE),
-      mean = mean(x, na.rm = TRUE)
-    )
-    dev <- stats::mad(x, center = cent, na.rm = TRUE)
-  }
-  xmin <- cent - (max_dev * dev)
-  xmax <- cent + (max_dev * dev)
-  pmax(pmin(x, xmax), xmin)
-}
-
-
 #' Compute Cohen's w
 #'
 #' Cohen's w is an effect size measure for associations between nominal
@@ -451,107 +327,6 @@ cohen_w <- function(chisq) {
   Observed <- chisq$observed / Sum
   sqrt(sum((Observed - Expected)^2 / Expected))
 }
-
-#' Sum, maxima and minima with alternative missing value handling
-#'
-#' Returns the sum, maximum, or minimum of input values, similar to
-#' `base::sum()`, `min()`, and `max()`. Unlike these base functions, these
-#' variants return `NA` when all values are `NA` and `na.rm = TRUE`.
-#' (`base::sum()`, `min()`, and `max()` return `0`, `-Inf`, and `Inf`,
-#' respectively, in this situation). Also unlike base functions, `na.rm` is
-#' `TRUE` by default (since this is the typical use case).
-#'
-#' @param ... numeric, logical, or (for `max_if_any()` and `min_if_any()`) character vectors.
-#' @param na.rm logical. Should missing values (including NaN) be removed?
-#'
-#'
-#' @examples
-#' some_na <- c(1, 2, NA)
-#' all_na <- c(NA, NA, NA)
-#'
-#' # unlike base functions, `na.rm = TRUE` by default
-#' max(some_na)
-#' max_if_any(some_na)
-#'
-#' # unlike base functions, returns 0 when `na.rm = TRUE` and all inputs are `NA`
-#' sum(all_na, na.rm = TRUE)
-#' sum_if_any(all_na)
-#'
-#' @name aggregate_if_any
-#' @export
-sum_if_any <- function(..., na.rm = TRUE) {
-  aggregate_if_any(..., na.rm = na.rm, .fn = sum)
-}
-#' @rdname aggregate_if_any
-#' @export
-max_if_any <- function(..., na.rm = TRUE) {
-  aggregate_if_any(..., na.rm = na.rm, .fn = max)
-}
-#' @rdname aggregate_if_any
-#' @export
-min_if_any <- function(..., na.rm = TRUE) {
-  aggregate_if_any(..., na.rm = na.rm, .fn = min)
-}
-
-aggregate_if_any <- function(..., na.rm, .fn) {
-  # 0.7.0 - changed to use .fn(..., na.rm = FALSE) to handle type coercion
-  if (all(is.na(c(...)))) .fn(..., na.rm = FALSE) else .fn(..., na.rm = na.rm)
-}
-
-
-#' tidyselect-friendly parallel minima and maxima
-#'
-#' Wrappers around `base::pmin()` and `base::pmax()` that accept
-#' <[`tidy-select`][dplyr_tidy_select]> expressions.
-#'
-#' @examples
-#' # using `base::pmax()`
-#' mtcars %>%
-#'   dplyr::mutate(
-#'     max_val = pmax(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-#'   )
-#'
-#' # using `pmax_across()`
-#' mtcars %>%
-#'   dplyr::mutate(max_val = pmax_across(mpg:carb))
-#'
-#' @name pminmax_across
-#'
-#' @export
-pmax_across <- function(cols, na.rm = FALSE) {
-  pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmax)
-}
-
-#' @rdname pminmax_across
-#'
-#' @export
-pmin_across <- function(cols, na.rm = FALSE) {
-  pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmin)
-}
-
-pminmax_across <- function(cols, na.rm, .fn) {
-  col_names <- untidyselect(dplyr::cur_data(), !!cols, syms = TRUE)
-  dplyr::cur_data() %>%
-    dplyr::mutate(out = .fn(!!!col_names, na.rm = na.rm)) %>%
-    dplyr::pull(out)
-}
-
-#' Scaling and centering of vectors
-#'
-#' A wrapper around `base::scale()` that returns a vector instead of a matrix.
-#'
-#' @examples
-#' # using base::scale()
-#' scale(0:4)
-#'
-#' # using scale_vec()
-#' scale_vec(0:4)
-#'
-#' @export
-scale_vec <- function(x, center = TRUE, scale = TRUE) {
-  scale(x, center = center, scale = scale)[, 1]
-}
-
 
 #' Pairwise post-hoc test following Kruskal-Wallis test
 #'

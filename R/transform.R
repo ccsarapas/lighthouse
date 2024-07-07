@@ -14,9 +14,8 @@ try_numeric <- function(x) {
 }
 
 #' @rdname try_numeric
-#'
 #' @export
-try.numeric <- function(x) try_numeric(x)
+try.numeric <- try_numeric
 
 #' Reorder factor levels by sorting along multiple other variables.
 #'
@@ -148,3 +147,95 @@ fct_collapse_alt <- function(.f,
   out
 }
 
+
+#' Reverse key a numeric vector
+#'
+#' Reverses a numeric vector `x` by subtracting from `min` and adding `max`.
+#' Observed minimum and maximum of `x` are used unless otherwise specified.
+#'
+#' @examples
+#' reverse_key(1:5)
+#' reverse_key(3:5)
+#' reverse_key(3:5, min = 1, max = 5)
+#'
+#' @export
+reverse_key <- function(x,
+                        na.rm = FALSE,
+                        max = NULL,
+                        min = NULL) {
+  if (is.null(max)) max <- max(x, na.rm = na.rm)
+  if (is.null(min)) min <- min(x, na.rm = na.rm)
+  max - x + min
+}
+
+
+#' Scaling and centering of vectors
+#'
+#' A wrapper around `base::scale()` that returns a vector instead of a matrix.
+#'
+#' @examples
+#' # using base::scale()
+#' scale(0:4)
+#'
+#' # using scale_vec()
+#' scale_vec(0:4)
+#'
+#' @export
+scale_vec <- function(x, center = TRUE, scale = TRUE) {
+  scale(x, center = center, scale = scale)[, 1]
+}
+
+#' Scale based on median absolute deviation
+#'
+#' Scales a vector of values based on the median absolute deviation. Values may
+#' be centered around the median (default), mean, or not centered. Compare to
+#' `base::scale()`, which uses standard deviation and centers around the mean by
+#' default.
+#'
+#' @export
+scale_mad <- function(x,
+                      center = c("median", "mean", "none"),
+                      mad_constant = 1.4826) {
+  center <- match.arg(center)
+  ctr <- switch(
+    center,
+    median = stats::median(x, na.rm = TRUE),
+    mean = mean(x, na.rm = TRUE),
+    none = 0
+  )
+  (x - ctr) / stats::mad(x, center = ctr, constant = mad_constant, na.rm = TRUE)
+}
+
+#' Winsorize extreme values
+#'
+#' Sets all values more than `max_dev` deviations from center to be `max_dev`
+#' deviations from center. Deviations defined as standard deviation (the
+#' default) or mean absolute deviation (if `method = "mad"`). Center defined as
+#' mean for `method = "sd"` and median for `method = "mad"`, unless otherwise
+#' specified in `center` argument.
+#'
+#' @export
+winsorize <- function(x,
+                      max_dev = 3,
+                      method = c("sd", "mad"),
+                      mad.center = c("median", "mean")) {
+  method <- match.arg(method)
+  if (method == "sd" && !missing(mad.center)) {
+    warning('Argument `mad.center` ignored when `method` = "sd"')
+  }
+  if (method == "sd") {
+    cent <- mean(x, na.rm = TRUE)
+    dev <- stats::sd(x, na.rm = TRUE)
+  } else {
+    mad.center <- match.arg(mad.center)
+    cent <- switch(
+      mad.center,
+      median = stats::median(x, na.rm = TRUE),
+      mean = mean(x, na.rm = TRUE)
+    )
+    dev <- stats::mad(x, center = cent, na.rm = TRUE)
+  }
+  xmin <- cent - (max_dev * dev)
+  xmax <- cent + (max_dev * dev)
+  pmax(pmin(x, xmax), xmin)
+}
