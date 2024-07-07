@@ -11,6 +11,6 @@ safe_max(..., na.rm = TRUE)
 safe_min(..., na.rm = TRUE)
 }
 \description{
-Deprecated in v0.7.0 favor of \code{\link[=max_if_any]{max_if_any()}} and \code{\link[=min_if_any]{min_if_any()}}, which
+Deprecated in lighthouse 0.7.0 favor of \code{\link[=max_if_any]{max_if_any()}} and \code{\link[=min_if_any]{min_if_any()}}, which
 these now call.
 }

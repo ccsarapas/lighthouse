@@ -12,7 +12,7 @@ se(x, na.rm = FALSE)
 \item{na.rm}{logical. Should missing values be removed?}
 }
 \description{
-Deprecated in v0.7.0 favor of the more specific functions \code{\link[=se_mean]{se_mean()}} and \code{\link[=se_mean]{se_mean()}}. \code{se()} now calls \code{se_mean()} with a deprecation warning.
+Deprecated in 0.7.0 favor of the more specific functions \code{\link[=se_mean]{se_mean()}} and \code{\link[=se_mean]{se_mean()}}. \code{se()} now calls \code{se_mean()} with a deprecation warning.
 
 Computes the standard error of the values in x.
 }

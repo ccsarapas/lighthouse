@@ -62,7 +62,7 @@ get_col_types <- function(.data) {
 
 #' Replicate SPSS SUM() function - DEPRECATED
 #' @description
-#' Deprecated in v0.7.0 in favor of [row_sums_across()], which provides more
+#' Deprecated in lighthouse 0.7.0 in favor of [row_sums_across()], which provides more
 #' information and features and is more stable.
 #'
 #' Sums across columns a la SPSS: `NA`s are counted as 0s, but if ALL variables
@@ -84,7 +84,7 @@ row_sums_spss <- function(...) {
 
 #' Maxima and minima with alternative missing value handling - DEPRECATED
 #'
-#' Deprecated in v0.7.0 favor of [`max_if_any()`] and [`min_if_any()`], which
+#' Deprecated in lighthouse 0.7.0 favor of [`max_if_any()`] and [`min_if_any()`], which
 #' these now call.
 #'
 #' @name safe_minmax
@@ -104,7 +104,7 @@ safe_min <- function(..., na.rm = TRUE) {
 #' Generate NA values of appropriate type - DEPRECATED
 #'
 #' @description
-#' This function was deprecated in lighthouse v0.7.0 because (1) it's always
+#' This function was deprecated in lighthouse 0.7.0 because (1) it's always
 #' been buggy and (2) its main purpose was to pass appropriate `NA`s to
 #' `dplyr::if_else()` and `case_when()`, but this is no longer necessary with
 #' \href{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}{changes introduced in dplyr v1.1.0}
@@ -128,7 +128,7 @@ na_like <- function(x, factor_as_character = TRUE, match_length = FALSE) {
 #' Median value as double - DEPRECATED
 #'
 #' @description
-#' Deprecated in lighthouse v0.7.0. The main use case for this function was to avoid type errors in `dplyr::if_else()` and `case_when()`, but this is no longer necessary with
+#' Deprecated in lighthouse 0.7.0. The main use case for this function was to avoid type errors in `dplyr::if_else()` and `case_when()`, but this is no longer necessary with
 #' \href{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}{changes introduced in dplyr v1.1.0}.
 #'
 #' Returns median of `x` as a double vector. Alternative to `stats::median()`
@@ -159,7 +159,7 @@ median_dbl <- function(x, na.rm = FALSE, ...) {
 #' Compute the standard error - DEPRECATED
 #'
 #' @description
-#' Deprecated in v0.7.0 favor of the more specific functions [`se_mean()`] and [`se_mean()`]. `se()` now calls `se_mean()` with a deprecation warning.
+#' Deprecated in 0.7.0 favor of the more specific functions [`se_mean()`] and [`se_mean()`]. `se()` now calls `se_mean()` with a deprecation warning.
 #'
 #' Computes the standard error of the values in x.
 #'

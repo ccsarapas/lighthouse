@@ -7,7 +7,7 @@
 median_dbl(x, na.rm = FALSE, ...)
 }
 \description{
-Deprecated in lighthouse v0.7.0. The main use case for this function was to avoid type errors in \code{dplyr::if_else()} and \code{case_when()}, but this is no longer necessary with
+Deprecated in lighthouse 0.7.0. The main use case for this function was to avoid type errors in \code{dplyr::if_else()} and \code{case_when()}, but this is no longer necessary with
 \href{https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}{changes introduced in dplyr v1.1.0}.
 
 Returns median of \code{x} as a double vector. Alternative to \code{stats::median()}
