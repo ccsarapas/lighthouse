@@ -4,27 +4,34 @@
 \alias{str_c_tidy}
 \title{Tidy string concatenation}
 \usage{
-str_c_tidy(.cols, sep = "", collapse = NULL, na.rm = FALSE)
+str_c_tidy(
+  ...,
+  sep = "",
+  collapse = NULL,
+  na.rm = FALSE,
+  if_all_na = c("empty", "NA")
+)
 }
 \arguments{
-\item{.cols}{Columns to concatenate. Can be specified using tidyselect semantics.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> tidyselect expression indicating character columns vectors or columns coercible to character.}
 
-\item{sep}{Separator to use between concatenated values. Defaults to "".}
+\item{sep}{separator to insert between input vectors.}
 
-\item{collapse}{Untested, may give unpredictable results.}
+\item{collapse}{optional character string to combine results into a single string.}
 
-\item{na.rm}{If \code{TRUE}, missing values will be removed prior to concatenation. Defaults to \code{FALSE}.}
+\item{na.rm}{logical. Remove missing values before concatenating? Treatment
+of \code{NA}s is similar to \code{\link[=str_c_narm]{str_c_narm()}} and differs from behavior of
+\code{paste()} and \code{stringr::str_c()}. See Details of \code{\link[=str_c_narm]{str_c_narm()}}.}
+
+\item{if_all_na}{what to do if \code{na.rm = TRUE} and \emph{all} values in a row
+are \code{NA}. \code{"empty"}, the default, returns an empty string. \code{"NA"} returns
+\code{NA}. Ignored if \code{na.rm = FALSE}.}
 }
 \value{
-A character vector of concatenated strings, one per row of the input data frame.
+A character vector.
 }
 \description{
 This function performs a tidyverse-friendly string concatenation. It takes a data frame or tibble and a selection of columns, concatenates the string values in each row, and returns the concatenated strings as a vector.
-}
-\details{
-This function is designed to work seamlessly with tidyverse pipelines. It takes a data frame or tibble as input, and uses tidyselect semantics to choose the columns to concatenate. The resulting concatenated strings are returned as a vector, which can be easily added to the data frame using \code{dplyr::mutate()}.
-
-If \code{na.rm = TRUE}, the function will remove missing values before concatenation. It does this by temporarily replacing \code{NA} with a placeholder string, concatenating, and then removing the placeholder and any trailing separators.
 }
 \examples{
 df <- tibble::tribble(

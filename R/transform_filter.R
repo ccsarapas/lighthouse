@@ -86,22 +86,50 @@ fct_case_when <- function(..., .ordered = FALSE) {
   factor(dplyr::case_when(...), levels = levels, ordered = .ordered)
 }
 
-
-#'  Swap column values based on condition
+#' Swap column values, optionally based on condition
 #'
-#'  Swaps values between two columns if condition is met. Based on Hadley's code
-#'  at: https://github.com/tidyverse/dplyr/issues/2149#issuecomment-258916706
+#' `swap()` swaps values between two columns. `swap_if()` swaps values only in rows where a condition is met. `x` and `y` will be cast to a common type using `vctrs::vec_cast_common()`.
+#'
+#' @param x column to swap with `y`.
+#' @param y column to swap with `x`.
+#' @param cond a logical vector.
+#' @param missing what to do if `cond` is `NA`.
+#'   - `"NA"` replaces both `x` and `y` with `NA`.
+#'   - `"keep"` keeps values in their original columns (as though `cond` were `FALSE`).
+#'   - `"swap"` swaps values between `x` and `y` (as though `cond` were `TRUE`).
+#'
+#' @references
+#' Based on Hadley's code in a \href{https://github.com/tidyverse/dplyr/issues/2149#issuecomment-258916706}{this dplyr GitHub issue}.
 #'
 #' @export
-swap_if <- function(.data, cond, x, y) {
-  .data %>%
-    dplyr::mutate(
-      out_x = dplyr::if_else({{cond}}, {{y}}, {{x}}),
-      out_y = dplyr::if_else({{cond}}, {{x}}, {{y}}),
-      {{x}} := out_x,
-      {{y}} := out_y
-    ) %>%
-    dplyr::select(!out_x:out_y)
+swap <- function(.data, x, y) {
+  dplyr::mutate(
+    .data,
+    ..out_x.. = {{y}},
+    {{y}} := {{x}},
+    {{x}} := ..out_x..,
+    ..out_x.. = NULL
+  )
+}
+#' @rdname swap
+#' @export
+swap_if <- function(.data, cond, x, y, missing = c("NA", "keep", "swap")) {
+  missing <- match.arg(missing)
+  cond_fx <- switch(
+    missing,
+    `NA` = identity,
+    keep = is_TRUE,
+    swap = is_TRUE_or_NA
+  )
+  dplyr::mutate(
+    .data,
+    ..out_x.. = dplyr::if_else(cond_fx({{cond}}), {{y}}, {{x}}),
+    ..out_y.. = dplyr::if_else(cond_fx({{cond}}), {{x}}, {{y}}),
+    {{x}} := ..out_x..,
+    {{y}} := ..out_y..,
+    ..out_x.. = NULL,
+    ..out_y.. = NULL
+  )
 }
 
 

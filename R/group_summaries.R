@@ -7,11 +7,11 @@
 #' @param .data A data frame or data frame extension (e.g. a tibble).
 #'
 #' @param ... Functions to apply to each variable specified in `.vars`, as
-#' function names (e.g., `mean`) or purrr-style lambdas (e.g.,
-#' `~ mean(.x, na.rm = TRUE)`). Each function passed to `...` will yield one
+#' function names (e.g., `mean`) or anonymous functions (e.g.,
+#' `\(x) mean(x, na.rm = TRUE)`). Each function passed to `...` will yield one
 #' column in the output table (or one column per group if `.cols_group_by` is
 #' specified). Output column names can optionally be specified. E.g.,
-#' `m = mean, sd, sem = ~ sd(.x) / sqrt(n())` yields output columns named `m`,
+#' `m = mean, sd, sem = \(x) sd(x) / sqrt(n())` yields output columns named `m`,
 #' `sd`, and `sem`.
 #'
 #' @param .vars <[`tidy-select`][dplyr_tidy_select]> Columns in `.data` to
@@ -44,14 +44,14 @@
 #' # for "n", "m", and "weight".
 #' mtcars2 %>%
 #'   summary_table(
-#'     n = ~ sum(!is.na(.x)), m = mean, sd,
+#'     n = n_valid, m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt)
 #'   )
 #'
 #' # with column and row groupings
 #' mtcars2 %>%
 #'   summary_table(
-#'     n = ~ sum(!is.na(.x)), m = mean, sd,
+#'     n = n_valid, m = mean, sd,
 #'     .vars = c(mpg, hp, weight = wt),
 #'     .cols_group_by = cyl,
 #'     .rows_group_by = Transmission
@@ -61,7 +61,7 @@
 #' # variable is included in `.vars`
 #' mtcars2 %>%
 #'  summary_table(
-#'    n = ~ sum(!is.na(.x)), m = mean, sd,
+#'    n = n_valid, m = mean, sd,
 #'    .vars = mpg,
 #'    .cols_group_by = cyl,
 #'    .rows_group_by = Transmission,
@@ -487,4 +487,64 @@ df_compare <- function(x, y, suffix = c(".x", ".y"), keep = NULL) {
     keep,
     stringr::str_c(rep(cols_diff, each = 2), rep(suffix, length(cols_diff)))
   )]
+}
+
+#' Add "Total" group to grouped dataframe
+#'
+#' @description
+#' Groups a dataframe by columns specified in `...` using `dplyr::group_by()`,
+#' and adds an additional group containing all observations. Useful for
+#' including a "total" or "overall" row in summaries.
+#'
+#' If more than one column is passed to `...`, the "total" group will combine
+#' all groups in the first column passed, unless a different column is specified
+#' in `.totals_for`.
+#'
+#' Removing or changing the grouping structure after calling
+#' `group_with_total()` but before aggregating may yield inaccurate results.
+#'
+#' @examples
+#' ggplot2::mpg %>%
+#'   group_with_total(class) %>%
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
+#'
+#' ggplot2::mpg %>%
+#'   group_with_total(year, drv, .label = "all years") %>%
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
+#'
+#' ggplot2::mpg %>%
+#'   group_with_total(year, drv, .totals_for = drv) %>%
+#'   dplyr::summarize(n = dplyr::n(), cty = mean(cty), hwy = mean(hwy))
+#'
+#' @export
+group_with_total <- function(.data,
+                             ...,
+                             .totals_for = NULL,
+                             .label = "Total",
+                             .add = FALSE,
+                             .drop = dplyr::group_by_drop_default(.data),
+                             .first_row = FALSE) {
+  vars <- rlang::enquos(...)
+  .totals_for <- rlang::enquo(.totals_for)
+  .totals_for <- if (rlang::quo_is_null(.totals_for)) vars[[1]] else .totals_for
+  .data <- dplyr::mutate(
+    .data,
+    !!.totals_for := forcats::fct_expand(factor(!!.totals_for), .label)
+  )
+  if (.first_row) {
+    .data <- dplyr::mutate(
+      .data,
+      !!.totals_for := forcats::fct_relevel(!!.totals_for, .label)
+    )
+  }
+  totals <- dplyr::mutate(.data, !!.totals_for := factor(
+    .label,
+    levels = levels(!!.totals_for)
+  ))
+  dplyr::group_by(
+    dplyr::bind_rows(.data, totals),
+    ...,
+    .add = .add,
+    .drop = .drop
+  )
 }

@@ -175,21 +175,22 @@ str_c_narm <- function(...,
   stringr::str_c(out, collapse = collapse)
 }
 
+
 #' Tidy string concatenation
 #'
 #' This function performs a tidyverse-friendly string concatenation. It takes a data frame or tibble and a selection of columns, concatenates the string values in each row, and returns the concatenated strings as a vector.
 #'
-#' @param .cols Columns to concatenate. Can be specified using tidyselect semantics.
-#' @param sep Separator to use between concatenated values. Defaults to "".
-#' @param collapse Untested, may give unpredictable results.
-#' @param na.rm If `TRUE`, missing values will be removed prior to concatenation. Defaults to `FALSE`.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> tidyselect expression indicating character columns vectors or columns coercible to character.
+#' @param sep separator to insert between input vectors.
+#' @param collapse optional character string to combine results into a single string.
+#' @param na.rm logical. Remove missing values before concatenating? Treatment
+#'   of `NA`s is similar to [`str_c_narm()`] and differs from behavior of
+#'   `paste()` and `stringr::str_c()`. See Details of [`str_c_narm()`].
+#' @param if_all_na what to do if `na.rm = TRUE` and \emph{all} values in a row
+#'   are `NA`. `"empty"`, the default, returns an empty string. `"NA"` returns
+#'   `NA`. Ignored if `na.rm = FALSE`.
 #'
-#' @return A character vector of concatenated strings, one per row of the input data frame.
-#'
-#' @details
-#' This function is designed to work seamlessly with tidyverse pipelines. It takes a data frame or tibble as input, and uses tidyselect semantics to choose the columns to concatenate. The resulting concatenated strings are returned as a vector, which can be easily added to the data frame using `dplyr::mutate()`.
-#'
-#' If `na.rm = TRUE`, the function will remove missing values before concatenation. It does this by temporarily replacing `NA` with a placeholder string, concatenating, and then removing the placeholder and any trailing separators.
+#' @return A character vector.
 #'
 #' @seealso{
 #' \code{\link{str_c_narm}}
@@ -207,42 +208,28 @@ str_c_narm <- function(...,
 #' df %>% dplyr::mutate(combined = str_c_tidy(x:z, na.rm = TRUE))
 #'
 #' @export
-str_c_tidy <- function(.cols, sep = "", collapse = NULL, na.rm = FALSE) {
-  # haven't tested with `collapse` arg, no idea how it would behave
-  if (!is.null(collapse)) {
-    warning(
-      "The `collapse` argument is untested and may give unpredictable results."
+str_c_tidy <- function(...,
+                       sep = "",
+                       collapse = NULL,
+                       na.rm = FALSE,
+                       if_all_na = c("empty", "NA")) {
+  if (na.rm) {
+    if_all_na <- match.arg(if_all_na)
+    str_c_narm(
+      dplyr::pick(...),
+      sep = sep,
+      collapse = collapse,
+      if_all_na = if_all_na
+    )
+  } else {
+    do.call(
+      stringr::str_c,
+      c(as.list(dplyr::pick(...)),
+        list(sep = sep, collapse = collapse))
     )
   }
-  out <- dplyr::pick(tidyselect::everything())
-  if (na.rm) {
-    sep_out <- sep
-    sep <- "__SEP__"
-    out <- dplyr::mutate(out, dplyr::across(
-      {{ .cols }},
-      \(x) dplyr::if_else(
-        dplyr::if_all({{ .cols }}, is.na),
-        NA_character_,
-        stringr::str_replace_na(x, "__NA__")
-      )
-    ))
-  }
-  out <- out %>%
-    dplyr::mutate(joined = stringr::str_c(
-      !!!untidyselect(out, {{ .cols }}, syms = TRUE),
-      sep = sep,
-      collapse = collapse
-    )) %>%
-    dplyr::pull(joined)
-  if (na.rm) {
-    out <- stringr::str_replace_all(out, c(
-      "__SEP____NA__" = "",
-      "__NA__(__SEP__)?" = "",
-      "__SEP__" = sep_out
-    ))
-  }
-  out
 }
+
 
 #' Collapse a character vector into a single string
 #'

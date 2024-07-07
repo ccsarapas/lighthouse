@@ -157,13 +157,13 @@ add_plot_slide <- function(pptx,
 #'
 #' @export
 write_xlsx_styled <- function(x, file, asTable = FALSE, overwrite = TRUE, ...) {
-  chk_pkg("openxlsx")
+  rlang::check_installed("openxlsx")
   openxlsx::write.xlsx(
     x,
     file,
     asTable,
     overwrite,
-    headerStyle = createStyle(textDecoration = "bold"),
+    headerStyle = openxlsx::createStyle(textDecoration = "bold"),
     firstRow = TRUE,
     colWidths = "auto",
     ...

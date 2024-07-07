@@ -353,21 +353,20 @@ asterisks <- function(p,
     }
     marks <- defaults
   }
-  purrr::iwalk(marks, ~ assign(.y, .x, pos = 1))
   if (!trends) {
     if(missing(levels)) levels <- levels[2:4]
-    names(levels) <- strrep(sig, seq_along(levels))
+    names(levels) <- strrep(marks[["sig"]], seq_along(levels))
   } else {
-    names(levels) <- strrep(sig, seq_along(levels) - 1)
-    names(levels)[[1]] <- trend
+    names(levels) <- strrep(marks[["sig"]], seq_along(levels) - 1)
+    names(levels)[[1]] <- marks[["trend"]]
   }
   levels <- rev(levels)
-  if (is.na(ns)) {
+  if (is.na(marks[["ns"]])) {
     breaks <- c(-Inf, levels)
     labels <- names(levels)
   } else {
     breaks <- c(-Inf, levels, Inf)
-    labels <- c(names(levels), ns)
+    labels <- c(names(levels), marks[["ns"]])
   }
   out <- cut(p, breaks = breaks, labels = labels, right = FALSE)
   if (include_key) attr(out, "key") <- levels

@@ -11,6 +11,7 @@
     * `pad_vectors()` pads a list of vectors with `NA`s to a common length.
 * Variable transformation:
     * `fct_collapse_alt()` is a variant of `forcats::fct_collapse()` with options to handle non-existent values and level ordering.
+    * `swap()` swaps values between two columns; it is an unconditional variant of `swap_if()`.
     * `fct_na_if()` is a variant of `dplyr::na_if()` that also removes the specified value from a factor's levels.
 * For working with missing values:
     * `drop_na_rows()` drops rows where all columns or a specific subset of columns are all `NA`.
@@ -51,6 +52,7 @@
 * `count_pct()` and `count_multiple()` now support the `.by` argument for per-operation grouping. Integration into other `count_*()` functions is planned for a future update.
 * In `summary_table()`, the column of variable names can be dropped when only one variable is included by setting `.var_col_name = NULL` (#9). 
 * `count_duplicates()` now returns both the unique and total number of duplicated values. (e.g., `c(2, 2, 4, 4)` has two unique and four total values.)
+* Added a `missing` argument to `swap_if()` with options for cases where the condition is missing.
 * Added `warn_factor` argument to `try_numeric()`
 
 ## Bug fixes:
@@ -67,12 +69,12 @@
 ## Lifecycle changes:
 * `rbool()` has been *un*-deprecated. It was previously deprecated in favor of `purrr::rbernoulli()`, but `purrr::rbernoulli()` has since been deprecated itself.
 * `pivot_wider_alt()` is defunct. Changes to `tidyr::pivot_wider()` made its most important functionality unnecessary. Further changes to tidyr broke it, and it was judged not worth the effort of fixing.
-* `na_like()` and `median_dbl()` are deprecated. They are no longer needed given more flexible handling of mixed classes by `dplyr::if_else()` and `dplyr::case_when()` as of [dplyr v1.1.0][https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0}]. (Plus `na_like()` was quite buggy and unreliable; resolves #2).
+* `na_like()` and `median_dbl()` are deprecated. They are no longer needed given more flexible handling of mixed classes by `dplyr::if_else()` and `dplyr::case_when()` as of [dplyr v1.1.0][https://dplyr.tidyverse.org/news/index.html#vctrs-1-1-0]. (Plus `na_like()` was quite buggy and unreliable; resolves #2).
 * `row_sums_spss()` deprecated in favor of `row_sums_across()`.
 * `safe_min()` and `safe_max()` renamed to `min_if_any()` and `max_if_any()`; the old names are deprecated.
 * `se()` renamed to `se_mean()`; the old name is deprecated.
 
-    
+
 # lighthouse 0.6.0
 * New functions:
     * Grouping and summary functions:
@@ -122,12 +124,18 @@ Chestnut Health Systems (holidays_chestnut`) holidays (primarily for use with
 * Bugfixes for `in_excel()`, `count_na()`, `summary_table()`,
 `pivot_wider_alt()`, `print_all()`, `asterisks()`, and `coerce_na_range()`
 * Remove check for `lighthouse` updates on load
+
+
 # lighthouse 0.5.0
 * Check if `lighthouse` update is available on load
 * New infix operators: `%all_in%`, `%any_in%`
 * Exported `na_like()`
+
+
 # lighthouse 0.4.1
 * Bugfix for `print_all()`
+
+
 # lighthouse 0.4.0
 * New logical tests: `is_TRUE()`, `is_FALSE()`, `is_TRUE_or_NA()`,
 `is_FALSE_or_NA()`, `is_coercible_numeric()`

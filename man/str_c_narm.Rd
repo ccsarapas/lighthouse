@@ -95,6 +95,10 @@ In contrast, \code{str_c_narm()} removes \code{NAs} from each row before concate
 3 c1    c2    NA    c1 | c2
 4 NA    NA    NA    NA
 }
+
+#' @seealso{
+\code{\link{str_c_tidy}}
+}
 }
 \examples{
 str_c_narm(c("a", NA), c("b", "c"), sep = "_")
