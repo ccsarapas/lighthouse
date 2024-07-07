@@ -7,28 +7,22 @@
 count_unique(.data, ..., name = "n_unique", na.rm = FALSE)
 }
 \arguments{
-\item{.data}{A data frame.}
+\item{.data}{a data frame.}
 
-\item{...}{Columns to count unique values across.}
+\item{...}{columns to count unique values across.}
 
-\item{name}{The name to give the unique count column. Default: \verb{\\"n_unique\\"}.}
+\item{name}{name to give the unique count column.}
 
-\item{na.rm}{If \code{TRUE}, \code{NA} values are excluded from the unique count. Default: \code{FALSE}.}
-}
-\value{
-A single-row data frame with a column containing the number of unique values across the specified columns.
+\item{na.rm}{exclude \code{NA}s from counts?}
 }
 \description{
 This variant of \code{\link[dplyr:count]{dplyr::count()}} returns the number of unique values across a set of columns in a data frame.
 }
 \examples{
-mtcars |>
+mtcars \%>\%
   count_unique(cyl, gear)
 
-mtcars |>
-  count_unique(cyl, gear, carb, name = \"unique_combos\")
-
-mtcars |>
-  count_unique(cyl, gear, carb, na.rm = TRUE)
+mtcars \%>\%
+  count_unique(cyl, gear, carb, name = "unique_combos")
 
 }

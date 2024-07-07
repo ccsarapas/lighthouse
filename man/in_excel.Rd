@@ -17,9 +17,3 @@ in_excel(df, name, na = "")
 Saves dataframe as .csv in R temp directory, then opens in Excel. The .csv
 will have a randomly-generated name unless otherwise specified in \code{name}.
 }
-\examples{
-\\dontrun{
-  iris |> in_excel()
-  mtcars |> in_excel(\"mtcars_data\")
-}
-}

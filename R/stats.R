@@ -157,21 +157,21 @@ reverse_key <- function(x,
 #'
 #' This function calculates row sums for selected columns using tidyselect expressions. Unlike `rowSums`, it returns `NA` rather than `0` when `na.rm = TRUE` and all selected columns are `NA`.
 #'
-#' @param cols A tidyselect expression specifying the columns to sum.
-#' @param na.rm If `TRUE`, missing values will be removed before computation proceeds.
-#'
-#' @return A numeric vector of row sums. Returns `NA` if `na.rm = TRUE` and all selected columns are `NA`.
+#' @param cols <[`tidy-select`][dplyr_tidy_select]> columns to sum across.
+#' @param na.rm Should missing values (including `NaN`) be removed?
 #'
 #' @examples
-#' df <- tibble(
-#'   x = c(1, 2, NA),
-#'   y = c(4, NA, 6),
-#'   z = c(7, 8, 9)
+#' df <- tibble::tibble(
+#'   x = c(1, 2, NA, NA),
+#'   y = c(5, NA, 7, NA),
+#'   z = c(9, 10, 11, NA)
 #' )
 #'
-#' df %>% mutate(row_sum = row_sums_across(c(x, y)))
-#' df %>% mutate(row_sum = row_sums_across(starts_with("x")))
-#' df %>% mutate(row_sum = row_sums_across(everything(), na.rm = TRUE))
+#' df %>%
+#'   dplyr::mutate(
+#'     row_sums = row_sums_across(x:z),
+#'     row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
+#'   )
 #'
 #' @export
 row_sums_across <- function(cols, na.rm = FALSE) {

@@ -72,7 +72,7 @@
       stop("Invalid component in right-hand side")
     }
   }
-  envr <- caller_env()
+  envr <- rlang::caller_env()
   rhs <- rlang::enexpr(rhs)
   if (is.call(rhs) && rhs[[1]] == rlang::expr(c)) {
     rhs <- purrr::map_chr(rhs[-1], char_if_valid)

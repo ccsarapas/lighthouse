@@ -37,7 +37,7 @@ nth_bizday <- function (x,
                         n,
                         include_today = FALSE,
                         holidays = c("Chestnut", "Illinois", "federal")) {
-  bizdays <- lighthouse:::business_days[[match.arg(holidays)]]
+  bizdays <- business_days[[match.arg(holidays)]]
   inrange <- dplyr::between(x, attr(bizdays, "start"), attr(bizdays,
                                                             "end"))
   if (!rlang::is_scalar_integerish(n)) {
@@ -109,7 +109,7 @@ floor_days <- function(x,
 days_diff <- function (d1, d2, warn = TRUE) {
   if (xor(lubridate::is.POSIXt(d1), lubridate::is.POSIXt(d2))) {
     if (warn) warning("Datetime converted to Date to compute days difference")
-    if (is.POSIXct(d1)) d1 <- as.Date(d1)
+    if (lubridate::is.POSIXct(d1)) d1 <- as.Date(d1)
     else d2 <- as.Date(d2)
   }
   as.numeric(d2 - d1, unit = "days")

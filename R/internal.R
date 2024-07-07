@@ -1,19 +1,3 @@
-check_pkg <- function(pkg) {
-  if (!all(sapply(pkg, requireNamespace, quietly = TRUE))) {
-    pkg <- switch(
-      min(length(pkg), 3),
-      paste0('"', pkg, '" package'),
-      paste0(paste0('"', pkg, '"', collapse = ' and '), ' packages'),
-      paste0(
-        paste0('"', pkg[-length(pkg)], '," ', collapse = ''),
-        'and "', pkg[[length(pkg)]], '" packages'
-      )
-    )
-    caller <- deparse(sys.call(-1)[[1]])
-    stop(pkg, ' must be installed to use `', caller, '`.', call. = FALSE)
-  }
-}
-
 named_fn_list <- function(...) {
   .fn_default_names <- purrr::map_chr(rlang::quos(...), rlang::as_label)
   .fns <- list(...)

@@ -178,7 +178,7 @@ count_pct <- function(.data,
 #' # grouping w `group_by()`: counts and % nested within groups, output is grouped
 #' ggplot2::mpg %>%
 #'   dplyr::group_by(year) %>%
-#'   count_multiple(year, drv, cyl)
+#'   count_multiple(drv, cyl)
 #'
 #' # grouping w `.by`: counts and % nested within groups, output isn't grouped
 #' ggplot2::mpg %>%
@@ -295,22 +295,17 @@ count_duplicates <- function(.data, ..., na.rm = FALSE) {
 #'
 #' This variant of [dplyr::count()] returns the number of unique values across a set of columns in a data frame.
 #'
-#' @param .data A data frame.
-#' @param ... Columns to count unique values across.
-#' @param name The name to give the unique count column. Default: `\"n_unique\"`.
-#' @param na.rm If `TRUE`, `NA` values are excluded from the unique count. Default: `FALSE`.
-#'
-#' @return A single-row data frame with a column containing the number of unique values across the specified columns.
+#' @param .data a data frame.
+#' @param ... columns to count unique values across.
+#' @param name name to give the unique count column.
+#' @param na.rm exclude `NA`s from counts?
 #'
 #' @examples
-#' mtcars |>
+#' mtcars %>%
 #'   count_unique(cyl, gear)
 #'
-#' mtcars |>
-#'   count_unique(cyl, gear, carb, name = \"unique_combos\")
-#'
-#' mtcars |>
-#'   count_unique(cyl, gear, carb, na.rm = TRUE)
+#' mtcars %>%
+#'   count_unique(cyl, gear, carb, name = "unique_combos")
 #'
 #' @export
 count_unique <- function(.data, ..., name = "n_unique", na.rm = FALSE) {

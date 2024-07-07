@@ -126,7 +126,7 @@ glue_chr <- function(...) {
 #' 4 NA    NA    NA    NA
 #' }
 #'
-#' #' @seealso{
+#' @seealso{
 #' \code{\link{str_c_tidy}}
 #' }
 #'

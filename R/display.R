@@ -7,11 +7,6 @@
 #' @param name (Optional) The name to use for the .csv file. If not provided, a random name will be generated.
 #' @param na (Optional) The string to use for missing values in the .csv file. Defaults to an empty string.
 #'
-#' @examples
-#' \\dontrun{
-#'   iris |> in_excel()
-#'   mtcars |> in_excel(\"mtcars_data\")
-#' }
 #' @export
 in_excel <- function (df, name, na = "") {
   csv_dir <- file.path(tempdir(), "csv")

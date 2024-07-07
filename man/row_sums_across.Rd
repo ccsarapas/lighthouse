@@ -7,25 +7,24 @@
 row_sums_across(cols, na.rm = FALSE)
 }
 \arguments{
-\item{cols}{A tidyselect expression specifying the columns to sum.}
+\item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> columns to sum across.}
 
-\item{na.rm}{If \code{TRUE}, missing values will be removed before computation proceeds.}
-}
-\value{
-A numeric vector of row sums. Returns \code{NA} if \code{na.rm = TRUE} and all selected columns are \code{NA}.
+\item{na.rm}{Should missing values (including \code{NaN}) be removed?}
 }
 \description{
 This function calculates row sums for selected columns using tidyselect expressions. Unlike \code{rowSums}, it returns \code{NA} rather than \code{0} when \code{na.rm = TRUE} and all selected columns are \code{NA}.
 }
 \examples{
-df <- tibble(
-  x = c(1, 2, NA),
-  y = c(4, NA, 6),
-  z = c(7, 8, 9)
+df <- tibble::tibble(
+  x = c(1, 2, NA, NA),
+  y = c(5, NA, 7, NA),
+  z = c(9, 10, 11, NA)
 )
 
-df \%>\% mutate(row_sum = row_sums_across(c(x, y)))
-df \%>\% mutate(row_sum = row_sums_across(starts_with("x")))
-df \%>\% mutate(row_sum = row_sums_across(everything(), na.rm = TRUE))
+df \%>\%
+  dplyr::mutate(
+    row_sums = row_sums_across(x:z),
+    row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
+  )
 
 }

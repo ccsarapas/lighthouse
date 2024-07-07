@@ -213,7 +213,7 @@ coerce_na_range <- na_if_range
 #' - `last_valid`: The last non-`NA` value in `x`.
 #'
 #' @seealso{
-#' \code{\link[dplyr]{nth()}}
+#' \code{\link[dplyr]{nth}}
 #' }
 #'
 #' @examples

@@ -60,7 +60,7 @@ ggplot2::mpg \%>\%
 # grouping w `group_by()`: counts and \% nested within groups, output is grouped
 ggplot2::mpg \%>\%
   dplyr::group_by(year) \%>\%
-  count_multiple(year, drv, cyl)
+  count_multiple(drv, cyl)
 
 # grouping w `.by`: counts and \% nested within groups, output isn't grouped
 ggplot2::mpg \%>\%

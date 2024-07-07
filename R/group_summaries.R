@@ -87,7 +87,7 @@ summary_table <- function(.data,
                           .cols_group_by = NULL,
                           .cols_group_opts = list(),
                           .var_col_name = "Variable") {
-  .fns <- lighthouse:::named_fn_list(...)
+  .fns <- named_fn_list(...)
   if (is.null(.var_col_name)) {
     if (length(untidyselect(.data, {{ .vars }})) > 1) {
       stop("`.var_col_name` may not be `NULL` if more than one variable is specified in `.vars`.")
