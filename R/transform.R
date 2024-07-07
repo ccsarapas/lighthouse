@@ -33,47 +33,6 @@ fct_reorder_n <- function(.f, ..., .desc = FALSE) {
   forcats::lvls_reorder(.f, idx = idx[!duplicated(idx) & !is.na(idx)])
 }
 
-
-#' Filter by and drop factor levels simultaneously
-#'
-#' Filters dataframe by specified levels of `.fct`, then drops filtered levels
-#' from `.fct`.
-#'
-#' @export
-fct_filter <- function(.data, .fct, .keep = NULL, .drop = NULL) {
-  if (!xor(is.null(.keep), is.null(.drop))) {
-    stop("Must specify either .keep or .drop (not both).")
-  } else if (!is.null(.keep)) {
-    .data %>%
-      dplyr::filter({{.fct}} %in% .keep) %>%
-      dplyr::mutate({{.fct}} := forcats::fct_drop({{.fct}}))
-  } else {
-    # should rewrite this to drop only levels in .drop
-    .data %>%
-      dplyr::filter(!({{.fct}} %in% .drop)) %>%
-      dplyr::mutate({{.fct}} := forcats::fct_drop({{.fct}}))
-  }
-}
-
-#' Filter by and drop a column simultaneously
-#'
-#' Filters dataframe by specified values of `.col`, then drops `.col`.
-#'
-#' @export
-filter_drop <- function(.data, .col, .keep = NULL, .drop = NULL) {
-  if (!xor(is.null(.keep), is.null(.drop))) {
-    stop("Must specify either .keep or .drop (not both).")
-  } else if (!is.null(.keep)) {
-    .data %>%
-      dplyr::filter({{.col}} %in% .keep) %>%
-      dplyr::select(!{{.col}})
-  } else {
-    .data %>%
-      dplyr::filter(!({{.col}} %in% .drop)) %>%
-      dplyr::select(!{{.col}})
-  }
-}
-
 #' Results of case_when() as factor.
 #'
 #' Wrapper for [`dplyr::case_when()`][case_when], but result is a factor with

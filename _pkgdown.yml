@@ -7,126 +7,176 @@ footer:
     left: package
     right: built_with
 reference:
-- title: Infix operators
-  contents:
-  - '`%->%`'
-  - '`%<-%`'
-  - '`%!in%`'
-  - '`%all_in%`'
-  - '`%any_in%`'
+- title: Count functions
+	contents:
+	- count_duplicates
+	- count_multiple
+	- count_na
+	- count_pct
+	- count_unique
+	- count_with_total
+	- crosstab
 - title: Grouping and summary functions
-  contents:
-  - cols_info
-  - count_duplicates
-  - count_multiple
-  - count_na
-  - count_pct
-  - count_unique
-  - count_with_total
-  - crosstab
-  - group_with_total
-  - summary_table
-- title: Statistical functions
-  contents:
-  - accuracy_stats
-  - asterisks
-  - cohen_w
-  - cumsum_desc
-  - d_to_OR
-  - OR_to_d
-  - p_to_OR
-  - median_dbl
-  - pmax_across
-  - pmin_across
-  - reverse_key
-  - row_sums_spss
-  - safe_max
-  - safe_min
-  - scale_mad
-  - scale_vec
-  - se
-  - winsorize
-  - wkappa
+	contents:
+	- cols_info
+	- df_compare
+	- group_with_total
+	- summary_report
+	- summary_table
+- title: Data transformation
+	contents:
+	- fct_case_when
+	- fct_collapse_alt
+	- fct_reorder_n
+	- swap
+	- swap_if
+	- try.numeric
+	- try_numeric
 - title: Data restructuring
-  contents:
-  - add_empty_rows
-  - add_header
-  - group_split_named
-  - pivot_wider_alt
-  - reorder_dendro_by_label
-  - rev_rows
-  - t_tibble
+	contents:
+	- add_empty_rows
+	- add_header
+	- add_rows_at_value
+	- fct_filter
+	- filter_drop
+	- group_split_named
+	- pad_vectors
+	- pivot_wider_alt
+	- reorder_dendro_by_label
+	- rev_rows
+	- t_tibble
 - title: Working with missing values
-  contents:
-  - coerce_na_range
-  - discard_na
-  - drop_na_cols
-  - find_na_cols
-  - is_valid
-  - n_pct_valid
-  - n_valid
-  - na_like
-  - na_to_null
-  - null_to_na
-  - pct_valid
+	contents:
+	- discard_na
+	- drop_na_cols
+	- drop_na_rows
+	- fct_na_if
+	- find_na_cols
+	- first_valid
+	- is_valid
+	- last_valid
+	- n_pct_valid
+	- n_valid
+	- na_if_range
+	- na_if_range.character
+	- na_if_range.factor
+	- na_if_range.labelled
+	- na_if_range.numeric
+	- na_to_null
+	- nth_valid
+	- null_to_na
+	- pct_valid
 - title: Working with dates
-  contents:
-  - datetimes_to_date
-  - days_diff
-  - floor_days
-  - floor_month
-  - floor_week
-  - next_bizday
+	contents:
+	- datetimes_to_date
+	- ffy
+	- fiscal_year
+	- floor_days
+	- floor_month
+	- floor_week
+	- next_bizday
+	- sfy_il
+	- strftime_no_lead
 - title: Working with character vectors
-  contents:
-  - glue_chr
-  - str_collapse
-  - str_detect_any
-  - str_prefix
-  - str_starts_any
-  - str_suffix
+	contents:
+	- glue_chr
+	- str_c_narm
+	- str_c_tidy
+	- str_collapse
+	- str_detect_any
+	- str_ends_any
+	- str_prefix
+	- str_starts_any
+	- str_suffix
+	- syms_to_chr
+- title: Working with service cascades
+	contents:
+	- cascade_fill_bwd
+	- cascade_fill_fwd
+	- cascade_summarize
+- title: Statistical functions
+	contents:
+	- OR_to_d
+	- OR_to_p1
+	- OR_to_p2
+	- accuracy_stats
+	- asterisks
+	- ci_sig
+	- cohen_w
+	- cumsum_desc
+	- d_to_OR
+	- dunn_test
+	- max_if_any
+	- min_if_any
+	- pmax_across
+	- pmin_across
+	- reverse_key
+	- row_sums_across
+	- scale_mad
+	- scale_vec
+	- se_mean
+	- se_prop
+	- sum_if_any
+	- winsorize
+	- wkappa
 - title: Logical tests
-  contents:
-  - is_coercible_integer
-  - is_coercible_logical
-  - is_coercible_numeric
-  - is_duplicate
-  - is_FALSE
-  - is_FALSE_or_NA
-  - is_TRUE
-  - is_TRUE_or_NA
-  - is_spss
-  - is_valid
-- title: Data transformation and filtering
-  contents:
-  - fct_filter
-  - filter_drop
-  - fct_case_when
-  - fct_reorder_n
-  - reverse_key
-  - scale_mad
-  - scale_vec
-  - swap_if
-  - try_numeric
-  - winsorize
+	contents:
+	- eq_shape
+	- is_FALSE
+	- is_FALSE_or_NA
+	- is_TRUE
+	- is_TRUE_or_NA
+	- is_coercible_integer
+	- is_coercible_logical
+	- is_coercible_numeric
+	- is_duplicate
+	- is_spss
+	- rbool
 - title: Displaying output
-  contents:
-  - in_excel
-  - print_all
-  - print_n
-  - ggview
-- title: Holiday dates
-  contents:
-  - holidays_chestnut
-  - holidays_il
-  - holidays_us
+	contents:
+	- add_plot_slide
+	- print_all
+	- print_n
+	- write_xlsx_styled
+- title: Data visualization helpers
+	contents:
+	- add_crossings
+	- after_opacity
+	- before_opacity
+	- set_ggplot_opts
+- title: Infix operators
+	contents:
+	- `%!in%`
+	- `%->%`
+	- `%<-%`
+	- `%all_in%`
+	- `%any_in%`
 - title: Miscellany
-  contents:
-  - gain_ss_score
-  - set_ggplot_opts
-  - untidyselect
-  - zap_everything
+	contents:
+	- gain_ss_score
+	- open_file
+	- open_location
+	- set_compare
+	- suppress_messages_if
+	- suppress_warnings_if
+	- untidyselect
+	- zap_everything
+- title: Datasets
+	contents:
+	- gain_missing_codes
+	- holidays_chestnut
+	- holidays_il
+	- holidays_us
+	- state.terr.abb
+	- state.terr.data
+	- state.terr.name
 - title: Deprecated
-  contents:
-  - get_col_types
-  - rbool
+	contents:
+	- get_col_types
+	- ggview
+	- median_dbl
+	- na_like
+	- row_sums_spss
+	- safe_max
+	- safe_min
+	- se
