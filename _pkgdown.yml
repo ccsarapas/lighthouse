@@ -7,126 +7,178 @@ footer:
     left: package
     right: built_with
 reference:
-- title: Infix operators
+- title: Count functions
   contents:
-  - '`%->%`'
-  - '`%<-%`'
-  - '`%!in%`'
-  - '`%all_in%`'
-  - '`%any_in%`'
+  - count_pct
+  - count_multiple
+  - count_with_total
+  - count_duplicates
+  - count_unique
+  - count_na
+  - crosstab
 - title: Grouping and summary functions
   contents:
-  - cols_info
-  - count_duplicates
-  - count_multiple
-  - count_na
-  - count_pct
-  - count_unique
-  - count_with_total
-  - crosstab
-  - group_with_total
+  - summary_report
   - summary_table
-- title: Statistical functions
+  - cols_info
+  - df_compare
+  - group_with_total
+- title: Data transformation
   contents:
-  - accuracy_stats
-  - asterisks
-  - cohen_w
-  - cumsum_desc
-  - d_to_OR
-  - OR_to_d
-  - p_to_OR
-  - median_dbl
-  - pmax_across
-  - pmin_across
+  - fct_case_when
+  - fct_collapse_alt
+  - fct_reorder_n
   - reverse_key
-  - row_sums_spss
-  - safe_max
-  - safe_min
   - scale_mad
   - scale_vec
-  - se
+  - swap
+  - swap_if
+  - try_numeric
   - winsorize
-  - wkappa
 - title: Data restructuring
   contents:
-  - add_empty_rows
   - add_header
+  - add_empty_rows
+  - add_rows_at_value
+  - rev_rows
+  - fct_filter
+  - filter_drop
   - group_split_named
+  - pad_vectors
   - pivot_wider_alt
   - reorder_dendro_by_label
-  - rev_rows
   - t_tibble
 - title: Working with missing values
   contents:
-  - coerce_na_range
+  - count_na
   - discard_na
   - drop_na_cols
+  - drop_na_rows
+  - fct_na_if
   - find_na_cols
+  - first_valid
   - is_valid
+  - last_valid
   - n_pct_valid
   - n_valid
-  - na_like
+  - na_if_range
   - na_to_null
+  - nth_valid
   - null_to_na
   - pct_valid
 - title: Working with dates
   contents:
   - datetimes_to_date
   - days_diff
+  - ffy
+  - fiscal_year
   - floor_days
   - floor_month
   - floor_week
   - next_bizday
+  - nth_bizday
+  - sfy_il
+  - strftime_no_lead
 - title: Working with character vectors
   contents:
   - glue_chr
+  - str_c_narm
+  - str_c_tidy
   - str_collapse
   - str_detect_any
+  - str_ends_any
   - str_prefix
   - str_starts_any
   - str_suffix
+  - syms_to_chr
+- title: Statistical functions
+  contents:
+  - se_mean
+  - se_prop
+  - d_to_OR
+  - OR_to_d
+  - OR_to_p1
+  - OR_to_p2
+  - p_to_OR
+  - accuracy_stats
+  - wkappa
+  - cohen_w
+  - dunn_test
+  - asterisks
+  - ci_sig
+- title: Sums, minima, and maxima
+  contents:
+  - max_if_any
+  - min_if_any
+  - sum_if_any
+  - pmax_across
+  - pmin_across
+  - row_sums_across
+  - cumsum_desc
 - title: Logical tests
   contents:
-  - is_coercible_integer
-  - is_coercible_logical
-  - is_coercible_numeric
   - is_duplicate
   - is_FALSE
   - is_FALSE_or_NA
   - is_TRUE
   - is_TRUE_or_NA
+  - is_coercible_integer
+  - is_coercible_logical
+  - is_coercible_numeric
   - is_spss
-  - is_valid
-- title: Data transformation and filtering
-  contents:
-  - fct_filter
-  - filter_drop
-  - fct_case_when
-  - fct_reorder_n
-  - reverse_key
-  - scale_mad
-  - scale_vec
-  - swap_if
-  - try_numeric
-  - winsorize
+  - eq_shape
 - title: Displaying output
   contents:
   - in_excel
   - print_all
   - print_n
-  - ggview
-- title: Holiday dates
+  - write_xlsx_styled
+  - add_plot_slide
+- title: Data visualization helpers
   contents:
+  - set_ggplot_opts
+  - add_crossings
+  - after_opacity
+  - before_opacity
+- title: Working with service cascades
+  contents:
+  - cascade_fill_bwd
+  - cascade_fill_fwd
+  - cascade_summarize
+- title: Infix operators
+  contents:
+  - '`%->%`'
+  - '`%!in%`'
+  - '`%<-%`'
+  - '`%all_in%`'
+  - '`%any_in%`'
+- title: Miscellany
+  contents:
+  - open_file
+  - open_location
+  - set_compare
+  - suppress_messages_if
+  - suppress_warnings_if
+  - untidyselect
+  - zap_everything
+  - gain_ss_score
+  - rbool
+- title: Datasets
+  contents:
+  - gain_missing_codes
   - holidays_chestnut
   - holidays_il
   - holidays_us
-- title: Miscellany
-  contents:
-  - gain_ss_score
-  - set_ggplot_opts
-  - untidyselect
-  - zap_everything
+  - state.terr.abb
+  - state.terr.data
+  - state.terr.name
 - title: Deprecated
   contents:
   - get_col_types
-  - rbool
+  - ggview
+  - median_dbl
+  - na_like
+  - row_sums_spss
+  - safe_max
+  - safe_min
+  - se

@@ -2,7 +2,14 @@
 #' @export
 magrittr::`%>%`
 
-#' @importFrom rlang := !!! %||% caller_env
+#' @importFrom scales percent comma
+#' @export
+scales::percent
+#'
+#' @export
+scales::comma
+
+#' @importFrom rlang := !!!
 NULL
 
 utils::globalVariables("where")
