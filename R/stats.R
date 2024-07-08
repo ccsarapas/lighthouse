@@ -49,11 +49,12 @@ se_mean <- function(x, na.rm = FALSE) {
 #'
 #' @param x a logical or numeric vector. If numeric, it must include only 0s, 1s, and/or `NA`s.
 #' @param na.rm	logical. Should missing values be removed?
-#' @param min_var numeric. Minimum variance (n * p * (1 - p) for valid normal approximation of the binomial. See Details.
+#' @param min_var numeric. Minimum variance (n * p * (1 - p)) for valid normal approximation of the binomial. See Details.
 #' @param low_var_action character. Action to take when variance is below `min_var`.
 #'
 #' @details
 #' Standard error of a proportion is calculated using the formula:
+#'
 #' \deqn{SE = \sqrt{\frac{p(1 - p)}{n}}}
 #'
 #' This formula assumes that the binomial sampling distribution underlying the

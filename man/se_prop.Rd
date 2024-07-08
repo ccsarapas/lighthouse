@@ -16,7 +16,7 @@ se_prop(
 
 \item{na.rm}{logical. Should missing values be removed?}
 
-\item{min_var}{numeric. Minimum variance (n * p * (1 - p) for valid normal approximation of the binomial. See Details.}
+\item{min_var}{numeric. Minimum variance (n * p * (1 - p)) for valid normal approximation of the binomial. See Details.}
 
 \item{low_var_action}{character. Action to take when variance is below \code{min_var}.}
 }
@@ -25,6 +25,7 @@ Computes the standard error of a proportion for a logical or numeric vector.
 }
 \details{
 Standard error of a proportion is calculated using the formula:
+
 \deqn{SE = \sqrt{\frac{p(1 - p)}{n}}}
 
 This formula assumes that the binomial sampling distribution underlying the
