@@ -60,7 +60,7 @@
 
 
 <dt id="arg-min-var">min_var<a class="anchor" aria-label="anchor" href="#arg-min-var"></a></dt>
-<dd><p>numeric. Minimum variance (n * p * (1 - p) for valid normal approximation of the binomial. See Details.</p></dd>
+<dd><p>numeric. Minimum variance (n * p * (1 - p)) for valid normal approximation of the binomial. See Details.</p></dd>
 
 
 <dt id="arg-low-var-action">low_var_action<a class="anchor" aria-label="anchor" href="#arg-low-var-action"></a></dt>
@@ -69,8 +69,8 @@
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Standard error of a proportion is calculated using the formula:
-$$SE = \sqrt{\frac{p(1 - p)}{n}}$$</p>
+    <p>Standard error of a proportion is calculated using the formula:</p>
+<p>$$SE = \sqrt{\frac{p(1 - p)}{n}}$$</p>
 <p>This formula assumes that the binomial sampling distribution underlying the
 observed proportion can be approximated by a normal distribution. This
 assumption is valid when the proportion variance (n<em>p</em>(1 - p)) is
