@@ -1,252 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/404.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/accuracy_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/add_empty_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/add_header.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/any-all-in.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/asterisks.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/coerce_na_range.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/cohen_w.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/cols_info.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_duplicates.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_multiple.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_na.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_pct.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_unique.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/count_with_total.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/crosstab.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/cumsum_desc.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/d_to_OR.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/datetimes_to_date.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/days_diff.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/discard_na.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/fct_case_when.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/fct_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/fct_reorder_n.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/filter_drop.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/find_na_cols.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/floor_month.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/gain_ss_score.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/get_col_types.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/ggview.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/glue_chr.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/group_split_named.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/group_with_total.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/holidays_chestnut.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/holidays_il.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/holidays_us.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/in_excel.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/is_TRUE.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/is_coercible_numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/is_duplicate.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/is_spss.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/is_valid.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/median_dbl.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/n_valid.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/na_like.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/na_to_null.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/next_bizday.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/not-in.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/p_to_OR.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/pivot_wider_alt.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/pminmax_across.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/print_all.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/print_n.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/rbool.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/reorder_dendro_by_label.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/rev_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/reverse_key.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/row_sums_spss.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/safe_minmax.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/scale_mad.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/scale_vec.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/se.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/set_ggplot_opts.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/str_collapse.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/str_detect_any.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/str_prefix.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/str_starts_any.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/summary_table.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/swap_if.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/t_tibble.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/try_numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/unpack-assign.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/untidyselect.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/winsorize.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/wkappa.html</loc>
-  </url>
-  <url>
-    <loc>https://ccsarapas.github.io/lighthouse/reference/zap_everything.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://ccsarapas.github.io/lighthouse/404.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/LICENSE-text.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/LICENSE.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/authors.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/index.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/news/index.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/accuracy_stats.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/add_crossings.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/add_empty_rows.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/add_header.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/add_plot_slide.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/add_rows_at_value.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/aggregate_if_any.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/any-all-in.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/asterisks.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/bizday.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/cascade.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/ci_sig.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/cohen_w.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/cols_info.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_duplicates.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_multiple.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_na.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_pct.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_unique.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/count_with_total.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/crosstab.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/cumsum_desc.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/d_to_OR.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/datetimes_to_date.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/days_diff.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/df_compare.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/discard_na.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/drop_na_rows.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/dunn_test.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/eq_shape.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fct_case_when.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fct_collapse_alt.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fct_filter.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fct_na_if.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fct_reorder_n.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/filter_drop.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/find_na_cols.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/fiscal_year.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/floor_month.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/gain_missing_codes.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/gain_ss_score.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/get_col_types.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/ggview.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/glue_chr.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/group_split_named.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/group_with_total.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/holidays_chestnut.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/holidays_il.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/holidays_us.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/in_excel.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/index.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/is_TRUE.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/is_coercible_numeric.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/is_duplicate.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/is_spss.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/is_valid.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/median_dbl.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/n_valid.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/na_if_range.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/na_like.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/na_to_null.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/not-in.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/nth_valid.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/opacity.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/open_file.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/p_to_OR.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/pad_vectors.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/pivot_wider_alt.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/pminmax_across.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/print_all.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/print_n.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/rbool.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/reexports.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/reorder_dendro_by_label.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/rev_rows.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/reverse_key.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/row_sums_across.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/row_sums_spss.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/safe_minmax.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/scale_mad.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/scale_vec.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/se.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/se_mean.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/se_prop.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/set_compare.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/set_ggplot_opts.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/str_c_narm.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/str_c_tidy.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/str_collapse.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/str_detect_any.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/str_prefix.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/strftime_no_lead.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/summary_report.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/summary_table.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/suppress_if.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/swap.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/syms_to_chr.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/t_tibble.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/territory.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/try_numeric.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/unpack-assign.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/untidyselect.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/winsorize.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/wkappa.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/write_xlsx_styled.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/zap_everything.html</loc></url>
 </urlset>
+
