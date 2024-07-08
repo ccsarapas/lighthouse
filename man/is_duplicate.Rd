@@ -7,25 +7,27 @@
 is_duplicate(..., nmax = 1, incomparables = FALSE)
 }
 \arguments{
-\item{...}{One or more vectors of equal length.}
+\item{...}{one or more vectors of equal length.}
 
-\item{nmax}{The maximum number of times a value can appear before being considered a duplicate. Default is 1.}
+\item{nmax}{maximum number of times a value can appear before being considered a duplicate.}
 
-\item{incomparables}{If \code{TRUE}, missing (\code{NA}) and non-finite (\code{NaN}, \code{Inf}, \code{-Inf}) values are considered comparable and can be marked as duplicates. If \code{FALSE} (default), missing and non-finite values are never considered duplicates.}
+\item{incomparables}{should missing values (including \code{NaN}) be considered duplicates?}
 }
 \value{
-A logical vector indicating whether each row (element of the vector, or combination of elements at the same position in multiple vectors) is a duplicate.
+a logical vector.
 }
 \description{
-This function checks for duplicated values within a vector or a set of vectors of equal length and returns a logical vector indicating whether each row is duplicated. Rows are considered duplicates if the values in all columns are equal and appear more than \code{nmax} times.
+This function checks for duplicated values within a vector or a set of vectors.
 }
 \examples{
 x <- c(1, 2, 2, 3, 3, 3)
 y <- c(1, 1, 2, 1, 2, 2)
 is_duplicate(x)
-is_duplicate(x, y)
 is_duplicate(x, nmax = 2)
-is_duplicate(c(1, NA, NA))
-is_duplicate(c(1, NA, NA), incomparables = TRUE)
+is_duplicate(x, y)
+
+z <- c(1, NA, NA)
+is_duplicate(z)
+is_duplicate(z, incomparables = TRUE)
 
 }
