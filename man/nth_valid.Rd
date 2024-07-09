@@ -44,6 +44,6 @@ nth_valid(x, 6, default = -Inf)
 }
 \seealso{
 {
-\code{\link[dplyr]{nth}}
+\code{\link[dplyr:nth]{dplyr::nth()}}
 }
 }

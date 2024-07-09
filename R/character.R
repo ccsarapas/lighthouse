@@ -49,7 +49,7 @@ glue_chr <- function(...) {
 
 #' Concatenate strings with `NA` handling
 #'
-#' `str_c_narm` concatenates strings similar to `base::paste()` or `stringr::str_c()`, but with different `NA` handling. `NA`s are dropped row-wise prior to concatenation. See Details and Examples.
+#' `str_c_narm` concatenates strings similar to [`base::paste()`] or [`stringr::str_c()`], but with different `NA` handling. `NA`s are dropped row-wise prior to concatenation. See Details and Examples.
 #'
 #' @param ... character vectors or vectors coercible to character. May also be a single data frame (to accommodate `dplyr::across()` and `pick()`).
 #' @param sep separator to insert between input vectors.
@@ -294,8 +294,8 @@ str_collapse <- function(..., sep = "", join = NULL) {
 #' @param negate Logical. if `TRUE`, inverts the resulting boolean vector.
 #'
 #' @seealso{
-#' \code{\link[stringr]{str_detect}}
-#' \code{\link[stringr]{str_starts}}
+#' [`stringr::str_detect()`]
+#' [`stringr::str_starts()`]
 #' }
 #'
 #' @export
