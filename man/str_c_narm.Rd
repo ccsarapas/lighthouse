@@ -29,7 +29,7 @@ str_c_narm(
 A character vector.
 }
 \description{
-\code{str_c_narm} concatenates strings similar to \code{base::paste()} or \code{stringr::str_c()}, but with different \code{NA} handling. \code{NA}s are dropped row-wise prior to concatenation. See Details and Examples.
+\code{str_c_narm} concatenates strings similar to \code{\link[base:paste]{base::paste()}} or \code{\link[stringr:str_c]{stringr::str_c()}}, but with different \code{NA} handling. \code{NA}s are dropped row-wise prior to concatenation. See Details and Examples.
 }
 \details{
 \code{str_c_narm()} provides alternative missing value handling compared to

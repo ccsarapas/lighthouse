@@ -344,7 +344,7 @@ cohen_w <- function(chisq) {
 #'   - `statistic`: Dunn's test statistic (z).
 #'   - `adj.p.value`: Adjusted p-value based on the specified `p.adjust.method`.
 #'
-#' @seealso [dunn.test::dunn.test()]
+#' @seealso [`dunn.test::dunn.test()`]
 #'
 #' @examples
 #' mtcars2 <- transform(mtcars, cyl = factor(cyl))

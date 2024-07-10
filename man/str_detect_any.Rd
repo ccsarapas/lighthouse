@@ -48,7 +48,7 @@ or end of strings.
 }
 \seealso{
 {
-\code{\link[stringr]{str_detect}}
-\code{\link[stringr]{str_starts}}
+\code{\link[stringr:str_detect]{stringr::str_detect()}}
+\code{\link[stringr:str_starts]{stringr::str_starts()}}
 }
 }

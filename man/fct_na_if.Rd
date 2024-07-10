@@ -31,6 +31,6 @@ dplyr::na_if(f, "a")
 }
 \seealso{
 {
-\code{\link[dplyr]{na_if}}
+\code{\link[dplyr:na_if]{dplyr::na_if()}}
 }
 }

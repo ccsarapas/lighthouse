@@ -1,3 +1,9 @@
+# lighthouse 0.7.1
+
+## Bug fix & enhancement
+
+* `strftime_no_lead()` now removes leading zeroes only from specified components of date-times (fixes #14).
+
 # lighthouse 0.7.0
 
 ## New functions
