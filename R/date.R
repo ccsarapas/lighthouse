@@ -229,7 +229,7 @@ strftime_no_lead <- function(x,
   }
   elements <- stringr::str_extract_all(format, "%\\S")[[1]] |>
     unique() |>
-    setNames(nm = _) |>
+    stats::setNames(nm = _) |>
     lapply(strftime, x = x, tz = tz, ...)
   if ("%F" %in% names(elements) && "%F" %in% no_lead) {
     elements[["%F"]] <- stringr::str_remove_all(elements[["%F"]], "(?<=-)0")
