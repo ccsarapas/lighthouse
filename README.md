@@ -1,5 +1,5 @@
 
-# lighthouse
+# lighthouse <a href="https://ccsarapas.github.io/lighthouse/"><img src="man/figures/logo.png" align="right" height="139" alt="lighthouse website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
