@@ -19,26 +19,9 @@ dir.open(path)
 \item{path}{The path to the file or directory.}
 }
 \description{
-Functions to open a file with its default program or open a file's location in the file explorer.
-}
-\details{
+\code{open_file()} opens the file at the specified path using the default program
+for that file type. \code{open_location()} opens the file explorer at the location
+of the specified file.
+
 \code{file.open()} and \code{dir.open()} are aliases, in line with \code{base::file.create}, \code{file.exists}, \code{dir.create}, \code{dir.exists}, etc.
-}
-\section{Functions}{
-
-\itemize{
-\item \code{open_file()}: Opens the file at the specified path using the default program for that file type. Automatically handles paths with special characters.
-\item \code{open_location()}: Opens the file explorer at the location of the specified file, with the file selected if possible. Automatically handles paths with special characters.
-}
-}
-
-\examples{
-\dontrun{
-# Open a file
-open_file("path/to/file.txt")
-
-# Open a file's location
-open_location("path/to/file.txt")
-}
-
 }

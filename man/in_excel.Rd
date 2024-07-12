@@ -4,14 +4,14 @@
 \alias{in_excel}
 \title{Open dataframe in Excel}
 \usage{
-in_excel(df, name, na = "")
+in_excel(df, name = NULL, na = "")
 }
 \arguments{
-\item{df}{The dataframe to open in Excel.}
+\item{df}{a data frame or data frame extension (e.g., a tibble).}
 
-\item{name}{(Optional) The name to use for the .csv file. If not provided, a random name will be generated.}
+\item{name}{a string: the name to use for the .csv file. If \code{NULL}, a random name will be generated.}
 
-\item{na}{(Optional) The string to use for missing values in the .csv file. Defaults to an empty string.}
+\item{na}{string to use for missing values in the .csv file.}
 }
 \description{
 Saves dataframe as .csv in R temp directory, then opens in Excel. The .csv

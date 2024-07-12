@@ -3,25 +3,24 @@
 #' Saves dataframe as .csv in R temp directory, then opens in Excel. The .csv
 #' will have a randomly-generated name unless otherwise specified in `name`.
 #'
-#' @param df The dataframe to open in Excel.
-#' @param name (Optional) The name to use for the .csv file. If not provided, a random name will be generated.
-#' @param na (Optional) The string to use for missing values in the .csv file. Defaults to an empty string.
+#' @param df a data frame or data frame extension (e.g., a tibble).
+#' @param name a string: the name to use for the .csv file. If `NULL`, a random name will be generated.
+#' @param na string to use for missing values in the .csv file.
 #'
 #' @export
-in_excel <- function(df, name, na = "") {
+in_excel <- function(df, name = NULL, na = "") {
   csv_dir <- file.path(tempdir(), "csv")
   if (!dir.exists(csv_dir)) {
     dir.create(csv_dir)
   }
-  if (missing(name)) {
+  if (is.null(name)) {
     csv_path <- tempfile(tmpdir = csv_dir, fileext = ".csv")
   } else {
     csv_path <- file.path(csv_dir, paste0(name, ".csv"))
   }
   readr::write_excel_csv(df, csv_path, na = na)
-  shell.exec(csv_path)
+  open_file(csv_path)
 }
-
 
 #' Print specified number of tibble rows
 #'

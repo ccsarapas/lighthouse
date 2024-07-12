@@ -1,7 +1,16 @@
+# lighthouse 0.7.2
+
+## Bug fixes
+
+* `open_file()`, `open_location()`, and `in_excel()` now work on MacOS.
+
+## Other changes
+
+* Added a package hex logo!
+
 # lighthouse 0.7.1
 
-## Bug fix & enhancement
-
+## Bug fix
 * `strftime_no_lead()` now removes leading zeroes only from specified components of date-times (fixes #14).
 
 # lighthouse 0.7.0
