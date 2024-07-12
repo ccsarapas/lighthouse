@@ -2,17 +2,22 @@
 % Please edit documentation in R/math.R
 \name{row_sums_across}
 \alias{row_sums_across}
-\title{Row sums for selected columns with \code{NA} handling}
+\title{Tidy row sums}
 \usage{
-row_sums_across(cols, na.rm = FALSE)
+row_sums_across(..., na.rm = FALSE, if_all_na = NA)
 }
 \arguments{
-\item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> columns to sum across.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> columns to sum across.}
 
 \item{na.rm}{Should missing values (including \code{NaN}) be removed?}
+
+\item{if_all_na}{value to return when \code{na.rm = TRUE} and \emph{all} values in
+a row are \code{NA}. Setting to \code{0} will emulate behavior of \code{rowSums()}.}
 }
 \description{
-This function calculates row sums for selected columns using tidyselect expressions. Unlike \code{rowSums}, it returns \code{NA} rather than \code{0} when \code{na.rm = TRUE} and all selected columns are \code{NA}.
+A variant of \code{base::rowSums()} that supports tidyselect expressions and
+alternative default \code{NA} handling. By default, returns \code{NA} when \code{na.rm = TRUE} and all selected columns are \code{NA}. This differs from \code{rowSums()}, which
+returns \code{0} in this situation.
 }
 \examples{
 df <- tibble::tibble(
@@ -21,10 +26,25 @@ df <- tibble::tibble(
   z = c(9, 10, 11, NA)
 )
 
+# using tidyselect expressions - no `pick()` required
 df \%>\%
   dplyr::mutate(
-    row_sums = row_sums_across(x:z),
-    row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
+    rowSums = rowSums(pick(x:z)),
+    row_sums_across = row_sums_across(x:z)
   )
 
+# alternative NA handling, and emulating `rowSums()` behavior
+df \%>\%
+  dplyr::mutate(
+    rowSums = rowSums(pick(x:z), na.rm = TRUE),
+    row_sums_across = row_sums_across(x:z, na.rm = TRUE),
+    row_sums_across_0 = row_sums_across(x:z, na.rm = TRUE, if_all_na = 0)
+  )
+
+}
+\seealso{
+\itemize{
+\item \code{\link[=row_sums_if_any]{row_sums_if_any()}} for another variant of \code{rowSums()}
+\item \code{\link[=pmax_across]{pmax_across()}} and \code{\link[=str_c_tidy]{str_c_tidy()}} for more tidyselect-friendly function variants
+}
 }

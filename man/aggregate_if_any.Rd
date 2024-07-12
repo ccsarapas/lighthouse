@@ -5,7 +5,7 @@
 \alias{sum_if_any}
 \alias{max_if_any}
 \alias{min_if_any}
-\title{Sum, maxima and minima with alternative missing value handling}
+\title{Sums, maxima and minima with alternative missing value handling}
 \usage{
 sum_if_any(..., na.rm = TRUE)
 

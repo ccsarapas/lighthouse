@@ -13,13 +13,21 @@
 #' @export
 cumsum_desc <- function(x) rev(cumsum(rev(x)))
 
-
-#' Row sums for selected columns with `NA` handling
+#' Tidy row sums
 #'
-#' This function calculates row sums for selected columns using tidyselect expressions. Unlike `rowSums`, it returns `NA` rather than `0` when `na.rm = TRUE` and all selected columns are `NA`.
+#' A variant of `base::rowSums()` that supports tidyselect expressions and
+#' alternative default `NA` handling. By default, returns `NA` when `na.rm =
+#' TRUE` and all selected columns are `NA`. This differs from `rowSums()`, which
+#' returns `0` in this situation.
 #'
-#' @param cols <[`tidy-select`][dplyr_tidy_select]> columns to sum across.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> columns to sum across.
 #' @param na.rm Should missing values (including `NaN`) be removed?
+#' @param if_all_na value to return when `na.rm = TRUE` and \emph{all} values in
+#'   a row are `NA`. Setting to `0` will emulate behavior of `rowSums()`.
+#'
+#' @seealso
+#' - [`row_sums_if_any()`] for another variant of `rowSums()`
+#' - [`pmax_across()`] and [`str_c_tidy()`] for more tidyselect-friendly function variants
 #'
 #' @examples
 #' df <- tibble::tibble(
@@ -28,24 +36,30 @@ cumsum_desc <- function(x) rev(cumsum(rev(x)))
 #'   z = c(9, 10, 11, NA)
 #' )
 #'
+#' # using tidyselect expressions - no `pick()` required
 #' df %>%
 #'   dplyr::mutate(
-#'     row_sums = row_sums_across(x:z),
-#'     row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
+#'     rowSums = rowSums(pick(x:z)),
+#'     row_sums_across = row_sums_across(x:z)
+#'   )
+#'
+#' # alternative NA handling, and emulating `rowSums()` behavior
+#' df %>%
+#'   dplyr::mutate(
+#'     rowSums = rowSums(pick(x:z), na.rm = TRUE),
+#'     row_sums_across = row_sums_across(x:z, na.rm = TRUE),
+#'     row_sums_across_0 = row_sums_across(x:z, na.rm = TRUE, if_all_na = 0)
 #'   )
 #'
 #' @export
-row_sums_across <- function(cols, na.rm = FALSE) {
-  out <- rowSums(dplyr::pick({{ cols }}), na.rm = na.rm)
-  if (na.rm) {
-    dplyr::if_else(dplyr::if_all({{ cols }}, is.na), NA, out)
-  } else {
-    out
-  }
+row_sums_across <- function (..., na.rm = FALSE, if_all_na = NA) {
+  cols <- dplyr::pick(...)
+  out <- rowSums(cols, na.rm = na.rm)
+  if (na.rm) out <- dplyr::if_else(rowSums(is_valid(cols)) == 0, if_all_na, out)
+  out
 }
 
-
-#' Sum, maxima and minima with alternative missing value handling
+#' Sums, maxima and minima with alternative missing value handling
 #'
 #' Returns the sum, maximum, or minimum of input values, similar to
 #' `base::sum()`, `min()`, and `max()`. Unlike these base functions, these
@@ -56,7 +70,6 @@ row_sums_across <- function(cols, na.rm = FALSE) {
 #'
 #' @param ... numeric, logical, or (for `max_if_any()` and `min_if_any()`) character vectors.
 #' @param na.rm logical. Should missing values (including NaN) be removed?
-#'
 #'
 #' @examples
 #' some_na <- c(1, 2, NA)
@@ -108,15 +121,12 @@ aggregate_if_any <- function(..., na.rm, .fn) {
 #' mtcars %>%
 #'   dplyr::mutate(max_val = pmax_across(mpg:carb))
 #'
-#' @name pminmax_across
-#'
 #' @export
 pmax_across <- function(cols, na.rm = FALSE) {
   pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmax)
 }
 
-#' @rdname pminmax_across
-#'
+#' @rdname pmax_across
 #' @export
 pmin_across <- function(cols, na.rm = FALSE) {
   pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmin)

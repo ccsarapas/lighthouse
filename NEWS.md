@@ -6,7 +6,12 @@
 
 ## Other changes
 
-* Added a package hex logo!
+* `row_sums_across()`:
+    * now takes tidyselect expressions via `...` rather than `cols`.
+    * now has an `if_all_na` argument to control behavior when `na.rm = TRUE` 
+    and all values in a row are `NA`.
+
+* Added a hex logo!
 
 # lighthouse 0.7.1
 
