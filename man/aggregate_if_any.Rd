@@ -37,24 +37,5 @@ max_if_any(some_na)
 # unlike base functions, returns `NA` when `na.rm = TRUE` and all inputs are `NA`
 sum(all_na, na.rm = TRUE)
 sum_if_any(all_na)
-Sums, maxima and minima with alternative missing value handling
-
-Returns the sum, maximum, or minimum of input values, similar to
-`base::sum()`, `min()`, and `max()`. Unlike these base functions, these
-variants return `NA` when all values are `NA` and `na.rm = TRUE`.
-(`base::sum()`, `min()`, and `max()` return `0`, `-Inf`, and `Inf`,
-respectively, in this situation). Also unlike base functions, `na.rm` is
-`TRUE` by default (since this is the typical use case).
-
-some_na <- c(1, 2, NA)
-all_na <- c(NA, NA, NA)
-
-# unlike base functions, `na.rm = TRUE` by default
-max(some_na)
-max_if_any(some_na)
-
-# unlike base functions, returns `NA` when `na.rm = TRUE` and all inputs are `NA`
-sum(all_na, na.rm = TRUE)
-sum_if_any(all_na)
 
 }

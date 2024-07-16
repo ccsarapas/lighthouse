@@ -27,7 +27,7 @@ Given one or more vectors, \code{psum()} and \code{pmean()} return row-wise sums
 \details{
 Both \code{psum()} and \code{psum_across()} can be used in data-masking contexts, but
 have different capabilities and limitations. See the "Details" section of
-\code{\link{?psum_across}}.
+\code{\link[=psum_across]{?psum_across}}.
 
 Note that, unlike \code{pmin()}, \code{pmax()}, \code{rowSums()}, and \code{rowMeans()}, these
 functions do not currently support objects with more than one dimension
@@ -62,6 +62,6 @@ dat \%>\%
 "Details" section for relative strengths of \code{psum()} / \code{pmean()} vs.
 \code{psum_across()} / \code{pmean_across()}.
 \item \code{\link[base:Extremes]{base::pmin()}} for analogous \code{pmin()} and \code{pmax()} functions
-\item \code{sum_if_any()} for non-parallel sums with similar \code{NA} handling
+\item \code{\link[=sum_if_any]{sum_if_any()}} for non-parallel sums with similar \code{NA} handling
 }
 }
