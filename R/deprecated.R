@@ -179,3 +179,19 @@ se <- function(x, na.rm = FALSE) {
   .Deprecated(msg = "`se()` is deprecated. Use `se_mean()` or `se_prop()` instead.")
   se_mean(x, na.rm)
 }
+
+
+#' Set NA values based on numbers stored as strings - DEPRECATED
+#'
+#' @description
+#' Deprecated in lighthouse 0.7.2 favor of [`na_if_range()`], which
+#' this now calls.
+#'
+#' Changes values coercible to numeric in range `range_min`:`range_max` to `NA`.
+#' Useful for imported SPSS files.
+#'
+#' @export
+coerce_na_range <- function(x, range_min = -Inf, range_max = -1) {
+  .Deprecated(new = "na_if_range()", old = "coerce_na_range()")
+  na_if_range(x, range_min, range_max)
+}

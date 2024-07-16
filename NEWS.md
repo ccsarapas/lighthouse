@@ -18,6 +18,10 @@
 
 * Updated documentation for `psum()`, `psum_across()`, and friends. In particular, see the Details section of `psum_across()`, which contrasts use cases for `psum()` vs. `psum_across()`.
 
+## Lifecycle changes
+
+* `coerce_na_range()` is deprecated in favor of `na_if_range()`.
+
 ## Other changes
 
 * Added a hex logo!
