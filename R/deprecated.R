@@ -61,16 +61,18 @@ get_col_types <- function(.data) {
 
 
 #' Replicate SPSS SUM() function - DEPRECATED
+#'
 #' @description
-#' Deprecated in lighthouse 0.7.0 in favor of [row_sums_across()], which provides more
-#' information and features and is more stable.
+#' Deprecated in lighthouse 0.7.2 in favor of [`psum()`].
 #'
 #' Sums across columns a la SPSS: `NA`s are counted as 0s, but if ALL variables
 #' are `NA`, then result is `NA`.
 #'
 #' @export
 row_sums_spss <- function(...) {
-  .Deprecated("row_sums_across", old = "row_sums_spss")
+  .Deprecated(
+    msg = "`row_sums_spss()` is deprecated. Use `psum()` with `na.rm = TRUE` instead."
+  )
   sums <- tibble::tibble(...) %>%
     dplyr::mutate(
       out = dplyr::if_else(

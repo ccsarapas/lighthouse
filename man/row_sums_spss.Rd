@@ -7,8 +7,7 @@
 row_sums_spss(...)
 }
 \description{
-Deprecated in lighthouse 0.7.0 in favor of \code{\link[=row_sums_across]{row_sums_across()}}, which provides more
-information and features and is more stable.
+Deprecated in lighthouse 0.7.2 in favor of \code{\link[=psum]{psum()}}.
 
 Sums across columns a la SPSS: \code{NA}s are counted as 0s, but if ALL variables
 are \code{NA}, then result is \code{NA}.
