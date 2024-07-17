@@ -17,6 +17,7 @@
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/bizday.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/cascade.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/ci_sig.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/coerce_na_range.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/cohen_w.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/cols_info.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/count_duplicates.html</loc></url>
@@ -73,15 +74,15 @@
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/p_to_OR.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/pad_vectors.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/pivot_wider_alt.html</loc></url>
-<url><loc>https://ccsarapas.github.io/lighthouse/reference/pminmax_across.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/print_all.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/print_n.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/psum.html</loc></url>
+<url><loc>https://ccsarapas.github.io/lighthouse/reference/psum_across.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/rbool.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/reexports.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/reorder_dendro_by_label.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/rev_rows.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/reverse_key.html</loc></url>
-<url><loc>https://ccsarapas.github.io/lighthouse/reference/row_sums_across.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/row_sums_spss.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/safe_minmax.html</loc></url>
 <url><loc>https://ccsarapas.github.io/lighthouse/reference/scale_mad.html</loc></url>
