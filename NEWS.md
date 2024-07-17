@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* `open_file()`, `open_location()`, and `in_excel()` now work on MacOS.
+* `open_file()`, `open_location()`, and `in_excel()` now work on MacOS (fixes #17).
 
 ## Changes to row-wise aggregation functions
 
@@ -16,7 +16,7 @@
 
     * These are implementations of `psum()` and `pmean()` that take tidyselect expressions, complementing `pmin_across()` and `pmax_across()`.
     
-    * `psum_across()` replaces `row_sums_across()`, which was introduced in 0.7.0 but is now removed.
+    * `psum_across()` replaces `row_sums_across()`, which was introduced in 0.7.0 but is now removed (closes #16).
     
 * All `p*_across()` functions now accept tidyselect expressions via `...` rather than `cols`. This makes it easier to include multiple tidyselect expressions, e.g., `psum_across(var1:var9, starts_with("An"))`.
 
