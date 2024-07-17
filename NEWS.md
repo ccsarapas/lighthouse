@@ -6,14 +6,18 @@
 
 ## Changes to row-wise aggregation functions
 
-* Added `psum()` and `pmean()` .
+* Added `psum()` and `pmean()`:
+
     * These compute "parallel" or row-wise sums or means, analogous to `base::pmax()` and `base::pmin()`. 
+    
     * `psum()` deprecates `row_sums_spss()`. (`psum()` is a clearer and more consistent name, as its behavior is closer to that of `pmin()` / `pmax()` than `rowSums()`.) Note that `psum()` has `na.rm = FALSE` by default whereas `row_sums_spss()` defaulted to `na.rm = TRUE`.
+    
+* Added `psum_across()` and `pmean_across()`:
 
-* Added `psum_across()` and `pmean_across()`.
     * These are implementations of `psum()` and `pmean()` that take tidyselect expressions, complementing `pmin_across()` and `pmax_across()`.
+    
     * `psum_across()` replaces `row_sums_across()`, which was introduced in 0.7.0 but is now removed.
-
+    
 * All `p*_across()` functions now accept tidyselect expressions via `...` rather than `cols`. This makes it easier to include multiple tidyselect expressions, e.g., `psum_across(var1:var9, starts_with("An"))`.
 
 * Updated documentation for `psum()`, `psum_across()`, and friends. In particular, see the Details section of `psum_across()`, which contrasts use cases for `psum()` vs. `psum_across()`.

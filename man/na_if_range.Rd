@@ -7,7 +7,6 @@
 \alias{na_if_range.factor}
 \alias{na_if_range.labelled}
 \alias{na_if_range.haven_labelled}
-\alias{coerce_na_range}
 \title{Set NA values based on range of numbers.}
 \usage{
 na_if_range(x, range_min = -Inf, range_max = -1)
@@ -21,8 +20,6 @@ na_if_range(x, range_min = -Inf, range_max = -1)
 \method{na_if_range}{labelled}(x, range_min = -Inf, range_max = -1)
 
 \method{na_if_range}{haven_labelled}(x, range_min = -Inf, range_max = -1)
-
-coerce_na_range(x, range_min = -Inf, range_max = -1)
 }
 \arguments{
 \item{x}{A numeric vector, character vector, or factor.}
