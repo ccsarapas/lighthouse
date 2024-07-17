@@ -1,7 +1,38 @@
+# lighthouse 0.7.2
+
+## Bug fixes
+
+* `open_file()`, `open_location()`, and `in_excel()` now work on MacOS (fixes #17).
+
+## Changes to row-wise aggregation functions
+
+* Added `psum()` and `pmean()`:
+
+    * These compute "parallel" or row-wise sums or means, analogous to `base::pmax()` and `base::pmin()`. 
+    
+    * `psum()` deprecates `row_sums_spss()`. (`psum()` is a clearer and more consistent name, as its behavior is closer to that of `pmin()` / `pmax()` than `rowSums()`.) Note that `psum()` has `na.rm = FALSE` by default whereas `row_sums_spss()` defaulted to `na.rm = TRUE`.
+    
+* Added `psum_across()` and `pmean_across()`:
+
+    * These are implementations of `psum()` and `pmean()` that take tidyselect expressions, complementing `pmin_across()` and `pmax_across()`.
+    
+    * `psum_across()` replaces `row_sums_across()`, which was introduced in 0.7.0 but is now removed (closes #16).
+    
+* All `p*_across()` functions now accept tidyselect expressions via `...` rather than `cols`. This makes it easier to include multiple tidyselect expressions, e.g., `psum_across(var1:var9, starts_with("An"))`.
+
+* Updated documentation for `psum()`, `psum_across()`, and friends. In particular, see the Details section of `psum_across()`, which contrasts use cases for `psum()` vs. `psum_across()`.
+
+## Lifecycle changes
+
+* `coerce_na_range()` is deprecated in favor of `na_if_range()`.
+
+## Other changes
+
+* Added a hex logo!
+
 # lighthouse 0.7.1
 
-## Bug fix & enhancement
-
+## Bug fix
 * `strftime_no_lead()` now removes leading zeroes only from specified components of date-times (fixes #14).
 
 # lighthouse 0.7.0
@@ -95,12 +126,6 @@
 
 * Removed Inauguration Day from `holidays_us`.
 
-## Other changes
-
-* In `asterisks()`, changed the default for `include_key` from `TRUE` to `FALSE`.
-
-* `percent()` and `comma()` re-exported from scales (#11).
-
 ## Lifecycle changes
 
 * `rbool()` has been *un*-deprecated. It was previously deprecated in favor of `purrr::rbernoulli()`, but `purrr::rbernoulli()` has since been deprecated itself.
@@ -114,6 +139,12 @@
 * `safe_min()` and `safe_max()` renamed to `min_if_any()` and `max_if_any()`; the old names are deprecated.
 
 * `se()` renamed to `se_mean()`; the old name is deprecated.
+
+## Other changes
+
+* In `asterisks()`, changed the default for `include_key` from `TRUE` to `FALSE`.
+
+* `percent()` and `comma()` re-exported from scales (#11).
 
 # lighthouse 0.6.0
 

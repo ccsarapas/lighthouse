@@ -13,39 +13,81 @@
 #' @export
 cumsum_desc <- function(x) rev(cumsum(rev(x)))
 
-
-#' Row sums for selected columns with `NA` handling
+#' Parallel / row-wise sums and means
 #'
-#' This function calculates row sums for selected columns using tidyselect expressions. Unlike `rowSums`, it returns `NA` rather than `0` when `na.rm = TRUE` and all selected columns are `NA`.
+#' @description
+#' Given one or more vectors, `psum()` and `pmean()` return row-wise sums or means. They are analogous to [`base::pmin()`] and [`pmax()`]. Like `pmin()` / `pmax()`, these functions:
+#' - accept multiple vectors via `...` (as opposed to `rowSums()` and `rowMeans()`, which accept a single array). This allows them to be used in data-masking contexts (e.g., inside `dplyr::mutate()`).
+#' - return `NA` when all values are `NA` and `na.rm = TRUE`. (as opposed to `rowSums()`, which returns `0` in this situation).
 #'
-#' @param cols <[`tidy-select`][dplyr_tidy_select]> columns to sum across.
-#' @param na.rm Should missing values (including `NaN`) be removed?
+#'
+#' @param ... one or more numeric or logical vectors of equal length or length 1.
+#' @param na.rm logical. Should missing values (including `NaN`) be removed?
+#'
+#' @return
+#' A numeric vector.
+#'
+#' @details
+#' Both `psum()` and `psum_across()` can be used in data-masking contexts, but
+#' have different capabilities and limitations. See the "Details" section of
+#' [`?psum_across`][`psum_across()`].
+#'
+#' Note that, unlike `pmin()`, `pmax()`, `rowSums()`, and `rowMeans()`, these
+#' functions do not currently support objects with more than one dimension
+#' (e.g., matrices, arrays, or data frames).
+#'
+#' @seealso
+#' - [`psum_across()`] for variants that support tidyselect expressions. See the
+#' "Details" section for relative strengths of `psum()` / `pmean()` vs.
+#' `psum_across()` / `pmean_across()`.
+#' - [`base::pmin()`] for analogous `pmin()` and `pmax()` functions
+#' - [`sum_if_any()`] for non-parallel sums with similar `NA` handling
 #'
 #' @examples
-#' df <- tibble::tibble(
-#'   x = c(1, 2, NA, NA),
-#'   y = c(5, NA, 7, NA),
-#'   z = c(9, 10, 11, NA)
+#' psum(1:5, 6:10)
+#' pmean(1:5, 6:10)
+#'
+#' dat <- tibble::tribble(
+#'   ~product,    ~price1, ~price2, ~price3,
+#'   "Product 1", 20,      25,      22,
+#'   "Product 2", NA,      30,      29,
+#'   "Product 3", 15,      NA,      NA,
+#'   "Product 4", NA,      NA,      NA
 #' )
 #'
-#' df %>%
+#' # contrast w `rowSums()` / `rowMeans()`:
+#' # no need for `pick()` and different `NA` behavior
+#' dat %>%
 #'   dplyr::mutate(
-#'     row_sums = row_sums_across(x:z),
-#'     row_sums_na.rm = row_sums_across(x:z, na.rm = TRUE)
+#'     rowSums = rowSums(pick(price1, price2, price3), na.rm = TRUE),
+#'     psum = psum(price1, price2, price3, na.rm = TRUE),
+#'     rowMeans = rowMeans(pick(price1, price2, price3), na.rm = TRUE),
+#'     pmean = pmean(price1, price2, price3, na.rm = TRUE)
 #'   )
 #'
 #' @export
-row_sums_across <- function(cols, na.rm = FALSE) {
-  out <- rowSums(dplyr::pick({{ cols }}), na.rm = na.rm)
-  if (na.rm) {
-    dplyr::if_else(dplyr::if_all({{ cols }}, is.na), NA, out)
-  } else {
-    out
-  }
+psum <- function(..., na.rm = FALSE) {
+  pfx(..., na.rm = na.rm, .caller = "`psum()`", .fx = rowSums)
+}
+#'
+#' @rdname psum
+#' @export
+pmean <- function(..., na.rm = FALSE) {
+  pfx(..., na.rm = na.rm, .caller = "`pmean()`", .fx = rowMeans)
 }
 
+pfx <- function(..., na.rm, .caller, .fx) {
+  if (any(sapply(list(...), \(x) length(dim(x))) > 1)) {
+    stop(.caller, " does not support objects with more than one dimension.")
+  }
+  check_dots <- vctrs::vec_recycle_common(...)
+  cols <- cbind(...)
+  out <- .fx(cols, na.rm = na.rm)
+  if (na.rm) out <- dplyr::if_else(rowSums(is_valid(cols)) == 0, NA, out)
+  out
+}
 
-#' Sum, maxima and minima with alternative missing value handling
+#' Sums, maxima and minima with alternative missing value handling
 #'
 #' Returns the sum, maximum, or minimum of input values, similar to
 #' `base::sum()`, `min()`, and `max()`. Unlike these base functions, these
@@ -57,7 +99,6 @@ row_sums_across <- function(cols, na.rm = FALSE) {
 #' @param ... numeric, logical, or (for `max_if_any()` and `min_if_any()`) character vectors.
 #' @param na.rm logical. Should missing values (including NaN) be removed?
 #'
-#'
 #' @examples
 #' some_na <- c(1, 2, NA)
 #' all_na <- c(NA, NA, NA)
@@ -66,7 +107,7 @@ row_sums_across <- function(cols, na.rm = FALSE) {
 #' max(some_na)
 #' max_if_any(some_na)
 #'
-#' # unlike base functions, returns 0 when `na.rm = TRUE` and all inputs are `NA`
+#' # unlike base functions, returns `NA` when `na.rm = TRUE` and all inputs are `NA`
 #' sum(all_na, na.rm = TRUE)
 #' sum_if_any(all_na)
 #'
@@ -87,44 +128,113 @@ min_if_any <- function(..., na.rm = TRUE) {
 }
 
 aggregate_if_any <- function(..., na.rm, .fn) {
-  # 0.7.0 - changed to use .fn(..., na.rm = FALSE) to handle type coercion
   if (all(is.na(c(...)))) .fn(..., na.rm = FALSE) else .fn(..., na.rm = na.rm)
 }
 
 
-#' tidyselect-friendly parallel minima and maxima
+#' tidyselect-friendly row-wise aggregation
 #'
-#' Wrappers around `base::pmin()` and `base::pmax()` that accept
-#' <[`tidy-select`][dplyr_tidy_select]> expressions.
+#' Wrappers around `base::pmin()`, `base::pmax()`, `lighthouse::psum()`, and
+#' `lighthouse::pmean()` that accept
+#' [`tidyselect expressions`][dplyr_tidy_select].
 #'
-#' @examples
-#' # using `base::pmax()`
-#' mtcars %>%
-#'   dplyr::mutate(
-#'     max_val = pmax(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> one or more tidyselect
+#'   expressions that capture numeric and/or logical columns.
+#' @param na.rm Should missing values (including `NaN`) be removed?
+#'
+#' @details
+#' Lighthouse includes two sets of functions for computing "parallel" or
+#' row-wise aggregates:
+#' - [`psum()`] and [`pmean()`] (which complement `base::pmin()` and `pmax()`)
+#' - `pmin_across()`, `pmax_across()`, `psum_across()`, and `pmean_across()`
+#'
+#' Both sets of functions differ from `base::rowSums()` and `rowMeans()` in that
+#' they:
+#' - work in data-masking contexts (e.g., inside `dplyr::mutate()`) without
+#' needing helpers like `dplyr::pick()` or `dplyr::across()`.
+#' - accept multiple inputs via `...`.
+#' - return `NA` when `na.rm = TRUE` and all values in a row are `NA`. This
+#' mirrors behavior of `base::pmin()` and `pmax()`, but differs from
+#' `rowSums()`, which returns `0` in this situation.
+#'
+#' `psum_across()` and friends support tidyselect expressions; e.g.,
+#' \preformatted{
+#' dat %>%
+#'   mutate(
+#'     IDScrTotal = psum_across(IDScr1:IDScr6),
+#'     SDScrTotal = psum_across(starts_with("SDScr"))
+#'   )
+#' }
+#'
+#' ...but must be used inside a data-masking verb like `dplyr::mutate()`,
+#' `group_by()`, or `filter()`, and do not support implicit computations.
+#'
+#' Conversely, `psum()` and friends do not support tidyselect expressions, but
+#' can be used both inside or outside a data-masking context:
+#' \preformatted{
+#' # data-masking
+#' dat %>%
+#'   mutate(
+#'     NumColors = psum(Red, Blue, Green),
 #'   )
 #'
-#' # using `pmax_across()`
-#' mtcars %>%
-#'   dplyr::mutate(max_val = pmax_across(mpg:carb))
+#' #non-data masking
+#' psum(1:10, 6:15, 11:20)
+#' }
 #'
-#' @name pminmax_across
+#' and support "on the fly" or "implicit" computations:
+#' \preformatted{
+#' dat %>%
+#'   mutate(
+#'     CriteriaMet = psum(a1 > a2, pmax(b1, b2, b3) > 5, c1 < 10),
+#'     TotalProp = psum(num1 / denom1, num2 / denom2, num3 / denom3)
+#'   )
+#' }
+#'
+#' @seealso
+#' [`psum()`] and [`pmax()`] for non-tidyselect parallel aggregates.
+#'
+#'
+#' @examples
+#' dat <- tibble::tribble(
+#'   ~product,    ~price1, ~price2, ~price3,
+#'   "Product 1", 20,      25,      22,
+#'   "Product 2", NA,      30,      29,
+#'   "Product 3", 15,      NA,      NA,
+#'   "Product 4", NA,      NA,      NA
+#' )
+#'
+#' price_cols <- c("price1", "price2", "price3")
+#'
+#' dat %>%
+#'   dplyr::mutate(
+#'     min = pmin_across(price1, price2, price3, na.rm = TRUE),
+#'     max = pmax_across(price1:price3, na.rm = TRUE),
+#'     sum = psum_across(starts_with("price"), na.rm = TRUE),
+#'     mean = pmean_across(all_of(price_cols), na.rm = TRUE)
+#'   )
 #'
 #' @export
-pmax_across <- function(cols, na.rm = FALSE) {
-  pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmax)
+psum_across <- function(..., na.rm = FALSE) {
+  pfx_across(..., na.rm = na.rm, .fx= psum)
 }
-
-#' @rdname pminmax_across
-#'
+#' @name psum_across
 #' @export
-pmin_across <- function(cols, na.rm = FALSE) {
-  pminmax_across(rlang::enquo(cols), na.rm = na.rm, .fn = pmin)
+pmean_across <- function(..., na.rm = FALSE) {
+  pfx_across(..., na.rm = na.rm, .fx= pmean)
+}
+#' @name psum_across
+#' @export
+pmin_across <- function(..., na.rm = FALSE) {
+  pfx_across(..., na.rm = na.rm, .fx= pmin)
+}
+#' @name psum_across
+#' @export
+pmax_across <- function(..., na.rm = FALSE) {
+  pfx_across(..., na.rm = na.rm, .fx= pmax)
 }
 
-pminmax_across <- function(cols, na.rm, .fn) {
-  col_names <- untidyselect(dplyr::cur_data(), !!cols, syms = TRUE)
-  dplyr::cur_data() %>%
-    dplyr::mutate(out = .fn(!!!col_names, na.rm = na.rm)) %>%
-    dplyr::pull(out)
+pfx_across <- function(..., na.rm, .fx) {
+  do.call(.fx, c(as.list(dplyr::pick(...)), list(na.rm = na.rm)))
 }
+

@@ -194,40 +194,39 @@ rbool <- function(n, prob = .5) as.logical(stats::rbinom(n, 1, prob))
 
 #' Open a file or directory
 #'
-#' Functions to open a file with its default program or open a file's location in the file explorer.
+#' @description
+#' `open_file()` opens the file at the specified path using the default program
+#' for that file type. `open_location()` opens the file explorer at the location
+#' of the specified file.
 #'
 #' `file.open()` and `dir.open()` are aliases, in line with `base::file.create`, `file.exists`, `dir.create`, `dir.exists`, etc.
 #'
 #' @param path The path to the file or directory.
 #'
-#' @section Functions:
-#' - `open_file()`: Opens the file at the specified path using the default program for that file type. Automatically handles paths with special characters.
-#' - `open_location()`: Opens the file explorer at the location of the specified file, with the file selected if possible. Automatically handles paths with special characters.
-#'
-#' @examples
-#' \dontrun{
-#' # Open a file
-#' open_file("path/to/file.txt")
-#'
-#' # Open a file's location
-#' open_location("path/to/file.txt")
-#' }
-#'
 #' @export
 open_file <- function(path) {
-  tryCatch(shell.exec(path), error = \(e) shell.exec(normalizePath(path)))
+  open_f <- function(path) {
+    if (.Platform$OS.type == "windows") shell.exec(path)
+    else system2("open", shQuote(path))
+  }
+  tryCatch(open_f(normalizePath(path)), error = \(e) open_f(path))
 }
 #' @rdname open_file
 #' @export
 open_location <- function(path) {
   open_loc <- function(path) {
-    suppress_warnings_if(
-      shell(glue_chr('explorer /select,"{path}"')),
-      "execution failed with error code 1"
-    )
+    if (.Platform$OS.type == "windows") {
+      suppress_warnings_if(
+        shell(glue_chr("explorer /select,{shQuote(path)}")),
+        "execution failed with error code 1"
+      )
+    } else {
+      system(glue_chr("open -R {shQuote(path)}"))
+    }
   }
   tryCatch(open_loc(normalizePath(path)), error = \(e) open_loc(path))
 }
+
 #' @rdname open_file
 #' @export
 file.open <- open_file

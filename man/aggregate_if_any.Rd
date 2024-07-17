@@ -5,7 +5,7 @@
 \alias{sum_if_any}
 \alias{max_if_any}
 \alias{min_if_any}
-\title{Sum, maxima and minima with alternative missing value handling}
+\title{Sums, maxima and minima with alternative missing value handling}
 \usage{
 sum_if_any(..., na.rm = TRUE)
 
@@ -34,7 +34,7 @@ all_na <- c(NA, NA, NA)
 max(some_na)
 max_if_any(some_na)
 
-# unlike base functions, returns 0 when `na.rm = TRUE` and all inputs are `NA`
+# unlike base functions, returns `NA` when `na.rm = TRUE` and all inputs are `NA`
 sum(all_na, na.rm = TRUE)
 sum_if_any(all_na)
 

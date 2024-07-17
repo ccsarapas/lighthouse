@@ -111,9 +111,12 @@ reference:
   - max_if_any
   - min_if_any
   - sum_if_any
+  - psum
+  - pmean
   - pmax_across
   - pmin_across
-  - row_sums_across
+  - psum_across
+  - pmean_across
   - cumsum_desc
 - title: Logical tests
   contents:
@@ -178,6 +181,7 @@ reference:
   - ggview
   - median_dbl
   - na_like
+  - coerce_na_range
   - row_sums_spss
   - safe_max
   - safe_min

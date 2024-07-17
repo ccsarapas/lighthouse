@@ -194,9 +194,6 @@ na_if_range.labelled <- function(x, range_min = -Inf, range_max = -1) {
 #' @rdname na_if_range
 #' @export
 na_if_range.haven_labelled <- na_if_range.labelled
-#' @rdname na_if_range
-#' @export
-coerce_na_range <- na_if_range
 
 
 #' Get the nth, first, or last non-`NA` value in a vector
