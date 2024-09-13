@@ -71,7 +71,7 @@ next_bizday <- function(x,
 #' defined relative to the earliest date in `x`, unless a different start date
 #' is passed to `start`. Default behavior differs from
 #' `lubridate::floor_date(x, unit = "{n} days")`, which "resets" the floor to
-#' the first of the month with each month. `lubridate`-like behavior can be
+#' the first of the month with each month. lubridate-like behavior can be
 #' achieved by setting `reset_monthly = TRUE`.
 #'
 #' @export
@@ -219,14 +219,13 @@ sfyq_il <- function(x,
 #' to character without leading zeros in specified components.
 #'
 #' @inheritParams base::strftime
-#' @param x a Date, date-time, or other object coercible to `"POSIXlt"`.
+#' @param x a Date, date-time, `hms::hms` object, or other object coercible to `"POSIXlt"`.
 #' @param format a character string. If `""` (the default),
 #'   `"%Y-%m-%d %H:%M:%S"` will be used if any element has a time component
-#'   which is not midnight, and `"%Y-%m-%d"` otherwise. If
-#'   `options("digits.secs")` is set, up to the specified number of digits will
-#'   be printed for seconds.
+#'   which is not midnight, and `"%Y-%m-%d"` otherwise.
 #' @param no_lead a character vector of POSIX conversion specifications from
 #'   which leading 0s should be removed.
+#' @param ... arguments passed to `format()`.
 #'
 #' @return A character vector representing the date or date-time.
 #'
@@ -235,12 +234,23 @@ sfyq_il <- function(x,
 #' @examples
 #' dt <- as.POSIXct("2023-06-05 01:02:03")
 #'
-#' # with leading zeros
-#' strftime(dt, "%m/%d/%Y %H:%M:%S")
+#' # `base::strftime()` includes leading zeros
+#' strftime(dt, "%m/%d/%y %H:%M:%S")
+#' # "06/05/23 01:02:03"
 #'
-#' # without leading zeros
-#' strftime_no_lead(dt, "%m/%d/%Y %H:%M:%S")
+#' # `strftime_no_lead()` removes leading zeros from specific components
+#' ## by default, leading zeros removed from month, day, and hour
+#' strftime_no_lead(dt, "%m/%d/%y %H:%M:%S")
+#' # "6/5/23 1:02:03"
 #'
+#' ## or remove from specified components -- eg, hour, minute, and second
+#' strftime_no_lead(
+#'   dt, 
+#'   format = "%Hh %Mm %OS1s", 
+#'   no_lead = c("%H", "%M", "%OS1")
+#' )
+#' # "1h 2m 3.0s"
+#' 
 #' @export
 strftime_no_lead <- function(x,
                              format = "",
@@ -253,10 +263,12 @@ strftime_no_lead <- function(x,
   if (length(format) > 1) {
     stop("`strftime_no_lead()` does not support `format` with length > 1.")
   }
+  OSn <- paste0("%OS", 0:6)
   specs_all <- c(
     "%%", "%a", "%A", "%b", "%B", "%c", "%C", "%d", "%D", "%e", "%F", "%g",
-    "%G", "%h", "%H", "%I", "%j", "%m", "%M", "%n", "%p", "%r", "%R", "%S",
-    "%t", "%T", "%u", "%U", "%V", "%w", "%W", "%x", "%X", "%y", "%Y", "%z", "%Z"
+    "%G", "%h", "%H", "%I", "%j", "%m", "%M", "%n", "%OS", OSn, "%p", "%r", 
+    "%R", "%S", "%t", "%T", "%u", "%U", "%V", "%w", "%W", "%x", "%X", "%y", 
+    "%Y", "%z", "%Z"
   )
   no_lead_unrec <- setdiff(no_lead, specs_all)
   if (length(no_lead_unrec) > 0) {
@@ -267,24 +279,33 @@ strftime_no_lead <- function(x,
   }
   if (any(no_lead %in% c("%c", "%D", "%x", "%X"))) {
     stop(
-      '`strftime_no_lead()` does not support the locale-dependent conversion ',
+      "`strftime_no_lead()` does not support the locale-dependent conversion ",
       'specifications "%c", "%D", "%x", or "%X" in the `no_lead` argument.'
     )
   }
-  elements <- stringr::str_extract_all(format, "%\\S")[[1]] |>
+  x <- as.POSIXlt(x, tz = tz)
+  if (format == "") {
+    times <- unlist(unclass(x)[1L:3L])
+    if (all(times[is.finite(times)] == 0)) format <- "%Y-%m-%d"
+    else format <- "%Y-%m-%d %H:%M:%S"
+  }  
+  elements <- stringr::str_extract_all(format, "(%OS[0-6]?)|(%\\S)")[[1]] |>
     unique() |>
     stats::setNames(nm = _) |>
-    lapply(strftime, x = x, tz = tz, ...)
+    lapply(base::format, x = x, ...)
   if ("%F" %in% names(elements) && "%F" %in% no_lead) {
     elements[["%F"]] <- stringr::str_remove_all(elements[["%F"]], "(?<=-)0")
     if (any(stringr::str_starts(elements[["%F"]], "0"))) {
       warning(
-        'Leading zeros removed for month and day but not year components of ',
+        "Leading zeros removed for month and day but not year components of ",
         '"%F". To change this behavior, use "%Y-%m-%d" and adjust `no_lead` ',
-        'argument.'
+        "argument."
       )
     }
     no_lead <- setdiff(no_lead, "%F")
+  }
+  if ("%OS" %in% setdiff(no_lead, names(elements))) {
+    no_lead <- union(no_lead, OSn)
   }
   for (nl in intersect(no_lead, names(elements))) {
     elements[[nl]] <- stringr::str_remove(elements[[nl]], "^0+(?=[0-9])")
@@ -295,7 +316,7 @@ strftime_no_lead <- function(x,
   }
   if (usetz) {
     stringr::str_replace(
-      strftime(x, format = "_", tz = tz, usetz = TRUE, ...),
+      base::format(x, format = "_", usetz = TRUE, ...),
       "_",
       out
     )
