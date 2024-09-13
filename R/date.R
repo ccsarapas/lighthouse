@@ -115,38 +115,69 @@ days_diff <- function(d1, d2, warn = TRUE) {
   as.numeric(d2 - d1, unit = "days")
 }
 
-
-#' Determine fiscal year from date
+#' Get the fiscal year and quarter of a date-time
 #'
 #' @description
-#' Given a date, returns the corresponding fiscal year, start date, or end date. The `fiscal_year` function allows specifying the fiscal year start month, while `ffy` and `sfy_il` are convenience wrappers:
-#' - `ffy`: Federal fiscal year (starts in October)
-#' - `sfy_il`: Illinois state fiscal year (starts in July)
+#' These functions return the fiscal year or fiscal year and quarter for a date-time.
 #'
-#' @param x A date or date-time object.
-#' @param type What to return: the fiscal year ("year"), first day of the fiscal year ("date_first"), or last day of the fiscal year ("date_last").
+#' @param x A date or date-time vector.
+#' @param type What to return:
+#' - For `fiscal_year()`, `ffy()`, and `sfy_il()`: One of "year" (default - numeric fiscal year), or "date_first" or "date_last" (first or last date of fiscal year).
+#' - For `ffyq()` and `sfyq_il()`: One of "year.quarter" (default - numeric fiscal year and quarter, in YYYY.Q format), "quarter" (numeric quarter), or "date_first" or "date_last" (first or last date of fiscal quarter).
 #' @param fiscal_start For `fiscal_year`, the month the fiscal year starts (default is 1 for January).
 #'
-#' @return An integer representing the fiscal year or a Date representing the start or end of the fiscal year, depending on `type`.
+#' @details
+#' `ffy()` and `sfy_il()` are convenience wrappers around `fiscal_year()` for
+#' federal fiscal year (starts in October) and Illinois state fiscal year
+#' (starts in July).
+#'
+#' `ffyq()` and `sfyq_il()` are analogous convenience wrappers
+#' around `lubridate::quarter()`.
+#'
+#' @return numeric (if `type` is `"year"` or `"year.quarter"`) or a vector of class Date (if `type` is `"date_first"` or `"date_last"`).
 #'
 #' @examples
-#' dt <- as.Date("2023-08-15")
-#' fiscal_year(dt)
-#' fiscal_year(dt, fiscal_start = 7)
-#' fiscal_year(dt, type = "date_first", fiscal_start = 7)
-#' fiscal_year(dt, type = "date_last", fiscal_start = 7)
-#' ffy(dt)
-#' sfy_il(dt)
-#'
+#' dates <- as.Date(c("2020-01-15", "2020-04-15", "2020-07-15", "2020-10-15"))
+#' 
+#' # default outputs
+#' data.frame(
+#'   date = dates,
+#'   fiscal_year = fiscal_year(dates),
+#'   fiscal_start_apr = fiscal_year(dates, fiscal_start = 4),
+#'   sfy_il = sfy_il(dates),
+#'   ffy = ffy(dates),
+#'   sfyq_il = sfyq_il(dates),
+#'   ffyq = ffyq(dates)
+#' )
+#' 
+#' # with `type = "date_first"`
+#' data.frame(
+#'   date = dates,
+#'   fiscal_year = fiscal_year(dates, type = "date_first"),
+#'   fiscal_start_apr = fiscal_year(dates, type = "date_first", fiscal_start = 4),
+#'   sfy_il = sfy_il(dates, type = "date_first"),
+#'   ffy = ffy(dates, type = "date_first")
+#' ) 
+#' 
 #' @export
 fiscal_year <- function(x,
                         type = c("year", "date_first", "date_last"),
                         fiscal_start = 1) {
   type <- match.arg(type)
-  if (fiscal_start == 1 | lubridate::month(x) < fiscal_start) {
+  if (!(length(fiscal_start) == 1 &&
+        is_coercible_integer(fiscal_start) && 
+        fiscal_start >= 1 && 
+        fiscal_start <= 12)) {
+    cli::cli_abort(c("!" = "`fiscal_start` must be a single integer between 1 and 12"))
+  }
+  if (fiscal_start == 1) {
     fyear <- lubridate::year(x)
   } else {
-    fyear <- lubridate::year(x) + 1
+    fyear <- ifelse(
+      lubridate::month(x) < fiscal_start, 
+      lubridate::year(x), 
+      lubridate::year(x) + 1
+    )
   }
   if (type == "year") return(fyear)
   if (fiscal_start != 1) fyear <- fyear - 1
@@ -167,7 +198,20 @@ ffy <- function(x, type = c("year", "date_first", "date_last")) {
 sfy_il <- function(x, type = c("year", "date_first", "date_last")) {
   fiscal_year(x, type = type, fiscal_start = 7)
 }
-
+#' @rdname fiscal_year
+#' @export
+ffyq <- function(x,
+                 type = c("year.quarter", "quarter", "date_first", "date_last")) {
+  type <- match.arg(type)
+  lubridate::quarter(x, type = type, fiscal_start = 10)
+}
+#' @rdname fiscal_year
+#' @export
+sfyq_il <- function(x,
+                    type = c("year.quarter", "quarter", "date_first", "date_last")) {
+  type <- match.arg(type)
+  lubridate::quarter(x, type = type, fiscal_start = 7)
+}
 
 #' Format date-time to string without leading zeros
 #'

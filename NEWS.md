@@ -1,3 +1,13 @@
+# lighthouse 0.7.2.9000
+
+## New functions
+
+* `ffyq()` and `sfyq_il()` return the federal fiscal year and quarter or Illinois state fiscal year and quarter for a given date. Return format can be set using the `type` parameter, defaulting to numeric `YYYY.Q` format. These functions wrap `lubridate::quarter()` and complement the existing lighthouse functions `ffy()` and `sfy_il()`.
+
+## Bug fixes
+
+* `fiscal_year()`, `ffy()`, and `sfy_il()` are now vectorized (fixes #23).
+
 # lighthouse 0.7.2
 
 ## Bug fixes
