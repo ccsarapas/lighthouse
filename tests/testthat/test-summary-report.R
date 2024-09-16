@@ -1,18 +1,15 @@
 test_that("summary_report autotypes character and factor as nominal", {
   expect_equal(
     summary_report(sr_data, chr),
-    tibble::tibble(
-      Variable = "chr",
-      Value = factor(c("a", "b", "c")),
-      V1 = 1L,
-      V2 = 1 / 3
-    )
+    tibble::tibble(Variable = "chr", Value = c("a", "b", "c"), V1 = 1, V2 = 1/3)
   )
   expect_equal(
     summary_report(sr_data, fct),
     tibble::tibble(
       Variable = "fct",
-      Value = factor(c("lvl 1", "lvl 2")), V1 = 2:1, V2 = c(2 / 3, 1 / 3)
+      Value = c("lvl 1", "lvl 2"), 
+      V1 = c(2, 1), 
+      V2 = c(2/3, 1/3)
     )
   )
 })
@@ -22,8 +19,8 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
     summary_report(sr_data, date),
     tibble::tibble(
       Variable = "date",
-      Value = factor(c("2022-09-02", "2023-06-15")),
-      V1 = 1:2,
+      Value = c("2022-09-02", "2023-06-15"),
+      V1 = c(1, 2),
       V2 = c(1 / 3, 2 / 3),
     )
   )
@@ -31,8 +28,8 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
     summary_report(sr_data, POSIXct),
     tibble::tibble(
       Variable = "POSIXct",
-      Value = factor(
-        c("2022-02-13 16:12:47", "2023-05-04 11:41:05", "2023-11-23 09:00:07")
+      Value = c(
+        "2022-02-13 16:12:47", "2023-05-04 11:41:05", "2023-11-23 09:00:07"
       ),
       V1 = 1,
       V2 = 1 / 3,
@@ -42,8 +39,8 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
     summary_report(sr_data, POSIXlt),
     tibble::tibble(
       Variable = "POSIXlt",
-      Value = factor(
-        c("2023-05-18 12:16:03", "2023-12-01 00:15:00", "2023-12-01 04:15:30")
+      Value = c(
+        "2023-05-18 12:16:03", "2023-12-01 00:15:00", "2023-12-01 04:15:30"
       ),
       V1 = 1,
       V2 = 1 / 3,
@@ -56,7 +53,7 @@ test_that("summary_report autotypes logical with missings as nominal", {
     summary_report(sr_data, lgl_na),
     tibble::tibble(
       Variable = "lgl_na",
-      Value = factor(c("TRUE", NA)),
+      Value = c("TRUE", NA),
       V1 = c(2, 1),
       V2 = c(2 / 3, 1 / 3),
     )
@@ -66,8 +63,8 @@ test_that("summary_report autotypes logical with missings as nominal", {
     summary_report(sr_data, lgl_all_FALSE_na, na.rm.nom = TRUE),
     tibble::tibble(
       Variable = "lgl_all_FALSE_na",
-      Value = factor("FALSE"),
-      V1 = 2L,
+      Value = "FALSE",
+      V1 = 2,
       V2 = 1
     )
   )
@@ -76,15 +73,20 @@ test_that("summary_report autotypes logical with missings as nominal", {
 test_that("summary_report autotypes logical without missings as binary", {
   expect_equal(
     summary_report(sr_data, lgl),
-    tibble::tibble(Variable = "lgl", Value = "TRUE", V1 = 2L, V2 = 2/3)
+    tibble::tibble(Variable = "lgl", Value = "TRUE", V1 = 2, V2 = 2/3)
   )
   expect_equal(
     summary_report(sr_data, lgl_na, na.rm = TRUE),
-    tibble::tibble(Variable = "lgl_na", Value = "TRUE", V1 = 2L, V2 = 1)
+    tibble::tibble(Variable = "lgl_na", Value = "TRUE", V1 = 2, V2 = 1)
   )
   expect_equal(
     summary_report(sr_data, lgl_all_FALSE_na, na.rm.bin = TRUE),
-    tibble::tibble(Variable = "lgl_all_FALSE_na", Value = "TRUE", V1 = 0L, V2 = 0)
+    tibble::tibble(
+      Variable = "lgl_all_FALSE_na", 
+      Value = "TRUE", 
+      V1 = 0, 
+      V2 = 0
+    )
   )
 })
 
@@ -105,11 +107,8 @@ test_that("summary_report applies default types correctly", {
     summary_report(sr_data, num, lgl, .default = "nom"),
     tibble::tibble(
       Variable = rep(c("num", "lgl"), 3:2),
-      Value = factor(
-        c("2", "9", "11", "FALSE", "TRUE"),
-        levels = c("2", "9", "11", "FALSE", "TRUE")
-      ),
-      V1 = c(rep(1L, 4), 2L),
+      Value = c("2", "9", "11", "FALSE", "TRUE"),
+      V1 = c(rep(1, 4), 2),
       V2 = c(rep(1 / 3, 4), 2 / 3),
     )
   )
@@ -129,11 +128,8 @@ test_that("summary_report applies measurement wrappers correctly", {
     summary_report(sr_data, nom(num, lgl)),
     tibble::tibble(
       Variable = rep(c("num", "lgl"), 3:2),
-      Value = factor(
-        c("2", "9", "11", "FALSE", "TRUE"),
-        levels = c("2", "9", "11", "FALSE", "TRUE")
-      ),
-      V1 = c(rep(1L, 4), 2L),
+      Value = c("2", "9", "11", "FALSE", "TRUE"),
+      V1 = c(rep(1, 4), 2),
       V2 = c(rep(1 / 3, 4), 2 / 3),
     )
   )
@@ -203,11 +199,11 @@ test_that("summary_report handles missing values correctly", {
 test_that("summary_report has `TRUE` row for binary even if no `TRUE` values", {
   expect_equal(
     summary_report(sr_data, lgl_all_FALSE),
-    tibble::tibble(Variable = "lgl_all_FALSE", Value = "TRUE", V1 = 0L, V2 = 0)
+    tibble::tibble(Variable = "lgl_all_FALSE", Value = "TRUE", V1 = 0, V2 = 0)
   )
   expect_equal(
     summary_report(sr_data, bin(num_bin_all_0)),
-    tibble::tibble(Variable = "num_bin_all_0", Value = "1", V1 = 0L, V2 = 0)
+    tibble::tibble(Variable = "num_bin_all_0", Value = "1", V1 = 0, V2 = 0)
   )
 })
 
