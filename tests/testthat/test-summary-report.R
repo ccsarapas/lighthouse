@@ -144,6 +144,25 @@ test_that("summary_report applies measurement wrappers correctly", {
   )
 })
 
+test_that("summary_report handle tidyselect expressions", {
+  expect_equal(
+    summary_report(sr_data, tidyselect::where(is.numeric))$Variable,
+    c("num", "num_bin", "num_bin_all_0", "num_two_vals", "num_na")
+  )
+})
+
+test_that("measurement helpers handle tidyselect expressions", {
+  expect_equal(
+    summary_report(sr_data, nom(lgl:lgl_all_FALSE, lgl_na)),
+    tibble::tibble(
+      Variable = c("lgl", "lgl", "lgl_all_FALSE", "lgl_na", "lgl_na"),
+      Value = c("FALSE", "TRUE", "FALSE", "TRUE", NA),
+      V1 = c(1, 2, 3, 2, 1),
+      V2 = c(1/3, 2/3, 1, 2/3, 1/3),
+    )
+  )
+})
+
 test_that("summary_report handles missing values correctly", {
   M_num_na <- mean(sr_data$num_na, na.rm = TRUE)
   SD_num_na <- sd(sr_data$num_na, na.rm = TRUE)
