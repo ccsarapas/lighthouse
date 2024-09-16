@@ -352,30 +352,32 @@ summary_report <- function(.data,
       }
       check_cont <- function(var) {
         v <- .data[[var]]
-        if (is.factor(v)) stop(var, " set as continuous but is a factor.")
-        if (is.character(v)) stop(var, " set as continuous but is character.")
+        if (is.factor(v)) {
+          cli::cli_abort("{var} set as continuous but is a factor.")
+        }
+        if (is.character(v)) {
+          cli::cli_abort("{var} set as continuous but is character.")
+        }
         if (is(v, "Date")) {
-          stop(
-            var, 
-            " set as continuous but is a Date. ",
-            "Treating Dates as continuous is not supported."
+          cli::cli_abort(
+            "{var} set as continuous but is a Date. Treating Dates as continuous is not supported."
           )
         }
         if (inherits(v, "POSIXt")) {
-          stop(
-            var,
-            " set as continuous but is a datetime. ",
-            "Treating datetimes as continuous is not supported."
+          cli::cli_abort(
+            "{var} set as continuous but is a datetime. Treating datetimes as continuous is not supported."
           )
         }
       }
       check_bin <- function(var) {
-        if (dplyr::n_distinct(.data[[var]], na.rm = na.rm.bin) > 2) {
-          stop(
-            var,
-            " set as binary but has >2 unique values. This sometimes",
-            " means there are missing values and `na.rm = FALSE`."
+        v <- .data[[var]]
+        if (!na.rm.bin && anyNA(v)) {
+          cli::cli_abort(
+            "{var} set as binary but has missing values. Missing values can be omitted by setting `na.rm` or `na.rm.bin` to TRUE`."
           )
+        }
+        if (dplyr::n_distinct(v, na.rm = na.rm.bin) > 2) {
+          cli::cli_abort("{var} set as binary but has >2 unique values.")
         }
       }
       if (rlang::is_call(arg) &&
@@ -431,11 +433,11 @@ summary_report <- function(.data,
       )
     }
     if (length(bin_nominal) > 0) {
-      stop(
-        "`bin()` supports only logical or binary numeric variables at this time.\n",
-        "These variables are not supported:\n",
+      cli::cli_abort(c(
+        "!" = "`bin()` supports only logical or binary numeric variables at this time.",
+        "i" = "These variables are not supported:",
         paste(as.character(bin_nominal), collapse = " ")
-      )
+      ))
     }
     dplyr::bind_rows(bin_out)
   }
@@ -477,7 +479,7 @@ summary_report <- function(.data,
 }
 
 meas_wrap_error <- function(...) {
-  stop("`nom()`, `bin()`, and `cont()` can only be used inside `summary_report()`.")
+  cli::cli_abort("`nom()`, `bin()`, and `cont()` can only be used inside `summary_report()`.")
 }
 
 #' @rdname summary_report
