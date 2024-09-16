@@ -249,8 +249,8 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'   \itemize{
 #'     \item Logical vectors will be treated as binary if there are no missing
 #'       values or if `na.rm.bin = TRUE`.
-#'     \item Character vectors, factors, and logical vectors with missing
-#'       values will be treated as nominal.
+#'     \item Character vectors, factors, dates and datetimes, and logical 
+#'       vectors with missing values will be treated as nominal.
 #'     \item All other variables will be treated as continuous.
 #'   }
 #' }
@@ -339,20 +339,35 @@ summary_report <- function(.data,
   process_args <- function(..., .env) {
     process_arg <- function(arg, env) {
       autotype <- function(var) {
-        if (
-          is.factor(.data[[var]]) ||
-          typeof(.data[[var]]) == "character" ||
-          (typeof(.data[[var]]) == "logical" &&
+        v <- .data[[var]]
+        if (is.factor(v) || typeof(v) == "character" || 
+            is(v, "Date") || inherits(v, "POSIXt") ||
+            (typeof(v) == "logical" &&
            !na.rm.bin &&
-           any(is.na(.data[[var]])))
-        ) "nom"
-        else if (typeof(.data[[var]]) == "logical") "bin"
+            any(is.na(v)))) {
+          "nom"
+        } 
+        else if (typeof(v) == "logical") "bin"
         else "cont"
       }
       check_cont <- function(var) {
         v <- .data[[var]]
         if (is.factor(v)) stop(var, " set as continuous but is a factor.")
         if (is.character(v)) stop(var, " set as continuous but is character.")
+        if (is(v, "Date")) {
+          stop(
+            var, 
+            " set as continuous but is a Date. ",
+            "Treating Dates as continuous is not supported."
+          )
+        }
+        if (inherits(v, "POSIXt")) {
+          stop(
+            var,
+            " set as continuous but is a datetime. ",
+            "Treating datetimes as continuous is not supported."
+          )
+        }
       }
       check_bin <- function(var) {
         if (dplyr::n_distinct(.data[[var]], na.rm = na.rm.bin) > 2) {
