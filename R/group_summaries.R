@@ -371,13 +371,15 @@ summary_report <- function(.data,
       }
       check_bin <- function(var) {
         v <- .data[[var]]
+        if (!(is.logical(v) || (is.numeric(v) && all(v %in% c(0, 1, NA))))) {
+          cli::cli_abort(
+            "`bin()` supports only logical or binary numeric variables at this time. Column `{var}` cannot be set as binary."
+          )
+        }
         if (!na.rm.bin && anyNA(v)) {
           cli::cli_abort(
             "{var} set as binary but has missing values. Missing values can be omitted by setting `na.rm` or `na.rm.bin` to TRUE`."
           )
-        }
-        if (dplyr::n_distinct(v, na.rm = na.rm.bin) > 2) {
-          cli::cli_abort("{var} set as binary but has >2 unique values.")
         }
       }
       if (rlang::is_call(arg) &&
@@ -412,34 +414,13 @@ summary_report <- function(.data,
       purrr::map(unlist)
   }
   summarize_bin <- function(.data, bin_vars) {
-    bin_data <- dplyr::select(dplyr::ungroup(.data), !!!bin_vars)
-    bin_logical <- untidyselect(
-      bin_data,
-      where(
-        ~ is.logical(.x) ||
-          (is.numeric(.x) && (all(.x %in% c(0, 1) | is.na(.x))))
-      ),
-      syms = TRUE
-    )
-    bin_nominal <- untidyselect(bin_data, !c(!!!bin_logical), syms = TRUE)
-    bin_out <- list()
-    if (length(bin_logical) > 0) {
-      bin_out[["logical"]] <- summary_table(
+    summary_table(
         .data,
         Value = ~ ifelse(is.logical(.x), "TRUE", "1"),
         V1 = ~ sum(.x, na.rm = na.rm.bin),
         V2 = ~ mean(.x, na.rm = na.rm.bin),
-        .vars = c(!!!bin_logical)
+        .vars = c(!!!bin_vars)
       )
-    }
-    if (length(bin_nominal) > 0) {
-      cli::cli_abort(c(
-        "!" = "`bin()` supports only logical or binary numeric variables at this time.",
-        "i" = "These variables are not supported:",
-        paste(as.character(bin_nominal), collapse = " ")
-      ))
-    }
-    dplyr::bind_rows(bin_out)
   }
   .default <- match.arg(.default)
   caller <- rlang::caller_env()

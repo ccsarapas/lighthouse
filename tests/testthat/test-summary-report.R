@@ -252,20 +252,15 @@ test_that("attempt to set inappropriate binary variable throws error", {
   )
   expect_error(
     summary_report(sr_data, bin(num)),
-    "set as binary but has >2 unique values."
+    "supports only logical or binary numeric variables at this time."
   )
   expect_error(
     summary_report(sr_data, bin(num_two_vals)),
-    paste(
-      "supports only logical or binary numeric variables at this time.",
-      "These variables are not supported:",
-      "num_two_vals",
-      sep = "\n"
-    )
+    "supports only logical or binary numeric variables at this time."
   )
   expect_error(
     summary_report(sr_data, bin(chr)),
-    "set as binary but has >2 unique values."
+    "supports only logical or binary numeric variables at this time."
   )
 })
 
