@@ -1,4 +1,4 @@
-test_that("strftime_no_lead works correctly with default parameters", {
+test_that("strftime_no_lead works correctly with default parameters (#21)", {
   expect_equal(strftime_no_lead(as.Date("2023-06-05")), "2023-6-5")
   expect_equal(
     strftime_no_lead(as.POSIXct("2023-06-05 01:02:03")),
