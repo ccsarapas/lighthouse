@@ -468,6 +468,7 @@ summary_report <- function(.data,
     nom_out <- tibble::tibble()
   }
   out <- dplyr::bind_rows(cont_out, bin_out, nom_out) %>%
+    dplyr::mutate(Value = as.character(Value), across(V1:V2, as.numeric)) %>% 
     dplyr::arrange(factor(Variable, levels = all_vars$vars_chr))
   if (!missing(.missing_label)) {
     out <- dplyr::mutate(out, Value = tidyr::replace_na(Value, .missing_label))
