@@ -8,13 +8,15 @@
 
 * `fiscal_year()`, `ffy()`, and `sfy_il()` are now vectorized (fixes #23).
 
-* `strftime_no_lead()` now returns results with default formatting when `format` is unspecified (fixes #21).
+* `strftime_no_lead()`:
+    * now returns results with default formatting when `format` is unspecified (fixes #21).
+    * now supports the `"%OSn"` conversion specification. This returns seconds with specified number of decimal places, up to 6; e.g., `"%OS3"` would return seconds with 3 decimals places.
 
-* `strftime_no_lead()` now supports the `"%OSn"` conversion specification. This returns seconds with specified number of decimal places, up to 6; e.g., `"%OS3"` would return seconds with 3 decimals places.
-
-* `summary_report()` no longer issues a deprecation warning related to using `!!!` on a single language object
-
-* `summary_report()` now treats dates and datetimes as nominal by default, and will error on attempts to treat dates or datetimes as continuous or binary.
+* `summary_report()`:
+    * no longer issues a deprecation warning related to using `!!!` on a single language object (fixes #19).
+    * now returns consistent column types in output tibble (fixes # 26).
+    * setting `.missing_lable` no longer throws errors in some situations (fixes #26).
+    * now treats dates and datetimes as nominal by default, and will error on attempts to treat dates or datetimes as continuous or binary.
 
 # lighthouse 0.7.2
 
