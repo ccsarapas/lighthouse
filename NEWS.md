@@ -12,6 +12,8 @@
 
 * `strftime_no_lead()` now supports the `"%OSn"` conversion specification. This returns seconds with specified number of decimal places, up to 6; e.g., `"%OS3"` would return seconds with 3 decimals places.
 
+* `summary_report()` no longer issues a deprecation warning related to using `!!!` on a single language object
+
 * `summary_report()` now treats dates and datetimes as nominal by default, and will error on attempts to treat dates or datetimes as continuous or binary.
 
 # lighthouse 0.7.2

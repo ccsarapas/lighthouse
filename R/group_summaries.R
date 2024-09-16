@@ -378,23 +378,17 @@ summary_report <- function(.data,
           )
         }
       }
-      if (rlang::is_call(arg)
-          && rlang::call_name(arg) %in% c("nom", "bin", "cont")) {
+      if (rlang::is_call(arg) &&
+        rlang::call_name(arg) %in% c("nom", "bin", "cont")) {
         vars <- rlang::call_args(arg)
         types <- rlang::call_name(arg)
       } else {
-        vars <- arg
+        # ensure `vars` is a list either way after this if/else clause --
+        # avoids deprecation warning from using `!!!` below
+        vars <- list(arg)
         types <- .default
       }
-      ######
-      ## 2024-05-16 - changed to handle case where `...` refers to variable
-      ##     defined in calling environment (e.g. `all_of(varlist)`), including
-      ##     below and adding and specifying `.env` / `env` arguments
-      ## removed:
-      # vars <- untidyselect(.data, c(!!!vars))
-      ## added:
       vars <- names(tidyselect::eval_select(rlang::expr(c(!!!vars)), .data, env = env))
-      ######
       types <- switch(
         types,
         auto = purrr::map_chr(vars, autotype),
