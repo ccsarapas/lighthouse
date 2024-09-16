@@ -324,7 +324,7 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'   add_rows_at_value(Variable, Race, DAUseBoth, DAUseBothDays) %>%
 #'   print_all()
 #' }
-#'
+#' 
 #' @export
 summary_report <- function(.data,
                            ...,
@@ -343,7 +343,7 @@ summary_report <- function(.data,
         if (is.factor(v) || typeof(v) == "character" || 
             is(v, "Date") || inherits(v, "POSIXt") ||
             (typeof(v) == "logical" &&
-           !na.rm.bin &&
+            !na.rm.bin &&
             any(is.na(v)))) {
           "nom"
         } 
@@ -409,20 +409,13 @@ summary_report <- function(.data,
       purrr::transpose() %>%
       purrr::map(unlist)
   }
-  Mode <- function(x, ...) {
-    if (all(is.na(x))) {
-      na_like(x)
-    } else {
-      names(sort(table(x[!is.na(x)]), decreasing = TRUE))[[1]]
-    }
-  }
   summarize_bin <- function(.data, bin_vars) {
     bin_data <- dplyr::select(dplyr::ungroup(.data), !!!bin_vars)
     bin_logical <- untidyselect(
       bin_data,
       where(
-        ~ is.logical(.x) |
-          (is.numeric(.x) & (all(.x %in% c(0, 1) | is.na(.x))))
+        ~ is.logical(.x) ||
+          (is.numeric(.x) && (all(.x %in% c(0, 1) | is.na(.x))))
       ),
       syms = TRUE
     )
@@ -441,7 +434,7 @@ summary_report <- function(.data,
       stop(
         "`bin()` supports only logical or binary numeric variables at this time.\n",
         "These variables are not supported:\n",
-        paste(names(bin_nominal), collapse = " ")
+        paste(as.character(bin_nominal), collapse = " ")
       )
     }
     dplyr::bind_rows(bin_out)
