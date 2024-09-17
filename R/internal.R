@@ -10,7 +10,6 @@ named_fn_list <- function(...) {
   .fns
 }
 
-
 is_logical_vec <- function(x) {
   stopifnot(rlang::is_vector(x))
   if (rlang::is_list(x)) {
@@ -20,4 +19,11 @@ is_logical_vec <- function(x) {
   }
 }
 
+try.na.rm <- function(fn, x, na.rm = FALSE, ...) {
+  if (any(c("na.rm", "...") %in% formalArgs(args(fn)))) {
+    fn(x, na.rm = na.rm, ...)
+  } else {
+    fn(x, ...)
+  }
+}
 ## consider fx to support `.by` in functions (see similar code in `count_pct`, `count_multiple`, etc)
