@@ -1,3 +1,5 @@
+mtcars2 <- transform(mtcars, trans = ifelse(am == 0, "auto", "manual"))
+
 sr_data <- tibble::tibble(
     chr = c("a", "c", "b"),
     fct = factor(c("lvl 1", "lvl 2", "lvl 1"), levels = c("lvl 1", "lvl 2")),
