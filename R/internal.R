@@ -5,7 +5,7 @@ named_fn_list <- function(...) {
   if (is.null(.fn_passed_names)) {
     names(.fns) <- .fn_default_names
   } else {
-    names(.fns) <- dplyr::coalesce(dplyr::na_if(.fn_passed_names, ""), .fn_default_names)
+    names(.fns) <- ifelse(.fn_passed_names == "", .fn_default_names, .fn_passed_names)
   }
   .fns
 }
