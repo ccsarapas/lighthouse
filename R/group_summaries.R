@@ -87,7 +87,7 @@ summary_table <- function(.data,
                           .cols_group_by = NULL,
                           .cols_group_opts = list(),
                           .var_col_name = "Variable") {
-  .fns <- named_fn_list(...) %>% 
+  .fns <- pairlist_auto_name(...) %>% 
     lapply(
       \(fn, na.rm) {
         function(x) try.na.rm(purrr::as_mapper(fn), x, na.rm = na.rm)

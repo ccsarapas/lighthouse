@@ -1,4 +1,4 @@
-named_fn_list <- function(...) {
+pairlist_auto_name <- function(...) {
   .fn_default_names <- purrr::map_chr(rlang::quos(...), rlang::as_label)
   .fns <- list(...)
   .fn_passed_names <- names(.fns)
