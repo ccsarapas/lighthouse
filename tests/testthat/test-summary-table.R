@@ -5,23 +5,31 @@ test_that("summary_table applies standard functions", {
   )
 })
 
-### rmv `...` after adding `try.na.rm`
 test_that("summary_table applies anonymous functions", {
   expect_equal(
-    summary_table(mtcars, \(x, ...) sd(x) / sqrt(length(x)), .vars = mpg),
+    summary_table(mtcars, \(x) sd(x) / sqrt(length(x)), .vars = mpg),
     tibble::tibble(
       Variable = "mpg", 
-      `function(x, ...) sd(x)/sqrt(length(x))` = sd(mtcars$mpg) / sqrt(length(mtcars$mpg))
+      `function(x) sd(x)/sqrt(length(x))` = sd(mtcars$mpg) / sqrt(length(mtcars$mpg))
     )
   )
 })
 
-### rmv `...` after adding `try.na.rm`
+test_that("summary_table applies old purrr-style anonymous functions", {
+  expect_equal(
+    summary_table(mtcars, ~ sd(.x) / sqrt(length(.x)), .vars = mpg),
+    tibble::tibble(
+      Variable = "mpg", 
+      `~sd(.x)/sqrt(length(.x))` = sd(mtcars$mpg) / sqrt(length(mtcars$mpg))
+    )
+  )
+})
+
 test_that("summary_table takes function names", {
   expect_equal(
     summary_table(
       mtcars,
-      M = mean, SEM = \(x, ...) sd(x) / sqrt(length(x)),
+      M = mean, SEM = \(x) sd(x) / sqrt(length(x)),
       .vars = mpg
     ),
     tibble::tibble(
@@ -47,7 +55,7 @@ test_that("summary_table handles functions that do not accept `na.rm`", {
     summary_table(mtcars, length, .vars = mpg)$length,
     length(mtcars$mpg)
   )
-  expect_no_error(
+  expect_equal(
     summary_table(mtcars, length, .vars = mpg, na.rm = TRUE)$length,
     length(mtcars$mpg)
   )

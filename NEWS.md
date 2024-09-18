@@ -8,6 +8,8 @@
 
 * `fiscal_year()`, `ffy()`, and `sfy_il()` are now vectorized (fixes #23).
 
+* `summary_table()` now accepts functions that do not have an `na.rm` or `...` argument, which previously caused an error.
+
 * `strftime_no_lead()`:
     * now returns results with default formatting when `format` is unspecified (fixes #21).
     * now supports the `"%OSn"` conversion specification. This returns seconds with specified number of decimal places, up to 6; e.g., `"%OS3"` would return seconds with 3 decimals places.

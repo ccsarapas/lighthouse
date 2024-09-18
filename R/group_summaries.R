@@ -87,10 +87,18 @@ summary_table <- function(.data,
                           .cols_group_by = NULL,
                           .cols_group_opts = list(),
                           .var_col_name = "Variable") {
-  .fns <- named_fn_list(...)
+  .fns <- named_fn_list(...) %>% 
+    lapply(
+      \(fn, na.rm) {
+        function(x) try.na.rm(purrr::as_mapper(fn), x, na.rm = na.rm)
+      },
+      na.rm = na.rm
+    )
   if (is.null(.var_col_name)) {
     if (length(untidyselect(.data, {{ .vars }})) > 1) {
-      stop("`.var_col_name` may not be `NULL` if more than one variable is specified in `.vars`.")
+      cli::cli_abort(
+        "`.var_col_name` may not be `NULL` if more than one variable is specified in `.vars`."
+      )
     }
     .var_col_name <- "..TMP_VAR_COL.."
   }
@@ -105,7 +113,6 @@ summary_table <- function(.data,
       dplyr::across(
         .cols = {{ .vars }},
         .fns = .fns,
-        na.rm = na.rm,
         .names = "{.col}__SEP__{.fn}"
       ),
       .groups = "drop"
