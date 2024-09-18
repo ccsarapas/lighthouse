@@ -71,7 +71,7 @@ next_bizday <- function(x,
 #' defined relative to the earliest date in `x`, unless a different start date
 #' is passed to `start`. Default behavior differs from
 #' `lubridate::floor_date(x, unit = "{n} days")`, which "resets" the floor to
-#' the first of the month with each month. `lubridate`-like behavior can be
+#' the first of the month with each month. lubridate-like behavior can be
 #' achieved by setting `reset_monthly = TRUE`.
 #'
 #' @export
@@ -115,38 +115,69 @@ days_diff <- function(d1, d2, warn = TRUE) {
   as.numeric(d2 - d1, unit = "days")
 }
 
-
-#' Determine fiscal year from date
+#' Get the fiscal year and quarter of a date-time
 #'
 #' @description
-#' Given a date, returns the corresponding fiscal year, start date, or end date. The `fiscal_year` function allows specifying the fiscal year start month, while `ffy` and `sfy_il` are convenience wrappers:
-#' - `ffy`: Federal fiscal year (starts in October)
-#' - `sfy_il`: Illinois state fiscal year (starts in July)
+#' These functions return the fiscal year or fiscal year and quarter for a date-time.
 #'
-#' @param x A date or date-time object.
-#' @param type What to return: the fiscal year ("year"), first day of the fiscal year ("date_first"), or last day of the fiscal year ("date_last").
+#' @param x A date or date-time vector.
+#' @param type What to return:
+#' - For `fiscal_year()`, `ffy()`, and `sfy_il()`: One of "year" (default - numeric fiscal year), or "date_first" or "date_last" (first or last date of fiscal year).
+#' - For `ffyq()` and `sfyq_il()`: One of "year.quarter" (default - numeric fiscal year and quarter, in YYYY.Q format), "quarter" (numeric quarter), or "date_first" or "date_last" (first or last date of fiscal quarter).
 #' @param fiscal_start For `fiscal_year`, the month the fiscal year starts (default is 1 for January).
 #'
-#' @return An integer representing the fiscal year or a Date representing the start or end of the fiscal year, depending on `type`.
+#' @details
+#' `ffy()` and `sfy_il()` are convenience wrappers around `fiscal_year()` for
+#' federal fiscal year (starts in October) and Illinois state fiscal year
+#' (starts in July).
+#'
+#' `ffyq()` and `sfyq_il()` are analogous convenience wrappers
+#' around `lubridate::quarter()`.
+#'
+#' @return numeric (if `type` is `"year"` or `"year.quarter"`) or a vector of class Date (if `type` is `"date_first"` or `"date_last"`).
 #'
 #' @examples
-#' dt <- as.Date("2023-08-15")
-#' fiscal_year(dt)
-#' fiscal_year(dt, fiscal_start = 7)
-#' fiscal_year(dt, type = "date_first", fiscal_start = 7)
-#' fiscal_year(dt, type = "date_last", fiscal_start = 7)
-#' ffy(dt)
-#' sfy_il(dt)
-#'
+#' dates <- as.Date(c("2020-01-15", "2020-04-15", "2020-07-15", "2020-10-15"))
+#' 
+#' # default outputs
+#' data.frame(
+#'   date = dates,
+#'   fiscal_year = fiscal_year(dates),
+#'   fiscal_start_apr = fiscal_year(dates, fiscal_start = 4),
+#'   sfy_il = sfy_il(dates),
+#'   ffy = ffy(dates),
+#'   sfyq_il = sfyq_il(dates),
+#'   ffyq = ffyq(dates)
+#' )
+#' 
+#' # with `type = "date_first"`
+#' data.frame(
+#'   date = dates,
+#'   fiscal_year = fiscal_year(dates, type = "date_first"),
+#'   fiscal_start_apr = fiscal_year(dates, type = "date_first", fiscal_start = 4),
+#'   sfy_il = sfy_il(dates, type = "date_first"),
+#'   ffy = ffy(dates, type = "date_first")
+#' ) 
+#' 
 #' @export
 fiscal_year <- function(x,
                         type = c("year", "date_first", "date_last"),
                         fiscal_start = 1) {
   type <- match.arg(type)
-  if (fiscal_start == 1 | lubridate::month(x) < fiscal_start) {
+  if (!(length(fiscal_start) == 1 &&
+        is_coercible_integer(fiscal_start) && 
+        fiscal_start >= 1 && 
+        fiscal_start <= 12)) {
+    cli::cli_abort(c("!" = "`fiscal_start` must be a single integer between 1 and 12"))
+  }
+  if (fiscal_start == 1) {
     fyear <- lubridate::year(x)
   } else {
-    fyear <- lubridate::year(x) + 1
+    fyear <- ifelse(
+      lubridate::month(x) < fiscal_start, 
+      lubridate::year(x), 
+      lubridate::year(x) + 1
+    )
   }
   if (type == "year") return(fyear)
   if (fiscal_start != 1) fyear <- fyear - 1
@@ -167,7 +198,20 @@ ffy <- function(x, type = c("year", "date_first", "date_last")) {
 sfy_il <- function(x, type = c("year", "date_first", "date_last")) {
   fiscal_year(x, type = type, fiscal_start = 7)
 }
-
+#' @rdname fiscal_year
+#' @export
+ffyq <- function(x,
+                 type = c("year.quarter", "quarter", "date_first", "date_last")) {
+  type <- match.arg(type)
+  lubridate::quarter(x, type = type, fiscal_start = 10)
+}
+#' @rdname fiscal_year
+#' @export
+sfyq_il <- function(x,
+                    type = c("year.quarter", "quarter", "date_first", "date_last")) {
+  type <- match.arg(type)
+  lubridate::quarter(x, type = type, fiscal_start = 7)
+}
 
 #' Format date-time to string without leading zeros
 #'
@@ -175,14 +219,13 @@ sfy_il <- function(x, type = c("year", "date_first", "date_last")) {
 #' to character without leading zeros in specified components.
 #'
 #' @inheritParams base::strftime
-#' @param x a Date, date-time, or other object coercible to `"POSIXlt"`.
+#' @param x a Date, date-time, `hms::hms` object, or other object coercible to `"POSIXlt"`.
 #' @param format a character string. If `""` (the default),
 #'   `"%Y-%m-%d %H:%M:%S"` will be used if any element has a time component
-#'   which is not midnight, and `"%Y-%m-%d"` otherwise. If
-#'   `options("digits.secs")` is set, up to the specified number of digits will
-#'   be printed for seconds.
+#'   which is not midnight, and `"%Y-%m-%d"` otherwise.
 #' @param no_lead a character vector of POSIX conversion specifications from
 #'   which leading 0s should be removed.
+#' @param ... arguments passed to `format()`.
 #'
 #' @return A character vector representing the date or date-time.
 #'
@@ -191,12 +234,23 @@ sfy_il <- function(x, type = c("year", "date_first", "date_last")) {
 #' @examples
 #' dt <- as.POSIXct("2023-06-05 01:02:03")
 #'
-#' # with leading zeros
-#' strftime(dt, "%m/%d/%Y %H:%M:%S")
+#' # `base::strftime()` includes leading zeros
+#' strftime(dt, "%m/%d/%y %H:%M:%S")
+#' # "06/05/23 01:02:03"
 #'
-#' # without leading zeros
-#' strftime_no_lead(dt, "%m/%d/%Y %H:%M:%S")
+#' # `strftime_no_lead()` removes leading zeros from specific components
+#' ## by default, leading zeros removed from month, day, and hour
+#' strftime_no_lead(dt, "%m/%d/%y %H:%M:%S")
+#' # "6/5/23 1:02:03"
 #'
+#' ## or remove from specified components -- eg, hour, minute, and second
+#' strftime_no_lead(
+#'   dt, 
+#'   format = "%Hh %Mm %OS1s", 
+#'   no_lead = c("%H", "%M", "%OS1")
+#' )
+#' # "1h 2m 3.0s"
+#' 
 #' @export
 strftime_no_lead <- function(x,
                              format = "",
@@ -209,10 +263,12 @@ strftime_no_lead <- function(x,
   if (length(format) > 1) {
     stop("`strftime_no_lead()` does not support `format` with length > 1.")
   }
+  OSn <- paste0("%OS", 0:6)
   specs_all <- c(
     "%%", "%a", "%A", "%b", "%B", "%c", "%C", "%d", "%D", "%e", "%F", "%g",
-    "%G", "%h", "%H", "%I", "%j", "%m", "%M", "%n", "%p", "%r", "%R", "%S",
-    "%t", "%T", "%u", "%U", "%V", "%w", "%W", "%x", "%X", "%y", "%Y", "%z", "%Z"
+    "%G", "%h", "%H", "%I", "%j", "%m", "%M", "%n", "%OS", OSn, "%p", "%r", 
+    "%R", "%S", "%t", "%T", "%u", "%U", "%V", "%w", "%W", "%x", "%X", "%y", 
+    "%Y", "%z", "%Z"
   )
   no_lead_unrec <- setdiff(no_lead, specs_all)
   if (length(no_lead_unrec) > 0) {
@@ -223,24 +279,33 @@ strftime_no_lead <- function(x,
   }
   if (any(no_lead %in% c("%c", "%D", "%x", "%X"))) {
     stop(
-      '`strftime_no_lead()` does not support the locale-dependent conversion ',
+      "`strftime_no_lead()` does not support the locale-dependent conversion ",
       'specifications "%c", "%D", "%x", or "%X" in the `no_lead` argument.'
     )
   }
-  elements <- stringr::str_extract_all(format, "%\\S")[[1]] |>
+  x <- as.POSIXlt(x, tz = tz)
+  if (format == "") {
+    times <- unlist(unclass(x)[1L:3L])
+    if (all(times[is.finite(times)] == 0)) format <- "%Y-%m-%d"
+    else format <- "%Y-%m-%d %H:%M:%S"
+  }  
+  elements <- stringr::str_extract_all(format, "(%OS[0-6]?)|(%\\S)")[[1]] |>
     unique() |>
     stats::setNames(nm = _) |>
-    lapply(strftime, x = x, tz = tz, ...)
+    lapply(base::format, x = x, ...)
   if ("%F" %in% names(elements) && "%F" %in% no_lead) {
     elements[["%F"]] <- stringr::str_remove_all(elements[["%F"]], "(?<=-)0")
     if (any(stringr::str_starts(elements[["%F"]], "0"))) {
       warning(
-        'Leading zeros removed for month and day but not year components of ',
+        "Leading zeros removed for month and day but not year components of ",
         '"%F". To change this behavior, use "%Y-%m-%d" and adjust `no_lead` ',
-        'argument.'
+        "argument."
       )
     }
     no_lead <- setdiff(no_lead, "%F")
+  }
+  if ("%OS" %in% setdiff(no_lead, names(elements))) {
+    no_lead <- union(no_lead, OSn)
   }
   for (nl in intersect(no_lead, names(elements))) {
     elements[[nl]] <- stringr::str_remove(elements[[nl]], "^0+(?=[0-9])")
@@ -251,7 +316,7 @@ strftime_no_lead <- function(x,
   }
   if (usetz) {
     stringr::str_replace(
-      strftime(x, format = "_", tz = tz, usetz = TRUE, ...),
+      base::format(x, format = "_", usetz = TRUE, ...),
       "_",
       out
     )

@@ -1,6 +1,6 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.7.2
+Version: 0.7.3
 Authors@R: 
     person("Casey", "Sarapas", 
            email = "ccsarapas@chestnut.org", 
@@ -8,34 +8,37 @@ Authors@R:
            comment = c(ORCID = "0000-0002-8668-1462"))
 Description: Utility functions for Lighthouse Institute projects.
 Imports: 
-  dplyr,
-  forcats,
-  ggplot2,
-  glue,
-  lubridate,
-  magrittr,
-  methods,
-  purrr,
-  rlang,
-  readr,
-  scales,
-  stats,
-  stringr,
-  tibble,
-  tidyr,
-  tidyselect,
-  utils,
-  vctrs
+    cli,
+    dplyr,
+    forcats,
+    ggplot2,
+    glue,
+    lubridate,
+    magrittr,
+    methods,
+    purrr,
+    rlang,
+    readr,
+    scales,
+    stats,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    utils,
+    vctrs
 Suggests:
-  broom,
-  dunn.test,
-  haven,
-  hrbrthemes,
-  labelled,
-  officer,
-  openxlsx,
-  psych,
-  rstudioapi
+    broom,
+    dunn.test,
+    haven,
+    hms,
+    hrbrthemes,
+    labelled,
+    officer,
+    openxlsx,
+    psych,
+    rstudioapi,
+    testthat (>= 3.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -46,3 +49,4 @@ LazyData: true
 URL: https://github.com/ccsarapas/lighthouse,
     https://ccsarapas.github.io/lighthouse/
 BugReports: https://github.com/ccsarapas/lighthouse/issues
+Config/testthat/edition: 3

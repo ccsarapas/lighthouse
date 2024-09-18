@@ -26,12 +26,20 @@
 #'
 #' @param .cols_group_by <[`tidy-select`][dplyr_tidy_select]> Grouping
 #' variable(s) for output columns.
-#'
-#' @param .cols_group_opts A list of additional arguments passed to
-#' [`tidyr::pivot_wider()`] if `.cols_group_by` is specified.
+#' 
+#' @param .cols_group_glue A glue specification controlling column names when 
+#' `.cols_group_by` is specified. See examples.
+#' 
+#' @param .cols_group_order When `.cols_group_by` is specified, how should the resulting columns be ordered?
+#' - "by_group" keeps columns from each group together, resulting in columns ordered like: fn1_group1, fn2_group1, fn1_group2, fn2_group2. This is the default.
+#' - "by_function" keeps columns from each function together, resulting in columns ordered like: fn1_group1, fn1_group2, fn2_group1, fn2_group2.
 #'
 #' @param .var_col_name The name of the output column containing variable names
 #' passed to `.vars`. This column will be dropped if `.var_col_name` is `NULL` and only one variable is passed to `.vars`.
+#' 
+#' @param .cols_group_opts DEPRECATED. A list of additional arguments passed to
+#' [`tidyr::pivot_wider()`] if `.cols_group_by` is specified. This argument will 
+#' be removed in a future release.
 #'
 #' @examples
 #' # example data
@@ -68,14 +76,13 @@
 #'    .var_col_name = NULL
 #'  )
 #'
-#' # `.cols_group_opts` are passed as arguments to `pivot_wider()`.
-#' # for instance to customize column names with a glue specification:
+#' # customize column names with a glue specification:
 #' mtcars2 %>%
 #'   summary_table(
 #'     M = mean, SD = sd,
 #'     .vars = c(mpg, hp, weight = wt),
 #'     .cols_group_by = c(Transmission, cyl),
-#'     .cols_group_opts = list(names_glue = "{cyl} cyl {Transmission}: {.value}")
+#'     .cols_group_glue = "{cyl} cyl {Transmission}: {.value}"
 #'   )
 #'
 #' @export
@@ -85,12 +92,22 @@ summary_table <- function(.data,
                           na.rm = FALSE,
                           .rows_group_by = NULL,
                           .cols_group_by = NULL,
-                          .cols_group_opts = list(),
-                          .var_col_name = "Variable") {
-  .fns <- named_fn_list(...)
+                          .cols_group_glue = NULL,
+                          .cols_group_order = c("by_group", "by_function"),
+                          .var_col_name = "Variable",
+                          .cols_group_opts = list()) {
+  .fns <- pairlist_auto_name(...) %>% 
+    lapply(
+      \(fn, na.rm) {
+        function(x) try.na.rm(purrr::as_mapper(fn), x, na.rm = na.rm)
+      },
+      na.rm = na.rm
+    )
   if (is.null(.var_col_name)) {
     if (length(untidyselect(.data, {{ .vars }})) > 1) {
-      stop("`.var_col_name` may not be `NULL` if more than one variable is specified in `.vars`.")
+      cli::cli_abort(
+        "`.var_col_name` may not be `NULL` if more than one variable is specified in `.vars`."
+      )
     }
     .var_col_name <- "..TMP_VAR_COL.."
   }
@@ -105,7 +122,6 @@ summary_table <- function(.data,
       dplyr::across(
         .cols = {{ .vars }},
         .fns = .fns,
-        na.rm = na.rm,
         .names = "{.col}__SEP__{.fn}"
       ),
       .groups = "drop"
@@ -119,20 +135,48 @@ summary_table <- function(.data,
     .data[[.var_col_name]] <- NULL
   }
   if (!missing(.cols_group_by)) {
-    names_from_cols <- untidyselect(.data, {{ .cols_group_by }})
-    rlang::exec(
-      tidyr::pivot_wider,
-      .data,
-      !!!.cols_group_opts,
-      names_from = tidyselect::all_of(names_from_cols),
-      values_from = tidyselect::all_of(names(.fns)),
-      names_vary = "slowest"
-    )
+    if (!missing(.cols_group_opts)) {
+      cli::cli_warn(c(
+        "!" = "{.arg .cols_group_opts} is deprecated and will be removed in a future release.",
+        "i" = "Use {.arg .cols_group_glue} and/or {.arg .cols_group_order} instead."
+      ))
+      if (!missing(.cols_group_glue) || !missing(.cols_group_order)) {
+        cli::cli_abort("Cannot specify {.arg .cols_group_opts} if either {.arg .cols_group_glue} or {.arg .cols_group_order} is specified.")
+      }
+      bad_opts <- intersect(
+        names(.cols_group_opts),
+        c("id_cols", "names_from", "values_from")
+      )
+      if (length(bad_opts) > 0) {
+        cli::cli_abort(
+          "{.arg .cols_group_opts} cannot contain `{glue::glue_collapse(bad_opts, sep = '`, `', last = '` or `')}`."
+        )
+      }
+      if (!("names_vary" %in% names(.cols_group_opts))) {
+        .cols_group_opts$names_vary <- "slowest"
+      }
+      eval(rlang::expr(tidyr::pivot_wider(
+        .data,
+        names_from = {{ .cols_group_by }},
+        values_from = tidyselect::all_of(names(.fns)),
+        !!!.cols_group_opts
+      )))
+    } else {
+      .cols_group_order <- match.arg(.cols_group_order)
+      .cols_group_order <- c(by_group = "slowest", 
+                             by_function = "fastest")[[.cols_group_order]]
+      tidyr::pivot_wider(
+        .data,
+        names_from = {{ .cols_group_by }},
+        values_from = tidyselect::all_of(names(.fns)),
+        names_vary = .cols_group_order,
+        names_glue = .cols_group_glue
+      )
+    }
   } else {
     .data
   }
 }
-
 
 #' Get information about data frame columns
 #'
@@ -224,6 +268,20 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'   nominal, binary, or continuous variables. Overrides `na.rm` for that
 #'   variable type.
 #'
+#' @return
+#' A tibble with four columns:
+#' - `Variable`: Variable name
+#' - `Value`:
+#'     - For nominal variables, a row for each unique value (including unobserved factor levels if `.drop = FALSE`).
+#'     - For binary variables, either `TRUE` or `1` (for logical or numeric variables, respectively).
+#'     - For continuous variables, the names of the summary statistics specified in `.cont_fx`.
+#' - `V1`:
+#'     - For nominal and binary variables, the number of observations with the value in `Value`.
+#'     - For continuous variables, the value of the first summary statistic.
+#' - `V2`:
+#'     - For nominal and binary variables, the proportion of observations with the value in `Value`.
+#'     - For continuous variables, the value of the second summary statistic.
+#'
 #' @section Determining measurement level:
 #' The measurement level for each variable is determined as follows:
 #' \enumerate{
@@ -235,8 +293,8 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'   \itemize{
 #'     \item Logical vectors will be treated as binary if there are no missing
 #'       values or if `na.rm.bin = TRUE`.
-#'     \item Character vectors, factors, and logical vectors with missing
-#'       values will be treated as nominal.
+#'     \item Character vectors, factors, dates and datetimes, and logical 
+#'       vectors with missing values will be treated as nominal.
 #'     \item All other variables will be treated as continuous.
 #'   }
 #' }
@@ -255,11 +313,44 @@ cols_info <- function(x, zap_spss = TRUE) {
 #' = PregnancyStatus == "Pregnant"`.
 #'
 #' @examples
+#' mtcars %>% 
+#'   transform(high_hp = hp > 200) %>%  # create logical indicator
+#'   summary_report(
+#'     nom(cyl),  # numeric - would autotype as continuous, but override with `nom()`
+#'     bin(am),   # numeric - would autotype as continuous, but override with `bin()`
+#'     high_hp,   # logical - will autotype as binary
+#'     mpg,       # numeric - will autotype as continuous
+#'     .cont_fx = list(median, IQR)
+#'   )
+#' 
+#' ggplot2::msleep %>%
+#'   transform(herbivore = vore == "herbi") %>%
+#'   summary_report(
+#'     conservation, # character - will be autotyped as nominal
+#'     herbivore, # logical, but w/ NAs - so will autotype as nominal
+#'     sleep_total, # numeric - will be autotyped as continuous
+#'     sleep_rem, # ditto, but has NAs so results will be NA
+#'     .missing_label = "(missing)"
+#'   )
+#' 
+#' # repeat above, but tweak NA handling
+#' ggplot2::msleep %>%
+#'   transform(herbivore = vore == "herbi") %>%
+#'     summary_report(
+#'       conservation, # character - will be autotyped as nominal
+#'       herbivore,    # logical, w/ NAs - but will autotype as binary thanks to `na.rm.bin = TRUE`
+#'       sleep_total,  # numeric - will be autotyped as continuous
+#'       sleep_rem,    # numeric w/ NAs - but will still give results thanks to `na.rm.cont = TRUE`,
+#'       na.rm.bin = TRUE,
+#'       na.rm.cont = TRUE,
+#'       .missing_label = "(missing)"
+#'     )
+#' 
 #' \dontrun{
 #' # create a report using pre-processed SOR data
 #' total_label <- "SOR-II Overall"
 #' data_baseline %>%
-#' group_with_total(ServiceType, .label = total_label) %>%
+#'   group_with_total(ServiceType, .label = total_label) %>%
 #'   summary_report(
 #'     Age, Gender, Race,
 #'     bin(DAUseAlcohol, DAUseIllegDrugs, DAUseBoth),
@@ -277,7 +368,7 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'   add_rows_at_value(Variable, Race, DAUseBoth, DAUseBothDays) %>%
 #'   print_all()
 #' }
-#'
+#' 
 #' @export
 summary_report <- function(.data,
                            ...,
@@ -292,47 +383,60 @@ summary_report <- function(.data,
   process_args <- function(..., .env) {
     process_arg <- function(arg, env) {
       autotype <- function(var) {
-        if (
-          is.factor(.data[[var]]) ||
-          typeof(.data[[var]]) == "character" ||
-          (typeof(.data[[var]]) == "logical" &&
-           !na.rm.bin &&
-           any(is.na(.data[[var]])))
-        ) "nom"
-        else if (typeof(.data[[var]]) == "logical") "bin"
+        v <- .data[[var]]
+        if (is.factor(v) || typeof(v) == "character" || 
+            is(v, "Date") || inherits(v, "POSIXt") ||
+            (typeof(v) == "logical" &&
+            !na.rm.bin &&
+            any(is.na(v)))) {
+          "nom"
+        } 
+        else if (typeof(v) == "logical") "bin"
         else "cont"
       }
       check_cont <- function(var) {
         v <- .data[[var]]
-        if (is.factor(v)) stop(var, " set as continuous but is a factor.")
-        if (is.character(v)) stop(var, " set as continuous but is character.")
-      }
-      check_bin <- function(var) {
-        if (dplyr::n_distinct(.data[[var]], na.rm = na.rm.bin) > 2) {
-          stop(
-            var,
-            " set as binary but has >2 unique values. This sometimes",
-            " means there are missing values and `na.rm = FALSE`."
+        if (is.factor(v)) {
+          cli::cli_abort("{var} set as continuous but is a factor.")
+        }
+        if (is.character(v)) {
+          cli::cli_abort("{var} set as continuous but is character.")
+        }
+        if (is(v, "Date")) {
+          cli::cli_abort(
+            "{var} set as continuous but is a Date. Treating Dates as continuous is not supported."
+          )
+        }
+        if (inherits(v, "POSIXt")) {
+          cli::cli_abort(
+            "{var} set as continuous but is a datetime. Treating datetimes as continuous is not supported."
           )
         }
       }
-      if (rlang::is_call(arg)
-          && rlang::call_name(arg) %in% c("nom", "bin", "cont")) {
+      check_bin <- function(var) {
+        v <- .data[[var]]
+        if (!(is.logical(v) || (is.numeric(v) && all(v %in% c(0, 1, NA))))) {
+          cli::cli_abort(
+            "`bin()` supports only logical or binary numeric variables at this time. Column `{var}` cannot be set as binary."
+          )
+        }
+        if (!na.rm.bin && anyNA(v)) {
+          cli::cli_abort(
+            "{var} set as binary but has missing values. Missing values can be omitted by setting `na.rm` or `na.rm.bin` to TRUE`."
+          )
+        }
+      }
+      if (rlang::is_call(arg) &&
+        rlang::call_name(arg) %in% c("nom", "bin", "cont")) {
         vars <- rlang::call_args(arg)
         types <- rlang::call_name(arg)
       } else {
-        vars <- arg
+        # ensure `vars` is a list either way after this if/else clause --
+        # avoids deprecation warning from using `!!!` below
+        vars <- list(arg)
         types <- .default
       }
-      ######
-      ## 2024-05-16 - changed to handle case where `...` refers to variable
-      ##     defined in calling environment (e.g. `all_of(varlist)`), including
-      ##     below and adding and specifying `.env` / `env` arguments
-      ## removed:
-      # vars <- untidyselect(.data, c(!!!vars))
-      ## added:
       vars <- names(tidyselect::eval_select(rlang::expr(c(!!!vars)), .data, env = env))
-      ######
       types <- switch(
         types,
         auto = purrr::map_chr(vars, autotype),
@@ -353,42 +457,14 @@ summary_report <- function(.data,
       purrr::transpose() %>%
       purrr::map(unlist)
   }
-  Mode <- function(x, ...) {
-    if (all(is.na(x))) {
-      na_like(x)
-    } else {
-      names(sort(table(x[!is.na(x)]), decreasing = TRUE))[[1]]
-    }
-  }
   summarize_bin <- function(.data, bin_vars) {
-    bin_data <- dplyr::select(dplyr::ungroup(.data), !!!bin_vars)
-    bin_logical <- untidyselect(
-      bin_data,
-      where(
-        ~ is.logical(.x) |
-          (is.numeric(.x) & (all(.x %in% c(0, 1) | is.na(.x))))
-      ),
-      syms = TRUE
-    )
-    bin_nominal <- untidyselect(bin_data, !c(!!!bin_logical), syms = TRUE)
-    bin_out <- list()
-    if (length(bin_logical) > 0) {
-      bin_out[["logical"]] <- summary_table(
+    summary_table(
         .data,
         Value = ~ ifelse(is.logical(.x), "TRUE", "1"),
         V1 = ~ sum(.x, na.rm = na.rm.bin),
         V2 = ~ mean(.x, na.rm = na.rm.bin),
-        .vars = c(!!!bin_logical)
+        .vars = c(!!!bin_vars)
       )
-    }
-    if (length(bin_nominal) > 0) {
-      stop(
-        "`bin()` supports only logical or binary numeric variables at this time.\n",
-        "These variables are not supported:\n",
-        paste(names(bin_nominal), collapse = " ")
-      )
-    }
-    dplyr::bind_rows(bin_out)
   }
   .default <- match.arg(.default)
   caller <- rlang::caller_env()
@@ -419,6 +495,7 @@ summary_report <- function(.data,
     nom_out <- tibble::tibble()
   }
   out <- dplyr::bind_rows(cont_out, bin_out, nom_out) %>%
+    dplyr::mutate(Value = as.character(Value), across(V1:V2, as.numeric)) %>% 
     dplyr::arrange(factor(Variable, levels = all_vars$vars_chr))
   if (!missing(.missing_label)) {
     out <- dplyr::mutate(out, Value = tidyr::replace_na(Value, .missing_label))
@@ -427,7 +504,7 @@ summary_report <- function(.data,
 }
 
 meas_wrap_error <- function(...) {
-  stop("`nom()`, `bin()`, and `cont()` can only be used inside `summary_report()`.")
+  cli::cli_abort("`nom()`, `bin()`, and `cont()` can only be used inside `summary_report()`.")
 }
 
 #' @rdname summary_report

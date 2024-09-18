@@ -21,6 +21,6 @@ week.
 defined relative to the earliest date in \code{x}, unless a different start date
 is passed to \code{start}. Default behavior differs from
 \code{lubridate::floor_date(x, unit = "{n} days")}, which "resets" the floor to
-the first of the month with each month. \code{lubridate}-like behavior can be
+the first of the month with each month. lubridate-like behavior can be
 achieved by setting \code{reset_monthly = TRUE}.
 }

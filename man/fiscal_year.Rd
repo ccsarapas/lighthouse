@@ -4,38 +4,66 @@
 \alias{fiscal_year}
 \alias{ffy}
 \alias{sfy_il}
-\title{Determine fiscal year from date}
+\alias{ffyq}
+\alias{sfyq_il}
+\title{Get the fiscal year and quarter of a date-time}
 \usage{
 fiscal_year(x, type = c("year", "date_first", "date_last"), fiscal_start = 1)
 
 ffy(x, type = c("year", "date_first", "date_last"))
 
 sfy_il(x, type = c("year", "date_first", "date_last"))
+
+ffyq(x, type = c("year.quarter", "quarter", "date_first", "date_last"))
+
+sfyq_il(x, type = c("year.quarter", "quarter", "date_first", "date_last"))
 }
 \arguments{
-\item{x}{A date or date-time object.}
+\item{x}{A date or date-time vector.}
 
-\item{type}{What to return: the fiscal year ("year"), first day of the fiscal year ("date_first"), or last day of the fiscal year ("date_last").}
+\item{type}{What to return:
+\itemize{
+\item For \code{fiscal_year()}, \code{ffy()}, and \code{sfy_il()}: One of "year" (default - numeric fiscal year), or "date_first" or "date_last" (first or last date of fiscal year).
+\item For \code{ffyq()} and \code{sfyq_il()}: One of "year.quarter" (default - numeric fiscal year and quarter, in YYYY.Q format), "quarter" (numeric quarter), or "date_first" or "date_last" (first or last date of fiscal quarter).
+}}
 
 \item{fiscal_start}{For \code{fiscal_year}, the month the fiscal year starts (default is 1 for January).}
 }
 \value{
-An integer representing the fiscal year or a Date representing the start or end of the fiscal year, depending on \code{type}.
+numeric (if \code{type} is \code{"year"} or \code{"year.quarter"}) or a vector of class Date (if \code{type} is \code{"date_first"} or \code{"date_last"}).
 }
 \description{
-Given a date, returns the corresponding fiscal year, start date, or end date. The \code{fiscal_year} function allows specifying the fiscal year start month, while \code{ffy} and \code{sfy_il} are convenience wrappers:
-\itemize{
-\item \code{ffy}: Federal fiscal year (starts in October)
-\item \code{sfy_il}: Illinois state fiscal year (starts in July)
+These functions return the fiscal year or fiscal year and quarter for a date-time.
 }
+\details{
+\code{ffy()} and \code{sfy_il()} are convenience wrappers around \code{fiscal_year()} for
+federal fiscal year (starts in October) and Illinois state fiscal year
+(starts in July).
+
+\code{ffyq()} and \code{sfyq_il()} are analogous convenience wrappers
+around \code{lubridate::quarter()}.
 }
 \examples{
-dt <- as.Date("2023-08-15")
-fiscal_year(dt)
-fiscal_year(dt, fiscal_start = 7)
-fiscal_year(dt, type = "date_first", fiscal_start = 7)
-fiscal_year(dt, type = "date_last", fiscal_start = 7)
-ffy(dt)
-sfy_il(dt)
+dates <- as.Date(c("2020-01-15", "2020-04-15", "2020-07-15", "2020-10-15"))
+
+# default outputs
+data.frame(
+  date = dates,
+  fiscal_year = fiscal_year(dates),
+  fiscal_start_apr = fiscal_year(dates, fiscal_start = 4),
+  sfy_il = sfy_il(dates),
+  ffy = ffy(dates),
+  sfyq_il = sfyq_il(dates),
+  ffyq = ffyq(dates)
+)
+
+# with `type = "date_first"`
+data.frame(
+  date = dates,
+  fiscal_year = fiscal_year(dates, type = "date_first"),
+  fiscal_start_apr = fiscal_year(dates, type = "date_first", fiscal_start = 4),
+  sfy_il = sfy_il(dates, type = "date_first"),
+  ffy = ffy(dates, type = "date_first")
+) 
 
 }

@@ -11,8 +11,10 @@ summary_table(
   na.rm = FALSE,
   .rows_group_by = NULL,
   .cols_group_by = NULL,
-  .cols_group_opts = list(),
-  .var_col_name = "Variable"
+  .cols_group_glue = NULL,
+  .cols_group_order = c("by_group", "by_function"),
+  .var_col_name = "Variable",
+  .cols_group_opts = list()
 )
 }
 \arguments{
@@ -39,11 +41,21 @@ variable(s) for output rows.}
 \item{.cols_group_by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Grouping
 variable(s) for output columns.}
 
-\item{.cols_group_opts}{A list of additional arguments passed to
-\code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}} if \code{.cols_group_by} is specified.}
+\item{.cols_group_glue}{A glue specification controlling column names when
+\code{.cols_group_by} is specified. See examples.}
+
+\item{.cols_group_order}{When \code{.cols_group_by} is specified, how should the resulting columns be ordered?
+\itemize{
+\item "by_group" keeps columns from each group together, resulting in columns ordered like: fn1_group1, fn2_group1, fn1_group2, fn2_group2. This is the default.
+\item "by_function" keeps columns from each function together, resulting in columns ordered like: fn1_group1, fn1_group2, fn2_group1, fn2_group2.
+}}
 
 \item{.var_col_name}{The name of the output column containing variable names
 passed to \code{.vars}. This column will be dropped if \code{.var_col_name} is \code{NULL} and only one variable is passed to \code{.vars}.}
+
+\item{.cols_group_opts}{DEPRECATED. A list of additional arguments passed to
+\code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}} if \code{.cols_group_by} is specified. This argument will
+be removed in a future release.}
 }
 \description{
 Generates a summary table, with a row for each variable passed to \code{.vars} and
@@ -84,14 +96,13 @@ mtcars2 \%>\%
    .var_col_name = NULL
  )
 
-# `.cols_group_opts` are passed as arguments to `pivot_wider()`.
-# for instance to customize column names with a glue specification:
+# customize column names with a glue specification:
 mtcars2 \%>\%
   summary_table(
     M = mean, SD = sd,
     .vars = c(mpg, hp, weight = wt),
     .cols_group_by = c(Transmission, cyl),
-    .cols_group_opts = list(names_glue = "{cyl} cyl {Transmission}: {.value}")
+    .cols_group_glue = "{cyl} cyl {Transmission}: {.value}"
   )
 
 }

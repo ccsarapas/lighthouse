@@ -1,3 +1,29 @@
+# lighthouse 0.7.3
+
+## New functions
+
+* `ffyq()` and `sfyq_il()` return the federal fiscal year and quarter or Illinois state fiscal year and quarter for a given date. Return format can be set using the `type` parameter, defaulting to numeric `YYYY.Q` format. These functions wrap `lubridate::quarter()` and complement the existing lighthouse functions `ffy()` and `sfy_il()`.
+
+## New functionality
+
+* `summary_table()` has new arguments `.cols_group_glue` and `.cols_group_order` to control column names and order when `.cols_group_by` is set. These are replacements for `.cols_group_opts`, which is deprecated and will be removed in a future release.
+
+## Bug fixes
+
+* `fiscal_year()`, `ffy()`, and `sfy_il()` are now vectorized (fixes #23).
+
+* `summary_table()` now accepts functions that do not have an `na.rm` or `...` argument, which previously caused an error.
+
+* `strftime_no_lead()`:
+    * now returns results with default formatting when `format` is unspecified (fixes #21).
+    * now supports the `"%OSn"` conversion specification. This returns seconds with specified number of decimal places, up to 6; e.g., `"%OS3"` would return seconds with 3 decimals places.
+
+* `summary_report()`:
+    * no longer issues a deprecation warning related to using `!!!` on a single language object (fixes #19).
+    * now returns consistent column types in output tibble (fixes # 26).
+    * setting `.missing_label` no longer throws errors in some situations (fixes #26).
+    * now treats dates and datetimes as nominal by default, and will error on attempts to treat dates or datetimes as continuous or binary.
+
 # lighthouse 0.7.2
 
 ## Bug fixes
