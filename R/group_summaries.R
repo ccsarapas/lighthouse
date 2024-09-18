@@ -346,7 +346,7 @@ cols_info <- function(x, zap_spss = TRUE) {
 #'       .missing_label = "(missing)"
 #'     )
 #' 
-#' #' \dontrun{
+#' \dontrun{
 #' # create a report using pre-processed SOR data
 #' total_label <- "SOR-II Overall"
 #' data_baseline %>%

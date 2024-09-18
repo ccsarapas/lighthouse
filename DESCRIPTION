@@ -31,6 +31,7 @@ Suggests:
     broom,
     dunn.test,
     haven,
+    hms,
     hrbrthemes,
     labelled,
     officer,

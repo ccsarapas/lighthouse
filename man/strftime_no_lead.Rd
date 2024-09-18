@@ -14,13 +14,11 @@ strftime_no_lead(
 )
 }
 \arguments{
-\item{x}{a Date, date-time, or other object coercible to \code{"POSIXlt"}.}
+\item{x}{a Date, date-time, \code{hms::hms} object, or other object coercible to \code{"POSIXlt"}.}
 
 \item{format}{a character string. If \code{""} (the default),
 \code{"\%Y-\%m-\%d \%H:\%M:\%S"} will be used if any element has a time component
-which is not midnight, and \code{"\%Y-\%m-\%d"} otherwise. If
-\code{options("digits.secs")} is set, up to the specified number of digits will
-be printed for seconds.}
+which is not midnight, and \code{"\%Y-\%m-\%d"} otherwise.}
 
 \item{tz}{a character string specifying the time zone to be used for
     the conversion.  System-specific (see \code{\link[base]{as.POSIXlt}}), but
@@ -35,7 +33,7 @@ be printed for seconds.}
 \item{no_lead}{a character vector of POSIX conversion specifications from
 which leading 0s should be removed.}
 
-\item{...}{further arguments to be passed from or to other methods.}
+\item{...}{arguments passed to \code{format()}.}
 }
 \value{
 A character vector representing the date or date-time.
@@ -47,11 +45,22 @@ to character without leading zeros in specified components.
 \examples{
 dt <- as.POSIXct("2023-06-05 01:02:03")
 
-# with leading zeros
-strftime(dt, "\%m/\%d/\%Y \%H:\%M:\%S")
+# `base::strftime()` includes leading zeros
+strftime(dt, "\%m/\%d/\%y \%H:\%M:\%S")
+# "06/05/23 01:02:03"
 
-# without leading zeros
-strftime_no_lead(dt, "\%m/\%d/\%Y \%H:\%M:\%S")
+# `strftime_no_lead()` removes leading zeros from specific components
+## by default, leading zeros removed from month, day, and hour
+strftime_no_lead(dt, "\%m/\%d/\%y \%H:\%M:\%S")
+# "6/5/23 1:02:03"
+
+## or remove from specified components -- eg, hour, minute, and second
+strftime_no_lead(
+  dt, 
+  format = "\%Hh \%Mm \%OS1s", 
+  no_lead = c("\%H", "\%M", "\%OS1")
+)
+# "1h 2m 3.0s"
 
 }
 \seealso{

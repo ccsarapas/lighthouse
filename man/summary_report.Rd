@@ -55,6 +55,28 @@ computation.}
 nominal, binary, or continuous variables. Overrides \code{na.rm} for that
 variable type.}
 }
+\value{
+A tibble with four columns:
+\itemize{
+\item \code{Variable}: Variable name
+\item \code{Value}:
+\itemize{
+\item For nominal variables, a row for each unique value (including unobserved factor levels if \code{.drop = FALSE}).
+\item For binary variables, either \code{TRUE} or \code{1} (for logical or numeric variables, respectively).
+\item For continuous variables, the names of the summary statistics specified in \code{.cont_fx}.
+}
+\item \code{V1}:
+\itemize{
+\item For nominal and binary variables, the number of observations with the value in \code{Value}.
+\item For continuous variables, the value of the first summary statistic.
+}
+\item \code{V2}:
+\itemize{
+\item For nominal and binary variables, the proportion of observations with the value in \code{Value}.
+\item For continuous variables, the value of the second summary statistic.
+}
+}
+}
 \description{
 Summarizes each variable passed to \code{...}. This is handled differently based
 on each variable's level of measurement:
@@ -82,8 +104,8 @@ specified in \code{.default}.
 \itemize{
 \item Logical vectors will be treated as binary if there are no missing
 values or if \code{na.rm.bin = TRUE}.
-\item Character vectors, factors, and logical vectors with missing
-values will be treated as nominal.
+\item Character vectors, factors, dates and datetimes, and logical
+vectors with missing values will be treated as nominal.
 \item All other variables will be treated as continuous.
 }
 }
@@ -104,11 +126,44 @@ Instead, consider converting these to a logical indicator, e.g., \code{Pregnant 
 }
 
 \examples{
-\dontrun{
+mtcars \%>\% 
+  transform(high_hp = hp > 200) \%>\%  # create logical indicator
+  summary_report(
+    nom(cyl),  # numeric - would autotype as continuous, but override with `nom()`
+    bin(am),   # numeric - would autotype as continuous, but override with `bin()`
+    high_hp,   # logical - will autotype as binary
+    mpg,       # numeric - will autotype as continuous
+    .cont_fx = list(median, IQR)
+  )
+
+ggplot2::msleep \%>\%
+  transform(herbivore = vore == "herbi") \%>\%
+  summary_report(
+    conservation, # character - will be autotyped as nominal
+    herbivore, # logical, but w/ NAs - so will autotype as nominal
+    sleep_total, # numeric - will be autotyped as continuous
+    sleep_rem, # ditto, but has NAs so results will be NA
+    .missing_label = "(missing)"
+  )
+
+# repeat above, but tweak NA handling
+ggplot2::msleep \%>\%
+  transform(herbivore = vore == "herbi") \%>\%
+    summary_report(
+      conservation, # character - will be autotyped as nominal
+      herbivore,    # logical, w/ NAs - but will autotype as binary thanks to `na.rm.bin = TRUE`
+      sleep_total,  # numeric - will be autotyped as continuous
+      sleep_rem,    # numeric w/ NAs - but will still give results thanks to `na.rm.cont = TRUE`,
+      na.rm.bin = TRUE,
+      na.rm.cont = TRUE,
+      .missing_label = "(missing)"
+    )
+
+#' \dontrun{
 # create a report using pre-processed SOR data
 total_label <- "SOR-II Overall"
 data_baseline \%>\%
-group_with_total(ServiceType, .label = total_label) \%>\%
+  group_with_total(ServiceType, .label = total_label) \%>\%
   summary_report(
     Age, Gender, Race,
     bin(DAUseAlcohol, DAUseIllegDrugs, DAUseBoth),
