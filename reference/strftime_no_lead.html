@@ -9,7 +9,7 @@ to character without leading zeros in specified components."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">lighthouse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ to character without leading zeros in specified components."><meta property="og:
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Format date-time to string without leading zeros</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/v0.7.2/R/date.R" class="external-link"><code>R/date.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/main/R/date.R" class="external-link"><code>R/date.R</code></a></small>
       <div class="d-none name"><code>strftime_no_lead.Rd</code></div>
     </div>
 
@@ -56,15 +56,13 @@ to character without leading zeros in specified components.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>a Date, date-time, or other object coercible to <code>"POSIXlt"</code>.</p></dd>
+<dd><p>a Date, date-time, <code><a href="https://hms.tidyverse.org/reference/hms.html" class="external-link">hms::hms</a></code> object, or other object coercible to <code>"POSIXlt"</code>.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
 <dd><p>a character string. If <code>""</code> (the default),
 <code>"%Y-%m-%d %H:%M:%S"</code> will be used if any element has a time component
-which is not midnight, and <code>"%Y-%m-%d"</code> otherwise. If
-<code>options("digits.secs")</code> is set, up to the specified number of digits will
-be printed for seconds.</p></dd>
+which is not midnight, and <code>"%Y-%m-%d"</code> otherwise.</p></dd>
 
 
 <dt id="arg-tz">tz<a class="anchor" aria-label="anchor" href="#arg-tz"></a></dt>
@@ -87,7 +85,7 @@ which leading 0s should be removed.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>further arguments to be passed from or to other methods.</p></dd>
+<dd><p>arguments passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -103,13 +101,25 @@ which leading 0s should be removed.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2023-06-05 01:02:03"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># with leading zeros</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="va">dt</span>, <span class="st">"%m/%d/%Y %H:%M:%S"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "06/05/2023 01:02:03"</span>
+<span class="r-in"><span><span class="co"># `base::strftime()` includes leading zeros</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="va">dt</span>, <span class="st">"%m/%d/%y %H:%M:%S"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "06/05/23 01:02:03"</span>
+<span class="r-in"><span><span class="co"># "06/05/23 01:02:03"</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># without leading zeros</span></span></span>
-<span class="r-in"><span><span class="fu">strftime_no_lead</span><span class="op">(</span><span class="va">dt</span>, <span class="st">"%m/%d/%Y %H:%M:%S"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6/5/2023 1:02:03"</span>
+<span class="r-in"><span><span class="co"># `strftime_no_lead()` removes leading zeros from specific components</span></span></span>
+<span class="r-in"><span><span class="co">## by default, leading zeros removed from month, day, and hour</span></span></span>
+<span class="r-in"><span><span class="fu">strftime_no_lead</span><span class="op">(</span><span class="va">dt</span>, <span class="st">"%m/%d/%y %H:%M:%S"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6/5/23 1:02:03"</span>
+<span class="r-in"><span><span class="co"># "6/5/23 1:02:03"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## or remove from specified components -- eg, hour, minute, and second</span></span></span>
+<span class="r-in"><span><span class="fu">strftime_no_lead</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">dt</span>, </span></span>
+<span class="r-in"><span>  format <span class="op">=</span> <span class="st">"%Hh %Mm %OS1s"</span>, </span></span>
+<span class="r-in"><span>  no_lead <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"%H"</span>, <span class="st">"%M"</span>, <span class="st">"%OS1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1h 2m 3.0s"</span>
+<span class="r-in"><span><span class="co"># "1h 2m 3.0s"</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -122,7 +132,7 @@ which leading 0s should be removed.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

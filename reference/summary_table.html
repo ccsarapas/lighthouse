@@ -9,7 +9,7 @@ a column for each function passed to ...."><meta property="og:image" content="ht
 
     <a class="navbar-brand me-2" href="../index.html">lighthouse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ a column for each function passed to ...."><meta property="og:image" content="ht
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Custom summary table</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/v0.7.2/R/group_summaries.R" class="external-link"><code>R/group_summaries.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/main/R/group_summaries.R" class="external-link"><code>R/group_summaries.R</code></a></small>
       <div class="d-none name"><code>summary_table.Rd</code></div>
     </div>
 
@@ -48,8 +48,10 @@ a column for each function passed to <code>...</code>.</p>
 <span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  .rows_group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .cols_group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  .cols_group_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  .var_col_name <span class="op">=</span> <span class="st">"Variable"</span></span>
+<span>  .cols_group_glue <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .cols_group_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"by_group"</span>, <span class="st">"by_function"</span><span class="op">)</span>,</span>
+<span>  .var_col_name <span class="op">=</span> <span class="st">"Variable"</span>,</span>
+<span>  .cols_group_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -92,14 +94,26 @@ variable(s) for output rows.</p></dd>
 variable(s) for output columns.</p></dd>
 
 
-<dt id="arg--cols-group-opts">.cols_group_opts<a class="anchor" aria-label="anchor" href="#arg--cols-group-opts"></a></dt>
-<dd><p>A list of additional arguments passed to
-<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">tidyr::pivot_wider()</a></code> if <code>.cols_group_by</code> is specified.</p></dd>
+<dt id="arg--cols-group-glue">.cols_group_glue<a class="anchor" aria-label="anchor" href="#arg--cols-group-glue"></a></dt>
+<dd><p>A glue specification controlling column names when
+<code>.cols_group_by</code> is specified. See examples.</p></dd>
+
+
+<dt id="arg--cols-group-order">.cols_group_order<a class="anchor" aria-label="anchor" href="#arg--cols-group-order"></a></dt>
+<dd><p>When <code>.cols_group_by</code> is specified, how should the resulting columns be ordered?</p><ul><li><p>"by_group" keeps columns from each group together, resulting in columns ordered like: fn1_group1, fn2_group1, fn1_group2, fn2_group2. This is the default.</p></li>
+<li><p>"by_function" keeps columns from each function together, resulting in columns ordered like: fn1_group1, fn1_group2, fn2_group1, fn2_group2.</p></li>
+</ul></dd>
 
 
 <dt id="arg--var-col-name">.var_col_name<a class="anchor" aria-label="anchor" href="#arg--var-col-name"></a></dt>
 <dd><p>The name of the output column containing variable names
 passed to <code>.vars</code>. This column will be dropped if <code>.var_col_name</code> is <code>NULL</code> and only one variable is passed to <code>.vars</code>.</p></dd>
+
+
+<dt id="arg--cols-group-opts">.cols_group_opts<a class="anchor" aria-label="anchor" href="#arg--cols-group-opts"></a></dt>
+<dd><p>DEPRECATED. A list of additional arguments passed to
+<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">tidyr::pivot_wider()</a></code> if <code>.cols_group_by</code> is specified. This argument will
+be removed in a future release.</p></dd>
 
 </dl></div>
 
@@ -160,14 +174,13 @@ passed to <code>.vars</code>. This column will be dropped if <code>.var_col_name
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> auto             3  22.9  1.45     4  19.1 1.63     12  15.0 2.77 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> manual           8  28.1  4.48     3  20.6 0.751     2  15.4 0.566</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># `.cols_group_opts` are passed as arguments to `pivot_wider()`.</span></span></span>
-<span class="r-in"><span><span class="co"># for instance to customize column names with a glue specification:</span></span></span>
+<span class="r-in"><span><span class="co"># customize column names with a glue specification:</span></span></span>
 <span class="r-in"><span><span class="va">mtcars2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">summary_table</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    M <span class="op">=</span> <span class="va">mean</span>, SD <span class="op">=</span> <span class="va">sd</span>,</span></span>
 <span class="r-in"><span>    .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">hp</span>, weight <span class="op">=</span> <span class="va">wt</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    .cols_group_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Transmission</span>, <span class="va">cyl</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    .cols_group_opts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>names_glue <span class="op">=</span> <span class="st">"{cyl} cyl {Transmission}: {.value}"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    .cols_group_glue <span class="op">=</span> <span class="st">"{cyl} cyl {Transmission}: {.value}"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Variable `4 cyl auto: M` `4 cyl auto: SD` `6 cyl auto: M` `6 cyl auto: SD`</span>
@@ -190,7 +203,7 @@ passed to <code>.vars</code>. This column will be dropped if <code>.var_col_name
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

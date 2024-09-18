@@ -29,7 +29,7 @@ measurement wrappers. See details."><meta property="og:image" content="https://c
 
     <a class="navbar-brand me-2" href="../index.html">lighthouse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ measurement wrappers. See details."><meta property="og:image" content="https://c
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Summarize variables based on measurement level</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/v0.7.2/R/group_summaries.R" class="external-link"><code>R/group_summaries.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ccsarapas/lighthouse/blob/main/R/group_summaries.R" class="external-link"><code>R/group_summaries.R</code></a></small>
       <div class="d-none name"><code>summary_report.Rd</code></div>
     </div>
 
@@ -137,6 +137,20 @@ variable type.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tibble with four columns:</p><ul><li><p><code>Variable</code>: Variable name</p></li>
+<li><p><code>Value</code>:</p><ul><li><p>For nominal variables, a row for each unique value (including unobserved factor levels if <code>.drop = FALSE</code>).</p></li>
+<li><p>For binary variables, either <code>TRUE</code> or <code>1</code> (for logical or numeric variables, respectively).</p></li>
+<li><p>For continuous variables, the names of the summary statistics specified in <code>.cont_fx</code>.</p></li>
+</ul></li>
+<li><p><code>V1</code>:</p><ul><li><p>For nominal and binary variables, the number of observations with the value in <code>Value</code>.</p></li>
+<li><p>For continuous variables, the value of the first summary statistic.</p></li>
+</ul></li>
+<li><p><code>V2</code>:</p><ul><li><p>For nominal and binary variables, the proportion of observations with the value in <code>Value</code>.</p></li>
+<li><p>For continuous variables, the value of the second summary statistic.</p></li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="determining-measurement-level">Determining measurement level<a class="anchor" aria-label="anchor" href="#determining-measurement-level"></a></h2>
 
 
@@ -146,8 +160,8 @@ as nominal, binary, or continuous, respectively.</p></li>
 specified in <code>.default</code>.</p></li>
 <li><p>If <code>.default</code> is <code>"auto"</code>, measurement level will be inferred:</p><ul><li><p>Logical vectors will be treated as binary if there are no missing
 values or if <code>na.rm.bin = TRUE</code>.</p></li>
-<li><p>Character vectors, factors, and logical vectors with missing
-values will be treated as nominal.</p></li>
+<li><p>Character vectors, factors, dates and datetimes, and logical
+vectors with missing values will be treated as nominal.</p></li>
 <li><p>All other variables will be treated as continuous.</p></li>
 </ul></li>
 </ol></div>
@@ -166,30 +180,7 @@ Instead, consider converting these to a logical indicator, e.g., <code>Pregnant 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># create a report using pre-processed SOR data</span></span></span>
-<span class="r-in"><span><span class="va">total_label</span> <span class="op">&lt;-</span> <span class="st">"SOR-II Overall"</span></span></span>
-<span class="r-in"><span><span class="va">data_baseline</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span><span class="fu"><a href="group_with_total.html">group_with_total</a></span><span class="op">(</span><span class="va">ServiceType</span>, .label <span class="op">=</span> <span class="va">total_label</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">summary_report</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">Age</span>, <span class="va">Gender</span>, <span class="va">Race</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">bin</span><span class="op">(</span><span class="va">DAUseAlcohol</span>, <span class="va">DAUseIllegDrugs</span>, <span class="va">DAUseBoth</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="va">DAUseAlcoholDays</span>, <span class="va">DAUseIllegDrugsDays</span>, <span class="va">DAUseBothDays</span>,</span></span>
-<span class="r-in"><span>    <span class="va">DAUseAlcoholDaysOrdinal</span>, <span class="va">DAUseIllegDrugsDaysOrdinal</span>, <span class="va">DAUseBothDaysOrdinal</span>,</span></span>
-<span class="r-in"><span>    na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    .drop <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">pivot_wider</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    names_from <span class="op">=</span> <span class="va">ServiceType</span>,</span></span>
-<span class="r-in"><span>    names_vary <span class="op">=</span> <span class="st">"slowest"</span>,</span></span>
-<span class="r-in"><span>    values_from <span class="op">=</span> <span class="va">V1</span><span class="op">:</span><span class="va">V2</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="va">total_label</span><span class="op">)</span>, .after <span class="op">=</span> <span class="va">Value</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="add_rows_at_value.html">add_rows_at_value</a></span><span class="op">(</span><span class="va">Variable</span>, <span class="va">Race</span>, <span class="va">DAUseBoth</span>, <span class="va">DAUseBothDays</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="print_all.html">print_all</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
+
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -200,7 +191,7 @@ Instead, consider converting these to a logical indicator, e.g., <code>Pregnant 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
