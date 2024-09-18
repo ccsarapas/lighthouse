@@ -1,4 +1,4 @@
-# lighthouse 0.7.2.9000
+# lighthouse 0.7.3
 
 ## New functions
 

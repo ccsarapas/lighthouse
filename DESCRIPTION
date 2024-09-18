@@ -1,6 +1,6 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.7.2.9000
+Version: 0.7.3
 Authors@R: 
     person("Casey", "Sarapas", 
            email = "ccsarapas@chestnut.org", 
