@@ -26,12 +26,20 @@
 #'
 #' @param .cols_group_by <[`tidy-select`][dplyr_tidy_select]> Grouping
 #' variable(s) for output columns.
-#'
-#' @param .cols_group_opts A list of additional arguments passed to
-#' [`tidyr::pivot_wider()`] if `.cols_group_by` is specified.
+#' 
+#' @param .cols_group_glue A glue specification controlling column names when 
+#' `.cols_group_by` is specified. See examples.
+#' 
+#' @param .cols_group_order When `.cols_group_by` is specified, how should the resulting columns be ordered?
+#' - "by_group" keeps columns from each group together, resulting in columns ordered like: fn1_group1, fn2_group1, fn1_group2, fn2_group2. This is the default.
+#' - "by_function" keeps columns from each function together, resulting in columns ordered like: fn1_group1, fn1_group2, fn2_group1, fn2_group2.
 #'
 #' @param .var_col_name The name of the output column containing variable names
 #' passed to `.vars`. This column will be dropped if `.var_col_name` is `NULL` and only one variable is passed to `.vars`.
+#' 
+#' @param .cols_group_opts DEPRECATED. A list of additional arguments passed to
+#' [`tidyr::pivot_wider()`] if `.cols_group_by` is specified. This argument will 
+#' be removed in a future release.
 #'
 #' @examples
 #' # example data
@@ -68,14 +76,13 @@
 #'    .var_col_name = NULL
 #'  )
 #'
-#' # `.cols_group_opts` are passed as arguments to `pivot_wider()`.
-#' # for instance to customize column names with a glue specification:
+#' # customize column names with a glue specification:
 #' mtcars2 %>%
 #'   summary_table(
 #'     M = mean, SD = sd,
 #'     .vars = c(mpg, hp, weight = wt),
 #'     .cols_group_by = c(Transmission, cyl),
-#'     .cols_group_opts = list(names_glue = "{cyl} cyl {Transmission}: {.value}")
+#'     .cols_group_glue = "{cyl} cyl {Transmission}: {.value}"
 #'   )
 #'
 #' @export
@@ -85,8 +92,10 @@ summary_table <- function(.data,
                           na.rm = FALSE,
                           .rows_group_by = NULL,
                           .cols_group_by = NULL,
-                          .cols_group_opts = list(),
-                          .var_col_name = "Variable") {
+                          .cols_group_glue = NULL,
+                          .cols_group_order = c("by_group", "by_function"),
+                          .var_col_name = "Variable",
+                          .cols_group_opts = list()) {
   .fns <- pairlist_auto_name(...) %>% 
     lapply(
       \(fn, na.rm) {
@@ -126,20 +135,48 @@ summary_table <- function(.data,
     .data[[.var_col_name]] <- NULL
   }
   if (!missing(.cols_group_by)) {
-    names_from_cols <- untidyselect(.data, {{ .cols_group_by }})
-    rlang::exec(
-      tidyr::pivot_wider,
-      .data,
-      !!!.cols_group_opts,
-      names_from = tidyselect::all_of(names_from_cols),
-      values_from = tidyselect::all_of(names(.fns)),
-      names_vary = "slowest"
-    )
+    if (!missing(.cols_group_opts)) {
+      cli::cli_warn(c(
+        "!" = "{.arg .cols_group_opts} is deprecated and will be removed in a future release.",
+        "i" = "Use {.arg .cols_group_glue} and/or {.arg .cols_group_order} instead."
+      ))
+      if (!missing(.cols_group_glue) || !missing(.cols_group_order)) {
+        cli::cli_abort("Cannot specify {.arg .cols_group_opts} if either {.arg .cols_group_glue} or {.arg .cols_group_order} is specified.")
+      }
+      bad_opts <- intersect(
+        names(.cols_group_opts),
+        c("id_cols", "names_from", "values_from")
+      )
+      if (length(bad_opts) > 0) {
+        cli::cli_abort(
+          "{.arg .cols_group_opts} cannot contain `{glue::glue_collapse(bad_opts, sep = '`, `', last = '` or `')}`."
+        )
+      }
+      if (!("names_vary" %in% names(.cols_group_opts))) {
+        .cols_group_opts$names_vary <- "slowest"
+      }
+      eval(rlang::expr(tidyr::pivot_wider(
+        .data,
+        names_from = {{ .cols_group_by }},
+        values_from = tidyselect::all_of(names(.fns)),
+        !!!.cols_group_opts
+      )))
+    } else {
+      .cols_group_order <- match.arg(.cols_group_order)
+      .cols_group_order <- c(by_group = "slowest", 
+                             by_function = "fastest")[[.cols_group_order]]
+      tidyr::pivot_wider(
+        .data,
+        names_from = {{ .cols_group_by }},
+        values_from = tidyselect::all_of(names(.fns)),
+        names_vary = .cols_group_order,
+        names_glue = .cols_group_glue
+      )
+    }
   } else {
     .data
   }
 }
-
 
 #' Get information about data frame columns
 #'

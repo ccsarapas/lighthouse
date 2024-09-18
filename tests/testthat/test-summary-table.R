@@ -162,29 +162,129 @@ test_that("summary_table groups columns when `.cols_group_by` is specified", {
   )
 })
 
-test_that("summary_table passes `.cols_group_opts` to pivot_wider", {
+test_that("summary_table passes `.cols_group_glue` to pivot_wider", {
   expect_equal(
     summary_table(
-      mtcars2,
+      mtcars,
       min, max,
       .vars = c(mpg, hp),
-      .cols_group_by = c(trans, cyl),
-      .cols_group_opts = list(names_glue = "{cyl} cyl {trans}: {.value}")
+      .cols_group_by = cyl,
+      .cols_group_glue = "{cyl} cyl: {.value}"
     ),
     tibble::tibble(
       Variable = c("mpg", "hp"),
-      `4 cyl auto: min` = c(21.5, 62),
-      `4 cyl auto: max` = c(24.4, 97),
-      `6 cyl auto: min` = c(17.8, 105),
-      `6 cyl auto: max` = c(21.4, 123),
-      `8 cyl auto: min` = c(10.4, 150),
-      `8 cyl auto: max` = c(19.2, 245),
-      `4 cyl manual: min` = c(21.4, 52),
-      `4 cyl manual: max` = c(33.9, 113),
-      `6 cyl manual: min` = c(19.7, 110),
-      `6 cyl manual: max` = c(21, 175),
-      `8 cyl manual: min` = c(15, 264),
-      `8 cyl manual: max` = c(15.8, 335),
+      `4 cyl: min` = c(21.4, 52), `4 cyl: max` = c(33.9, 113),
+      `6 cyl: min` = c(17.8, 105), `6 cyl: max` = c(21.4, 175),
+      `8 cyl: min` = c(10.4, 150), `8 cyl: max` = c(19.2, 335),
+    )
+  )
+})
+
+test_that("summary_table handles `.cols_group_order` correctly", {
+  expect_equal(
+    summary_table(
+      mtcars,
+      min, max,
+      .vars = c(mpg, hp),
+      .cols_group_by = cyl
+    ),
+    tibble::tibble(
+      Variable = c("mpg", "hp"),
+      min_4 = c(21.4, 52), max_4 = c(33.9, 113),
+      min_6 = c(17.8, 105), max_6 = c(21.4, 175),
+      min_8 = c(10.4, 150), max_8 = c(19.2, 335),
+    )
+  )
+  expect_equal(
+    summary_table(
+      mtcars,
+      min, max,
+      .vars = c(mpg, hp),
+      .cols_group_by = cyl,
+      .cols_group_order = "by_function"
+    ),
+    tibble::tibble(
+      Variable = c("mpg", "hp"),
+      min_4 = c(21.4, 52), min_6 = c(17.8, 105), min_8 = c(10.4, 150),
+      max_4 = c(33.9, 113), max_6 = c(21.4, 175), max_8 = c(19.2, 335),
+    )
+  )
+})
+
+test_that("setting `.cols_group_opts` gives deprecation warning", {
+  expect_warning(
+    summary_table(
+      mtcars2,
+      min, max,
+      .vars = mpg,
+      .cols_group_by = trans,
+      .cols_group_opts = list(names_glue = "{trans}: {.value}")
+    ),
+    "`.cols_group_opts` is deprecated"
+  )
+})
+
+test_that("`.cols_group_opts` throws errors if set inappropriately", {
+  expect_error(
+    suppress_warnings_if(
+      summary_table(
+        mtcars2,
+        min, max,
+        .vars = mpg,
+        .cols_group_by = trans,
+        .cols_group_opts = list(id_cols = "Variable")
+      ),
+      "`.cols_group_opts` is deprecated"
+    ),
+    "`.cols_group_opts` cannot contain"
+  )
+  expect_error(
+    suppress_warnings_if(
+      summary_table(
+        mtcars2,
+        min, max,
+        .vars = mpg,
+        .cols_group_by = trans,
+        .cols_group_opts = list(names_sort = TRUE),
+        .cols_group_glue = "{Variable}: {.value}"
+      ),
+      "`.cols_group_opts` is deprecated"
+    ),
+    "Cannot specify `.cols_group_opts` if either `.cols_group_glue` or `.cols_group_order` is specified."
+  )
+  expect_error(
+    suppress_warnings_if(
+      summary_table(
+        mtcars2,
+        min, max,
+        .vars = mpg,
+        .cols_group_by = trans,
+        .cols_group_opts = list(names_sort = TRUE),
+        .cols_group_order = "by_function"
+      ),
+      "`.cols_group_opts` is deprecated"
+    ),
+    "Cannot specify `.cols_group_opts` if either `.cols_group_glue` or `.cols_group_order` is specified."
+  )
+})
+
+test_that("summary_table passes `.cols_group_opts` to pivot_wider", {
+  expect_equal(
+    suppress_warnings_if(
+      summary_table(
+        mtcars,
+        min, max,
+        .vars = c(mpg, hp),
+        .cols_group_by = cyl,
+        .cols_group_opts = list(names_glue = "{cyl} cyl: {.value}")
+      ),
+      "`.cols_group_opts` is deprecated"
+    ),
+    tibble::tibble(
+      Variable = c("mpg", "hp"),
+      `4 cyl: min` = c(21.4, 52), `4 cyl: max` = c(33.9, 113),
+      `6 cyl: min` = c(17.8, 105), `6 cyl: max` = c(21.4, 175),
+      `8 cyl: min` = c(10.4, 150), `8 cyl: max` = c(19.2, 335),
     )
   )
 })
