@@ -41,10 +41,10 @@ test_that("summary_table takes function names", {
 })
 
 test_that("summary_table passes `na.rm` to functions", {
-  expect_equal(summary_table(sr_data, mean, .vars = num_na)$mean, NA_real_)
+  expect_equal(summary_table(ts_data, mean, .vars = num_na)$mean, NA_real_)
   expect_equal(
-    summary_table(sr_data, mean, .vars = num_na, na.rm = TRUE)$mean, 
-    mean(sr_data$num_na, na.rm = TRUE)
+    summary_table(ts_data, mean, .vars = num_na, na.rm = TRUE)$mean, 
+    mean(ts_data$num_na, na.rm = TRUE)
   )
 })
 
@@ -63,25 +63,25 @@ test_that("summary_table handles functions that do not accept `na.rm`", {
 
 test_that("`.vars` handles tidyselect expressions", {
   expect_equal(
-    summary_table(sr_data, mean, .vars = num:num_bin_all_0)$Variable,
+    summary_table(ts_data, mean, .vars = num:num_bin_all_0)$Variable,
     c("num", "num_bin", "num_bin_all_0")
   )
   expect_equal(
-    summary_table(sr_data, mean, .vars = where(is.numeric))$Variable,
+    summary_table(ts_data, mean, .vars = where(is.numeric))$Variable,
     c("num", "num_bin", "num_bin_all_0", "num_two_vals", "num_na")
   )
   vars <- c("chr", "fct", "num", "lgl")
   expect_equal(
-    summary_table(sr_data, n_valid, .vars = all_of(vars))$Variable,
+    summary_table(ts_data, n_valid, .vars = all_of(vars))$Variable,
     vars
   )
   expect_equal(
-    summary_table(sr_data, n_valid, .vars = c(chr:fct, chr_na:lgl_na))$Variable,
+    summary_table(ts_data, n_valid, .vars = c(chr:fct, chr_na:lgl_na))$Variable,
     c("chr", "fct", "chr_na", "num_na", "lgl_na")
   )
   expect_equal(
     summary_table(
-      sr_data, 
+      ts_data, 
       n_valid, 
       .vars = c(dbl = num, dbl_na = num_na)
     )$Variable,

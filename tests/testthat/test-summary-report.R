@@ -1,10 +1,10 @@
 test_that("summary_report autotypes character and factor as nominal", {
   expect_equal(
-    summary_report(sr_data, chr),
+    summary_report(ts_data, chr),
     tibble::tibble(Variable = "chr", Value = c("a", "b", "c"), V1 = 1, V2 = 1/3)
   )
   expect_equal(
-    summary_report(sr_data, fct),
+    summary_report(ts_data, fct),
     tibble::tibble(
       Variable = "fct",
       Value = c("lvl 1", "lvl 2"), 
@@ -16,7 +16,7 @@ test_that("summary_report autotypes character and factor as nominal", {
 
 test_that("summary_report autotypes dates and datetimes as nominal", {
   expect_equal(
-    summary_report(sr_data, date),
+    summary_report(ts_data, date),
     tibble::tibble(
       Variable = "date",
       Value = c("2022-09-02", "2023-06-15"),
@@ -25,7 +25,7 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
     )
   )
   expect_equal(
-    summary_report(sr_data, POSIXct),
+    summary_report(ts_data, POSIXct),
     tibble::tibble(
       Variable = "POSIXct",
       Value = c(
@@ -36,7 +36,7 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
     )
   )
   expect_equal(
-    summary_report(sr_data, POSIXlt),
+    summary_report(ts_data, POSIXlt),
     tibble::tibble(
       Variable = "POSIXlt",
       Value = c(
@@ -50,7 +50,7 @@ test_that("summary_report autotypes dates and datetimes as nominal", {
 
 test_that("summary_report autotypes logical with missings as nominal", {
   expect_equal(
-    summary_report(sr_data, lgl_na),
+    summary_report(ts_data, lgl_na),
     tibble::tibble(
       Variable = "lgl_na",
       Value = c("TRUE", NA),
@@ -60,7 +60,7 @@ test_that("summary_report autotypes logical with missings as nominal", {
   )
   # should be binary if na.rm.bin is TRUE, but NOT if na.rm.nom is TRUE
   expect_equal(
-    summary_report(sr_data, lgl_all_FALSE_na, na.rm.nom = TRUE),
+    summary_report(ts_data, lgl_all_FALSE_na, na.rm.nom = TRUE),
     tibble::tibble(
       Variable = "lgl_all_FALSE_na",
       Value = "FALSE",
@@ -72,15 +72,15 @@ test_that("summary_report autotypes logical with missings as nominal", {
 
 test_that("summary_report autotypes logical without missings as binary", {
   expect_equal(
-    summary_report(sr_data, lgl),
+    summary_report(ts_data, lgl),
     tibble::tibble(Variable = "lgl", Value = "TRUE", V1 = 2, V2 = 2/3)
   )
   expect_equal(
-    summary_report(sr_data, lgl_na, na.rm = TRUE),
+    summary_report(ts_data, lgl_na, na.rm = TRUE),
     tibble::tibble(Variable = "lgl_na", Value = "TRUE", V1 = 2, V2 = 1)
   )
   expect_equal(
-    summary_report(sr_data, lgl_all_FALSE_na, na.rm.bin = TRUE),
+    summary_report(ts_data, lgl_all_FALSE_na, na.rm.bin = TRUE),
     tibble::tibble(
       Variable = "lgl_all_FALSE_na", 
       Value = "TRUE", 
@@ -92,19 +92,19 @@ test_that("summary_report autotypes logical without missings as binary", {
 
 test_that("summary_report autotypes other numerics as continuous", {
   expect_equal(
-    summary_report(sr_data, num),
+    summary_report(ts_data, num),
     tibble::tibble(
       Variable = "num",
       Value = "mean, sd",
-      V1 = mean(sr_data$num),
-      V2 = sd(sr_data$num)
+      V1 = mean(ts_data$num),
+      V2 = sd(ts_data$num)
     )
   )
 })
 
 test_that("summary_report applies default types correctly", {
   expect_equal(
-    summary_report(sr_data, num, lgl, .default = "nom"),
+    summary_report(ts_data, num, lgl, .default = "nom"),
     tibble::tibble(
       Variable = rep(c("num", "lgl"), 3:2),
       Value = c("2", "9", "11", "FALSE", "TRUE"),
@@ -113,7 +113,7 @@ test_that("summary_report applies default types correctly", {
     )
   )
   expect_equal(
-    summary_report(sr_data, lgl, num_bin, .default = "bin"),
+    summary_report(ts_data, lgl, num_bin, .default = "bin"),
     tibble::tibble(
       Variable = c("lgl", "num_bin"),
       Value = c("TRUE", "1"),
@@ -125,7 +125,7 @@ test_that("summary_report applies default types correctly", {
 
 test_that("summary_report applies measurement wrappers correctly", {
   expect_equal(
-    summary_report(sr_data, nom(num, lgl)),
+    summary_report(ts_data, nom(num, lgl)),
     tibble::tibble(
       Variable = rep(c("num", "lgl"), 3:2),
       Value = c("2", "9", "11", "FALSE", "TRUE"),
@@ -134,7 +134,7 @@ test_that("summary_report applies measurement wrappers correctly", {
     )
   )
   expect_equal(
-    summary_report(sr_data, bin(lgl, num_bin)),
+    summary_report(ts_data, bin(lgl, num_bin)),
     tibble::tibble(
       Variable = c("lgl", "num_bin"),
       Value = c("TRUE", "1"),
@@ -146,14 +146,14 @@ test_that("summary_report applies measurement wrappers correctly", {
 
 test_that("summary_report handle tidyselect expressions", {
   expect_equal(
-    summary_report(sr_data, tidyselect::where(is.numeric))$Variable,
+    summary_report(ts_data, tidyselect::where(is.numeric))$Variable,
     c("num", "num_bin", "num_bin_all_0", "num_two_vals", "num_na")
   )
 })
 
 test_that("measurement helpers handle tidyselect expressions", {
   expect_equal(
-    summary_report(sr_data, nom(lgl:lgl_all_FALSE, lgl_na)),
+    summary_report(ts_data, nom(lgl:lgl_all_FALSE, lgl_na)),
     tibble::tibble(
       Variable = c("lgl", "lgl", "lgl_all_FALSE", "lgl_na", "lgl_na"),
       Value = c("FALSE", "TRUE", "FALSE", "TRUE", NA),
@@ -164,10 +164,10 @@ test_that("measurement helpers handle tidyselect expressions", {
 })
 
 test_that("summary_report handles missing values correctly", {
-  M_num_na <- mean(sr_data$num_na, na.rm = TRUE)
-  SD_num_na <- sd(sr_data$num_na, na.rm = TRUE)
+  M_num_na <- mean(ts_data$num_na, na.rm = TRUE)
+  SD_num_na <- sd(ts_data$num_na, na.rm = TRUE)
   expect_equal(
-    summary_report(sr_data, chr_na, lgl_all_FALSE_na, num_na),
+    summary_report(ts_data, chr_na, lgl_all_FALSE_na, num_na),
     tibble::tibble(
       Variable = c(
         "chr_na", "chr_na", "chr_na", "lgl_all_FALSE_na", "lgl_all_FALSE_na",
@@ -179,7 +179,7 @@ test_that("summary_report handles missing values correctly", {
     )
   )
   expect_equal(
-    summary_report(sr_data, chr_na, lgl_all_FALSE_na, num_na, na.rm = TRUE),
+    summary_report(ts_data, chr_na, lgl_all_FALSE_na, num_na, na.rm = TRUE),
     tibble::tibble(
       Variable = c("chr_na", "chr_na", "lgl_all_FALSE_na", "num_na"),
       Value = c("a", "c", "TRUE", "mean, sd"),
@@ -189,7 +189,7 @@ test_that("summary_report handles missing values correctly", {
   )
   expect_equal(
     summary_report(
-      sr_data,
+      ts_data,
       chr_na, lgl_all_FALSE_na, num_na,
       na.rm.nom = TRUE, na.rm.cont = TRUE
     ),
@@ -202,7 +202,7 @@ test_that("summary_report handles missing values correctly", {
   )
   expect_equal(
     summary_report(
-      sr_data,
+      ts_data,
       chr_na, lgl_all_FALSE_na, num_na,
       na.rm.nom = TRUE, na.rm.cont = TRUE
     ),
@@ -217,75 +217,75 @@ test_that("summary_report handles missing values correctly", {
 
 test_that("summary_report has `TRUE` row for binary even if no `TRUE` values", {
   expect_equal(
-    summary_report(sr_data, lgl_all_FALSE),
+    summary_report(ts_data, lgl_all_FALSE),
     tibble::tibble(Variable = "lgl_all_FALSE", Value = "TRUE", V1 = 0, V2 = 0)
   )
   expect_equal(
-    summary_report(sr_data, bin(num_bin_all_0)),
+    summary_report(ts_data, bin(num_bin_all_0)),
     tibble::tibble(Variable = "num_bin_all_0", Value = "1", V1 = 0, V2 = 0)
   )
 })
 
 test_that("`.drop` argument works correctly", {
-  expect_false("empty lvl 3" %in% summary_report(sr_data, fct_empty)$Value)
+  expect_false("empty lvl 3" %in% summary_report(ts_data, fct_empty)$Value)
   expect_in(
     "empty lvl 3",
-    summary_report(sr_data, fct_empty, .drop = FALSE)$Value
+    summary_report(ts_data, fct_empty, .drop = FALSE)$Value
   )
 })
 
 test_that("summary_report uses functions set in .cont_fx", {
     expect_equal(
-      summary_report(sr_data, num, .cont_fx = list(median, IQR)),
+      summary_report(ts_data, num, .cont_fx = list(median, IQR)),
       tibble::tibble(
         Variable = "num",
         Value = "median, IQR",
-        V1 = median(sr_data$num),
-        V2 = IQR(sr_data$num)
+        V1 = median(ts_data$num),
+        V2 = IQR(ts_data$num)
       )
     )
 })
 
 test_that("`.missing_label` labels missing values", {
   expect_contains(
-    summary_report(sr_data, chr_na, .missing_label = "(Missing)")$Value,
+    summary_report(ts_data, chr_na, .missing_label = "(Missing)")$Value,
     "(Missing)"
   )
 })
 
 test_that("attempt to set inappropriate continuous variable throws error", {
   expect_error(
-    summary_report(sr_data, cont(fct)),
+    summary_report(ts_data, cont(fct)),
     "set as continuous but is a factor."
   )
   expect_error(
-    summary_report(sr_data, cont(date)),
+    summary_report(ts_data, cont(date)),
     "set as continuous but is a Date."
   )
 })
 
 test_that("attempt to set inappropriate binary variable throws error", {
   expect_error(
-    summary_report(sr_data, bin(lgl_all_FALSE_na)),
+    summary_report(ts_data, bin(lgl_all_FALSE_na)),
     "set as binary but has missing values."
   )
   expect_error(
-    summary_report(sr_data, bin(num)),
+    summary_report(ts_data, bin(num)),
     "supports only logical or binary numeric variables at this time."
   )
   expect_error(
-    summary_report(sr_data, bin(num_two_vals)),
+    summary_report(ts_data, bin(num_two_vals)),
     "supports only logical or binary numeric variables at this time."
   )
   expect_error(
-    summary_report(sr_data, bin(chr)),
+    summary_report(ts_data, bin(chr)),
     "supports only logical or binary numeric variables at this time."
   )
 })
 
 test_that("summary_report returns consistent column types (#26)", {
   types_if_input <- function(var) {
-    sapply(summary_report(sr_data, !!rlang::ensym(var)), typeof)
+    sapply(summary_report(ts_data, !!rlang::ensym(var)), typeof)
   }
   types <- c(
     Variable = "character", Value = "character",
@@ -300,17 +300,17 @@ test_that("summary_report returns consistent column types (#26)", {
   expect_equal(types_if_input(POSIXlt), types)
 })
 
-test_that("setting .`missing_label` doesn't throw error (#26)", {
-  expect_no_error(summary_report(sr_data, chr_na, .missing_label = "(Missing)"))
+test_that("setting `.missing_label` doesn't throw error (#26)", {
+  expect_no_error(summary_report(ts_data, chr_na, .missing_label = "(Missing)"))
 })
 
 test_that("summary_report doesn't cause deprecation warning (#19)", {
   expect_no_warning(
-    summary_report(sr_data, chr, fct),
+    summary_report(ts_data, chr, fct),
     class = "lifecycle_warning_deprecated"
   )
   expect_no_warning(
-    summary_report(sr_data, nom(chr, fct)),
+    summary_report(ts_data, nom(chr, fct)),
     class = "lifecycle_warning_deprecated"
   )
 })

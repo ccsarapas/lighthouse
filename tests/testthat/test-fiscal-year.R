@@ -1,5 +1,4 @@
 library(testthat)
-library(lubridate)
 
 test_that("fiscal_year returns correct fiscal year with default fiscal_start", {
   expect_equal(fiscal_year(as.Date("2023-01-01")), 2023)
