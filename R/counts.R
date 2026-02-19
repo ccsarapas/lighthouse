@@ -5,12 +5,13 @@
 #' in `totals_for`.
 #'
 #' @inheritParams dplyr::count
+#' @param .data A data frame.
 #' @param totals_for The variable to total for. If omitted, defaults to the first variable in `...`.
 #' @param label The label for the totals row. Defaults to "Total".
 #' @param first_row If `TRUE`, the totals row will be placed first in
 #'   the output. If `FALSE` (default), it will be placed last.
 #' @param .drop Handling of factor levels that don't appear in the data, passed
-#'   on to [dplyr::group_by()]. If FALSE will include counts for empty groups
+#'   on to [dplyr::group_by()]. If `FALSE` will include counts for empty groups
 #'   (i.e. for levels of factors that don't exist in the data).
 #'
 #' @return A data frame with counts for each grouping level, along with a
@@ -72,10 +73,14 @@ count_with_total <- function(.data,
 #' This variant of [dplyr::count()] includes a column showing percentage of total observations for each group.
 #'
 #' @inheritParams dplyr::count
-#' @param ... Variables to group by. Will be passed to [dplyr::count()].
+#' @param .data A data frame.
+#' #' @param ... Variables to group by. Will be passed to [dplyr::count()].
 #' @param na.rm If `TRUE`, removes rows with `NA` values before calculations.
 #' @param .by a selection of columns to group by for just this operation, functioning as an alternative to [dplyr::group_by()]. Percentages will be computed within each group rather than for the grand total. See examples.
-#'
+#' @param .drop Handling of factor levels that don't appear in the data, passed
+#'   on to [dplyr::group_by()]. If `FALSE` will include counts for empty groups
+#'   (i.e. for levels of factors that don't exist in the data).
+
 #' @return A data frame with columns for grouping variables, `n` (the count of observations in each group), and `pct` (the percentage of total observations in each group).
 #'
 #' @details
@@ -157,7 +162,9 @@ count_pct <- function(.data,
 #' @param .by a selection of columns to group by for just this operation,
 #'   functioning as an alternative to [dplyr::group_by()]. Percentages will be
 #'   computed within each group rather than for the grand total. See examples.
-#' @param .drop If `TRUE` (default), drop unused factor levels.
+#' @param .drop Handling of factor levels that don't appear in the data, passed
+#'   on to [dplyr::group_by()]. If `FALSE` will include counts for empty groups
+#'   (i.e. for levels of factors that don't exist in the data).
 #'
 #' @return A data frame with columns:
 #'   - Any grouping variables from the input `data` or specified in `.by`.
@@ -347,6 +354,11 @@ count_na <- function(.data,
 #'
 #' Currently supports only two variables.
 #'
+#' @param .data A data frame.
+#' @param ... Variables to cross-tabulate. (Only two variables are currently supported.)
+#' @param .drop If `FALSE`, will include counts for empty groups (i.e. for levels 
+#' of factors that don't exist in the data).
+#' 
 #' @export
 crosstab <- function(.data,
                      ...,

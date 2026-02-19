@@ -48,7 +48,7 @@ single string to use as a column name. \code{names_value_sep} will separate
 \code{{column}} components from one another if \code{names_from} contains multiple
 variables. See Details and Examples.}
 
-\item{names_prefix, names_glue, names_repair, values_from, values_fill, values_fn}{See documentation at \code{\link[=pivot_wider]{tidyr::pivot_wider()}}.}
+\item{names_prefix, names_glue, names_repair, values_from, values_fill, values_fn}{See documentation at \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.}
 }
 \description{
 Note that as of 2024, some of \code{pivot_wider_alt()}'s functionality is now
@@ -58,7 +58,7 @@ using \code{names_vary = "slowest"} in \code{pivot_wider()}. The functionality o
 \code{names_value_sep} can be achieved using the \code{names_glue} argument in
 \code{pivot_wider()}.
 
-A wrapper around \code{\link[=pivot_wider]{tidyr::pivot_wider()}} with additional
+A wrapper around \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}} with additional
 options for sorting and naming of output columns, with arguments
 \code{sort_by_col}, \code{names_value_first}, and \code{names_value_sep} These options are
 only relevant when more than one input column is passed to \code{values_from}.

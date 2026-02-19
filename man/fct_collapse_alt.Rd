@@ -38,7 +38,7 @@ A factor with collapsed levels.
 }
 \description{
 Collapses factor levels into manually defined groups like
-\code{\link[=fct_collapse]{forcats::fct_collapse()}}, with additional options to control behavior when
+\code{\link[forcats:fct_collapse]{forcats::fct_collapse()}}, with additional options to control behavior when
 specified levels don't exist in the data and to order factor levels in the
 order listed.
 }

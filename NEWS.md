@@ -1,3 +1,11 @@
+# lighthouse 0.7.4
+
+* Removed unused `...` argument from `n_valid()`, `n_pct()`, and `n_pct_valid()`.
+
+* Minor documentation tweaks.
+
+* Copyright to Chestnut Health Systems.
+
 # lighthouse 0.7.3
 
 ## New functions

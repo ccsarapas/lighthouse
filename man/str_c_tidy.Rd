@@ -13,7 +13,7 @@ str_c_tidy(
 )
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> tidyselect expression indicating character columns vectors or columns coercible to character.}
+\item{...}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> tidyselect expression indicating character columns vectors or columns coercible to character.}
 
 \item{sep}{separator to insert between input vectors.}
 

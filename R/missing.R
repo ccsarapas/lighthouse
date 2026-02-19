@@ -9,9 +9,21 @@
 #' `pct_valid()` is a wrapper around `n_valid(out = "pct")`.
 #'
 #' `n_pct_valid()` is a wrapper around `n_pct_valid(out = "n_pct")`.
-#'
+#' 
+#' @param x A vector.
+#' 
+#' @param out What should `n_valid()` return? `"n"`, the default, returns the number 
+#' of non-missing values, `"pct"` returns the proportion of non-missing values,
+#' and `"n_pct"` returns a tibble containing both the number and percentage of non-missing 
+#' values.
+#' 
+#' @return
+#' `pct_valid()` returns a single value. `n_valid()` returns a single value unless 
+#' `out = "n_pct"`, in which case it returns a tibble. `n_pct_valid()` returns a 
+#' tibble.
+#' 
 #' @export
-n_valid <- function(x, out = c("n", "pct", "n_pct"), ...) {
+n_valid <- function(x, out = c("n", "pct", "n_pct")) {
   n <- sum(!is.na(x))
   switch(
     match.arg(out),
@@ -24,12 +36,12 @@ n_valid <- function(x, out = c("n", "pct", "n_pct"), ...) {
 #' @rdname n_valid
 #'
 #' @export
-pct_valid <- function(x, ...) n_valid(x, "pct")
+pct_valid <- function(x) n_valid(x, "pct")
 
 #' @rdname n_valid
 #'
 #' @export
-n_pct_valid <- function(x, ...) n_valid(x, "n_pct")
+n_pct_valid <- function(x) n_valid(x, "n_pct")
 
 
 #' Remove missing values

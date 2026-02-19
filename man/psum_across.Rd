@@ -16,7 +16,7 @@ pmin_across(..., na.rm = FALSE)
 pmax_across(..., na.rm = FALSE)
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> one or more tidyselect
+\item{...}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> one or more tidyselect
 expressions that capture numeric and/or logical columns.}
 
 \item{na.rm}{Should missing values (including \code{NaN}) be removed?}
@@ -24,7 +24,7 @@ expressions that capture numeric and/or logical columns.}
 \description{
 Wrappers around \code{base::pmin()}, \code{base::pmax()}, \code{lighthouse::psum()}, and
 \code{lighthouse::pmean()} that accept
-\code{\link[=dplyr_tidy_select]{tidyselect expressions}}.
+\code{\link[dplyr:dplyr_tidy_select]{tidyselect expressions}}.
 }
 \details{
 Lighthouse includes two sets of functions for computing "parallel" or

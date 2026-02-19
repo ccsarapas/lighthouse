@@ -16,7 +16,7 @@ The input factor with specified levels converted to \code{NA} and removed from t
 }
 \description{
 Converts specified level(s) of a factor to \code{NA}, removing those levels from
-the factor. This differs from the behavior of \code{\link[=na_if]{dplyr::na_if()}}, which (1)
+the factor. This differs from the behavior of \code{\link[dplyr:na_if]{dplyr::na_if()}}, which (1)
 replaces values with \code{NA} but retains the associated factor level, and (2)
 can replace only a single value.
 }

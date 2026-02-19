@@ -6,6 +6,14 @@
 \usage{
 crosstab(.data, ..., .drop = TRUE)
 }
+\arguments{
+\item{.data}{A data frame.}
+
+\item{...}{Variables to cross-tabulate. (Only two variables are currently supported.)}
+
+\item{.drop}{If \code{FALSE}, will include counts for empty groups (i.e. for levels
+of factors that don't exist in the data).}
+}
 \description{
 Builds a contingency table similar to \code{base::table()}. Unlike
 \code{base::table()}, \code{crosstab()} is pipe-friendly, and outputs an ordinary

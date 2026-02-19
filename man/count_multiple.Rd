@@ -33,7 +33,9 @@ count_multiple(
 functioning as an alternative to \code{\link[dplyr:group_by]{dplyr::group_by()}}. Percentages will be
 computed within each group rather than for the grand total. See examples.}
 
-\item{.drop}{If \code{TRUE} (default), drop unused factor levels.}
+\item{.drop}{Handling of factor levels that don't appear in the data, passed
+on to \code{\link[dplyr:group_by]{dplyr::group_by()}}. If \code{FALSE} will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data).}
 }
 \value{
 A data frame with columns:

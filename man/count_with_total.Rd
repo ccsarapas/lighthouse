@@ -17,6 +17,8 @@ count_with_total(
 )
 }
 \arguments{
+\item{.data}{A data frame.}
+
 \item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Variables to group
 by.}
 
@@ -43,7 +45,7 @@ it will use \code{nn}. If there's a column called \code{n} and \code{nn}, it'll 
 \code{nnn}, and so on, adding \code{n}s until it gets a new name.}
 
 \item{.drop}{Handling of factor levels that don't appear in the data, passed
-on to \code{\link[dplyr:group_by]{dplyr::group_by()}}. If FALSE will include counts for empty groups
+on to \code{\link[dplyr:group_by]{dplyr::group_by()}}. If \code{FALSE} will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data).}
 }
 \value{

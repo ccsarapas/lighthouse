@@ -6,11 +6,24 @@
 \alias{n_pct_valid}
 \title{Count non-missing cases}
 \usage{
-n_valid(x, out = c("n", "pct", "n_pct"), ...)
+n_valid(x, out = c("n", "pct", "n_pct"))
 
-pct_valid(x, ...)
+pct_valid(x)
 
-n_pct_valid(x, ...)
+n_pct_valid(x)
+}
+\arguments{
+\item{x}{A vector.}
+
+\item{out}{What should \code{n_valid()} return? \code{"n"}, the default, returns the number
+of non-missing values, \code{"pct"} returns the proportion of non-missing values,
+and \code{"n_pct"} returns a tibble containing both the number and percentage of non-missing
+values.}
+}
+\value{
+\code{pct_valid()} returns a single value. \code{n_valid()} returns a single value unless
+\code{out = "n_pct"}, in which case it returns a tibble. \code{n_pct_valid()} returns a
+tibble.
 }
 \description{
 \code{n_valid()} returns the number of vector elements that are not \code{NA}. It

@@ -1,11 +1,13 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.7.3
-Authors@R: 
+Version: 0.7.4
+Authors@R: c(
     person("Casey", "Sarapas", 
            email = "ccsarapas@chestnut.org", 
            role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-8668-1462"))
+           comment = c(ORCID = "0000-0002-8668-1462")),
+    person("Chestnut Health Systems", role = "cph")
+  )
 Description: Utility functions for Lighthouse Institute projects.
 Imports: 
     cli,
@@ -39,10 +41,12 @@ Suggests:
     psych,
     rstudioapi,
     testthat (>= 3.0.0)
+Remotes:
+    git::https://codeberg.org/hrbrmstr/hrbrthemes.git
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 2.10)
 LazyData: true

@@ -15,7 +15,11 @@ count_pct(
 )
 }
 \arguments{
-\item{...}{Variables to group by. Will be passed to \code{\link[dplyr:count]{dplyr::count()}}.}
+\item{.data}{A data frame.
+#' @param ... Variables to group by. Will be passed to \code{\link[dplyr:count]{dplyr::count()}}.}
+
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Variables to group
+by.}
 
 \item{na.rm}{If \code{TRUE}, removes rows with \code{NA} values before calculations.}
 
@@ -31,13 +35,8 @@ Can be \code{NULL} or a variable:
 \item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
 \item{.drop}{Handling of factor levels that don't appear in the data, passed
-on to \code{\link[dplyr:group_by]{group_by()}}.
-
-For \code{count()}: if \code{FALSE} will include counts for empty groups (i.e. for
-levels of factors that don't exist in the data).
-
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} For \code{add_count()}: deprecated since it
-can't actually affect the output.}
+on to \code{\link[dplyr:group_by]{dplyr::group_by()}}. If \code{FALSE} will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data).}
 }
 \value{
 A data frame with columns for grouping variables, \code{n} (the count of observations in each group), and \code{pct} (the percentage of total observations in each group).

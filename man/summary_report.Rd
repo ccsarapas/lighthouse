@@ -29,7 +29,7 @@ cont(...)
 \arguments{
 \item{.data}{a data frame or data frame extension.}
 
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> one or more variable names.
+\item{...}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> one or more variable names.
 and/or tidyselect expressions. Elements may be wrapped in \code{nom()}, \code{bin()},
 or \code{cont()} to force summarizing as binary, nominal, or continuous,
 respectively; see details.}
@@ -159,7 +159,7 @@ ggplot2::msleep \%>\%
       .missing_label = "(missing)"
     )
 
-#' \dontrun{
+\dontrun{
 # create a report using pre-processed SOR data
 total_label <- "SOR-II Overall"
 data_baseline \%>\%

@@ -28,17 +28,17 @@ specified). Output column names can optionally be specified. E.g.,
 \verb{m = mean, sd, sem = \\(x) sd(x) / sqrt(n())} yields output columns named \code{m},
 \code{sd}, and \code{sem}.}
 
-\item{.vars}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns in \code{.data} to
+\item{.vars}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Columns in \code{.data} to
 summarize. Each column passed to \code{.vars} will yield one row in the output
 table (or one row per group if \code{.rows_group_by} is specified).}
 
 \item{na.rm}{A logical value passed to any functions in \code{...} that take an
 \code{na.rm} argument.}
 
-\item{.rows_group_by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Grouping
+\item{.rows_group_by}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Grouping
 variable(s) for output rows.}
 
-\item{.cols_group_by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Grouping
+\item{.cols_group_by}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Grouping
 variable(s) for output columns.}
 
 \item{.cols_group_glue}{A glue specification controlling column names when

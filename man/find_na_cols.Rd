@@ -12,7 +12,7 @@ drop_na_cols(.data, cols = tidyselect::everything(), quietly = FALSE)
 \arguments{
 \item{.data}{A data frame or data frame extension (e.g. a tibble).}
 
-\item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to check.}
+\item{cols}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Columns to check.}
 
 \item{quietly}{If \code{FALSE}, will print which columns were dropped.}
 }

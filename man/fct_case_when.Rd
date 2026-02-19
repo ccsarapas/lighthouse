@@ -7,7 +7,7 @@
 fct_case_when(..., .ordered = FALSE)
 }
 \description{
-Wrapper for \code{\link[=case_when]{dplyr::case_when()}}, but result is a factor with
+Wrapper for \code{\link[dplyr:case-and-replace-when]{dplyr::case_when()}}, but result is a factor with
 levels in same order passed to \code{...}. Returns an ordered factor if \code{.ordered}
 is \code{TRUE}.
 }
