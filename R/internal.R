@@ -26,4 +26,21 @@ try.na.rm <- function(fn, x, na.rm = FALSE, ...) {
     fn(x, ...)
   }
 }
-## consider fx to support `.by` in functions (see similar code in `count_pct`, `count_multiple`, etc)
+
+do_by <- function(by, fn, .data, ...) {
+  if (dplyr::is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
+      cli::cli_abort(
+        "Can't supply `.by` when `.data` is a grouped or rowwise data frame."
+      )
+    }
+  args <- rlang::enexprs(...)
+  .drop <- args$.drop
+  .data |>
+    dplyr::group_by(
+      dplyr::pick({{by}}), 
+      .drop = .drop
+    ) |>
+    fn(...) |>
+    dplyr::ungroup()
+}
+
