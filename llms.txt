@@ -1,0 +1,356 @@
+# lighthouse
+
+The lighthouse package includes various utility functions used by staff
+at the [Lighthouse
+Institute](https://www.chestnut.org/lighthouse-institute/), a division
+of Chestnut Health Systems.
+
+## Installation
+
+Install the lighthouse package by running:
+
+``` r
+remotes::install_github("ccsarapas/lighthouse")
+```
+
+# Package index
+
+## Count functions
+
+- [`count_pct()`](https://ccsarapas.github.io/lighthouse/reference/count_pct.md)
+  : Count observations with percentage
+- [`count_multiple()`](https://ccsarapas.github.io/lighthouse/reference/count_multiple.md)
+  : Count observations for multiple variables
+- [`count_with_total()`](https://ccsarapas.github.io/lighthouse/reference/count_with_total.md)
+  : Count observations with totals row
+- [`count_duplicates()`](https://ccsarapas.github.io/lighthouse/reference/count_duplicates.md)
+  : Count duplicates across specified columns
+- [`count_unique()`](https://ccsarapas.github.io/lighthouse/reference/count_unique.md)
+  : Count unique values in data frame columns
+- [`count_na()`](https://ccsarapas.github.io/lighthouse/reference/count_na.md)
+  : Count NA values by group
+- [`crosstab()`](https://ccsarapas.github.io/lighthouse/reference/crosstab.md)
+  : Cross-tabulate observations
+
+## Grouping and summary functions
+
+- [`summary_report()`](https://ccsarapas.github.io/lighthouse/reference/summary_report.md)
+  [`nom()`](https://ccsarapas.github.io/lighthouse/reference/summary_report.md)
+  [`bin()`](https://ccsarapas.github.io/lighthouse/reference/summary_report.md)
+  [`cont()`](https://ccsarapas.github.io/lighthouse/reference/summary_report.md)
+  : Summarize variables based on measurement level
+- [`summary_table()`](https://ccsarapas.github.io/lighthouse/reference/summary_table.md)
+  : Custom summary table
+- [`cols_info()`](https://ccsarapas.github.io/lighthouse/reference/cols_info.md)
+  : Get information about data frame columns
+- [`df_compare()`](https://ccsarapas.github.io/lighthouse/reference/df_compare.md)
+  : Compare two data frames and show differences
+- [`group_with_total()`](https://ccsarapas.github.io/lighthouse/reference/group_with_total.md)
+  : Add "Total" group to grouped dataframe
+
+## Data transformation
+
+- [`fct_case_when()`](https://ccsarapas.github.io/lighthouse/reference/fct_case_when.md)
+  : Results of case_when() as factor.
+- [`fct_collapse_alt()`](https://ccsarapas.github.io/lighthouse/reference/fct_collapse_alt.md)
+  : Collapse factor levels with additional controls
+- [`fct_reorder_n()`](https://ccsarapas.github.io/lighthouse/reference/fct_reorder_n.md)
+  : Reorder factor levels by sorting along multiple other variables.
+- [`reverse_key()`](https://ccsarapas.github.io/lighthouse/reference/reverse_key.md)
+  : Reverse key a numeric vector
+- [`scale_mad()`](https://ccsarapas.github.io/lighthouse/reference/scale_mad.md)
+  : Scale based on median absolute deviation
+- [`scale_vec()`](https://ccsarapas.github.io/lighthouse/reference/scale_vec.md)
+  : Scaling and centering of vectors
+- [`swap()`](https://ccsarapas.github.io/lighthouse/reference/swap.md)
+  [`swap_if()`](https://ccsarapas.github.io/lighthouse/reference/swap.md)
+  : Swap column values, optionally based on condition
+- [`try_numeric()`](https://ccsarapas.github.io/lighthouse/reference/try_numeric.md)
+  [`try.numeric()`](https://ccsarapas.github.io/lighthouse/reference/try_numeric.md)
+  : Suppress NA warning when coercing to numeric
+- [`winsorize()`](https://ccsarapas.github.io/lighthouse/reference/winsorize.md)
+  : Winsorize extreme values
+
+## Data restructuring
+
+- [`add_header()`](https://ccsarapas.github.io/lighthouse/reference/add_header.md)
+  : Add header rows to a table
+- [`add_empty_rows()`](https://ccsarapas.github.io/lighthouse/reference/add_empty_rows.md)
+  : Add empty rows
+- [`add_rows_at_value()`](https://ccsarapas.github.io/lighthouse/reference/add_rows_at_value.md)
+  : Add empty rows at specified values in a column
+- [`rev_rows()`](https://ccsarapas.github.io/lighthouse/reference/rev_rows.md)
+  : Reverse the order of rows in a table.
+- [`fct_filter()`](https://ccsarapas.github.io/lighthouse/reference/fct_filter.md)
+  : Filter by and drop factor levels simultaneously
+- [`filter_drop()`](https://ccsarapas.github.io/lighthouse/reference/filter_drop.md)
+  : Filter by and drop a column simultaneously
+- [`group_split_named()`](https://ccsarapas.github.io/lighthouse/reference/group_split_named.md)
+  : Split dataframe by named groups
+- [`pad_vectors()`](https://ccsarapas.github.io/lighthouse/reference/pad_vectors.md)
+  : Pad vectors to the same length
+- [`pivot_wider_alt()`](https://ccsarapas.github.io/lighthouse/reference/pivot_wider_alt.md)
+  : Alternative column ordering and naming for pivot_wider()
+- [`reorder_dendro_by_label()`](https://ccsarapas.github.io/lighthouse/reference/reorder_dendro_by_label.md)
+  : Reorder a dendrogram
+- [`t_tibble()`](https://ccsarapas.github.io/lighthouse/reference/t_tibble.md)
+  : Transpose a tibble
+
+## Working with missing values
+
+- [`count_na()`](https://ccsarapas.github.io/lighthouse/reference/count_na.md)
+  : Count NA values by group
+
+- [`discard_na()`](https://ccsarapas.github.io/lighthouse/reference/discard_na.md)
+  : Remove missing values
+
+- [`find_na_cols()`](https://ccsarapas.github.io/lighthouse/reference/find_na_cols.md)
+  [`drop_na_cols()`](https://ccsarapas.github.io/lighthouse/reference/find_na_cols.md)
+  : Identify or remove columns with no data
+
+- [`drop_na_rows()`](https://ccsarapas.github.io/lighthouse/reference/drop_na_rows.md)
+  :
+
+  Drop rows where all columns are `NA`
+
+- [`fct_na_if()`](https://ccsarapas.github.io/lighthouse/reference/fct_na_if.md)
+  :
+
+  Convert specified factor levels to `NA`
+
+- [`nth_valid()`](https://ccsarapas.github.io/lighthouse/reference/nth_valid.md)
+  [`first_valid()`](https://ccsarapas.github.io/lighthouse/reference/nth_valid.md)
+  [`last_valid()`](https://ccsarapas.github.io/lighthouse/reference/nth_valid.md)
+  :
+
+  Get the nth, first, or last non-`NA` value in a vector
+
+- [`is_valid()`](https://ccsarapas.github.io/lighthouse/reference/is_valid.md)
+  [`is.valid()`](https://ccsarapas.github.io/lighthouse/reference/is_valid.md)
+  : Identify non-missing values
+
+- [`n_valid()`](https://ccsarapas.github.io/lighthouse/reference/n_valid.md)
+  [`pct_valid()`](https://ccsarapas.github.io/lighthouse/reference/n_valid.md)
+  [`n_pct_valid()`](https://ccsarapas.github.io/lighthouse/reference/n_valid.md)
+  : Count non-missing cases
+
+- [`na_if_range()`](https://ccsarapas.github.io/lighthouse/reference/na_if_range.md)
+  : Set NA values based on range of numbers.
+
+- [`na_to_null()`](https://ccsarapas.github.io/lighthouse/reference/na_to_null.md)
+  [`null_to_na()`](https://ccsarapas.github.io/lighthouse/reference/na_to_null.md)
+  : Replace NA with NULL and vice versa
+
+## Working with dates
+
+- [`datetimes_to_date()`](https://ccsarapas.github.io/lighthouse/reference/datetimes_to_date.md)
+  : Convert all datetimes in table to dates
+- [`days_diff()`](https://ccsarapas.github.io/lighthouse/reference/days_diff.md)
+  : Number of days between two dates
+- [`fiscal_year()`](https://ccsarapas.github.io/lighthouse/reference/fiscal_year.md)
+  [`ffy()`](https://ccsarapas.github.io/lighthouse/reference/fiscal_year.md)
+  [`sfy_il()`](https://ccsarapas.github.io/lighthouse/reference/fiscal_year.md)
+  [`ffyq()`](https://ccsarapas.github.io/lighthouse/reference/fiscal_year.md)
+  [`sfyq_il()`](https://ccsarapas.github.io/lighthouse/reference/fiscal_year.md)
+  : Get the fiscal year and quarter of a date-time
+- [`floor_month()`](https://ccsarapas.github.io/lighthouse/reference/floor_month.md)
+  [`floor_week()`](https://ccsarapas.github.io/lighthouse/reference/floor_month.md)
+  [`floor_days()`](https://ccsarapas.github.io/lighthouse/reference/floor_month.md)
+  : Floor methods for date objects
+- [`nth_bizday()`](https://ccsarapas.github.io/lighthouse/reference/bizday.md)
+  [`next_bizday()`](https://ccsarapas.github.io/lighthouse/reference/bizday.md)
+  : Find the nth or next business day
+- [`strftime_no_lead()`](https://ccsarapas.github.io/lighthouse/reference/strftime_no_lead.md)
+  : Format date-time to string without leading zeros
+
+## Working with character vectors
+
+- [`glue_chr()`](https://ccsarapas.github.io/lighthouse/reference/glue_chr.md)
+  : Format and interpolate a string as character vector
+
+- [`str_c_narm()`](https://ccsarapas.github.io/lighthouse/reference/str_c_narm.md)
+  :
+
+  Concatenate strings with `NA` handling
+
+- [`str_c_tidy()`](https://ccsarapas.github.io/lighthouse/reference/str_c_tidy.md)
+  : Tidy string concatenation
+
+- [`str_collapse()`](https://ccsarapas.github.io/lighthouse/reference/str_collapse.md)
+  : Collapse a character vector into a single string
+
+- [`str_detect_any()`](https://ccsarapas.github.io/lighthouse/reference/str_detect_any.md)
+  [`str_starts_any()`](https://ccsarapas.github.io/lighthouse/reference/str_detect_any.md)
+  [`str_ends_any()`](https://ccsarapas.github.io/lighthouse/reference/str_detect_any.md)
+  : Detect the presence of any pattern in a string
+
+- [`str_prefix()`](https://ccsarapas.github.io/lighthouse/reference/str_prefix.md)
+  [`str_suffix()`](https://ccsarapas.github.io/lighthouse/reference/str_prefix.md)
+  : Find common prefixes or suffixes
+
+- [`syms_to_chr()`](https://ccsarapas.github.io/lighthouse/reference/syms_to_chr.md)
+  : Print symbols as a character vector
+
+## Statistical functions
+
+- [`se_mean()`](https://ccsarapas.github.io/lighthouse/reference/se_mean.md)
+  : Compute the standard error of the mean
+- [`se_prop()`](https://ccsarapas.github.io/lighthouse/reference/se_prop.md)
+  : Compute the standard error of a proportion
+- [`d_to_OR()`](https://ccsarapas.github.io/lighthouse/reference/d_to_OR.md)
+  [`OR_to_d()`](https://ccsarapas.github.io/lighthouse/reference/d_to_OR.md)
+  : Conversion between Cohen's d and odds ratio
+- [`p_to_OR()`](https://ccsarapas.github.io/lighthouse/reference/p_to_OR.md)
+  [`OR_to_p2()`](https://ccsarapas.github.io/lighthouse/reference/p_to_OR.md)
+  [`OR_to_p1()`](https://ccsarapas.github.io/lighthouse/reference/p_to_OR.md)
+  : Convert between probabilities and odds ratios
+- [`accuracy_stats()`](https://ccsarapas.github.io/lighthouse/reference/accuracy_stats.md)
+  : Compute common accuracy and agreement metrics
+- [`wkappa()`](https://ccsarapas.github.io/lighthouse/reference/wkappa.md)
+  : Compute Cohen's kappa and weighted kappa
+- [`cohen_w()`](https://ccsarapas.github.io/lighthouse/reference/cohen_w.md)
+  : Compute Cohen's w
+- [`dunn_test()`](https://ccsarapas.github.io/lighthouse/reference/dunn_test.md)
+  : Pairwise post-hoc test following Kruskal-Wallis test
+- [`asterisks()`](https://ccsarapas.github.io/lighthouse/reference/asterisks.md)
+  : Return asterisks corresponding to p-values
+- [`ci_sig()`](https://ccsarapas.github.io/lighthouse/reference/ci_sig.md)
+  : Test whether a confidence interval excludes a given value
+
+## Sums, minima, and maxima
+
+- [`sum_if_any()`](https://ccsarapas.github.io/lighthouse/reference/aggregate_if_any.md)
+  [`max_if_any()`](https://ccsarapas.github.io/lighthouse/reference/aggregate_if_any.md)
+  [`min_if_any()`](https://ccsarapas.github.io/lighthouse/reference/aggregate_if_any.md)
+  : Sums, maxima and minima with alternative missing value handling
+- [`psum()`](https://ccsarapas.github.io/lighthouse/reference/psum.md)
+  [`pmean()`](https://ccsarapas.github.io/lighthouse/reference/psum.md)
+  : Parallel / row-wise sums and means
+- [`psum_across()`](https://ccsarapas.github.io/lighthouse/reference/psum_across.md)
+  [`pmean_across()`](https://ccsarapas.github.io/lighthouse/reference/psum_across.md)
+  [`pmin_across()`](https://ccsarapas.github.io/lighthouse/reference/psum_across.md)
+  [`pmax_across()`](https://ccsarapas.github.io/lighthouse/reference/psum_across.md)
+  : tidyselect-friendly row-wise aggregation
+- [`cumsum_desc()`](https://ccsarapas.github.io/lighthouse/reference/cumsum_desc.md)
+  : Descending cumulative sum
+
+## Logical tests
+
+- [`is_duplicate()`](https://ccsarapas.github.io/lighthouse/reference/is_duplicate.md)
+  : Identify duplicates within a vector or vectors
+- [`is_TRUE()`](https://ccsarapas.github.io/lighthouse/reference/is_TRUE.md)
+  [`is_FALSE()`](https://ccsarapas.github.io/lighthouse/reference/is_TRUE.md)
+  [`is_TRUE_or_NA()`](https://ccsarapas.github.io/lighthouse/reference/is_TRUE.md)
+  [`is_FALSE_or_NA()`](https://ccsarapas.github.io/lighthouse/reference/is_TRUE.md)
+  : Vectorized logical tests
+- [`is_coercible_numeric()`](https://ccsarapas.github.io/lighthouse/reference/is_coercible_numeric.md)
+  [`is_coercible_integer()`](https://ccsarapas.github.io/lighthouse/reference/is_coercible_numeric.md)
+  [`is_coercible_logical()`](https://ccsarapas.github.io/lighthouse/reference/is_coercible_numeric.md)
+  : Test for data encoded as other formats
+- [`is_spss()`](https://ccsarapas.github.io/lighthouse/reference/is_spss.md)
+  : Test whether a data frame contains SPSS variable or value labels
+- [`eq_shape()`](https://ccsarapas.github.io/lighthouse/reference/eq_shape.md)
+  : Test if two objects have the same shape
+
+## Displaying output
+
+- [`in_excel()`](https://ccsarapas.github.io/lighthouse/reference/in_excel.md)
+  : Open dataframe in Excel
+- [`print_all()`](https://ccsarapas.github.io/lighthouse/reference/print_all.md)
+  : Print all tibble rows
+- [`print_n()`](https://ccsarapas.github.io/lighthouse/reference/print_n.md)
+  : Print specified number of tibble rows
+- [`write_xlsx_styled()`](https://ccsarapas.github.io/lighthouse/reference/write_xlsx_styled.md)
+  : Write a styled data frame to an Excel file
+- [`add_plot_slide()`](https://ccsarapas.github.io/lighthouse/reference/add_plot_slide.md)
+  : Add a plot to a PowerPoint slide
+
+## Data visualization helpers
+
+- [`set_ggplot_opts()`](https://ccsarapas.github.io/lighthouse/reference/set_ggplot_opts.md)
+  :
+
+  Nicer default theme and palettes for `ggplot2`
+
+- [`add_crossings()`](https://ccsarapas.github.io/lighthouse/reference/add_crossings.md)
+  : Add crossings to a dataframe for area charts
+
+- [`after_opacity()`](https://ccsarapas.github.io/lighthouse/reference/opacity.md)
+  [`before_opacity()`](https://ccsarapas.github.io/lighthouse/reference/opacity.md)
+  : Translate colors before and after alpha blending
+
+## Working with service cascades
+
+- [`cascade_fill_bwd()`](https://ccsarapas.github.io/lighthouse/reference/cascade.md)
+  [`cascade_fill_fwd()`](https://ccsarapas.github.io/lighthouse/reference/cascade.md)
+  [`cascade_summarize()`](https://ccsarapas.github.io/lighthouse/reference/cascade.md)
+  : Utilities for service cascades
+
+## Infix operators
+
+- [`` `%<-%` ``](https://ccsarapas.github.io/lighthouse/reference/unpack-assign.md)
+  [`` `%->%` ``](https://ccsarapas.github.io/lighthouse/reference/unpack-assign.md)
+  : Unpack and assign
+- [`` `%!in%` ``](https://ccsarapas.github.io/lighthouse/reference/not-in.md)
+  : Match values not in vector
+- [`` `%all_in%` ``](https://ccsarapas.github.io/lighthouse/reference/any-all-in.md)
+  [`` `%any_in%` ``](https://ccsarapas.github.io/lighthouse/reference/any-all-in.md)
+  : Test whether multiple values are in a vector
+
+## Miscellany
+
+- [`open_file()`](https://ccsarapas.github.io/lighthouse/reference/open_file.md)
+  [`open_location()`](https://ccsarapas.github.io/lighthouse/reference/open_file.md)
+  [`file.open()`](https://ccsarapas.github.io/lighthouse/reference/open_file.md)
+  [`dir.open()`](https://ccsarapas.github.io/lighthouse/reference/open_file.md)
+  : Open a file or directory
+- [`set_compare()`](https://ccsarapas.github.io/lighthouse/reference/set_compare.md)
+  : Set comparison with automatic naming
+- [`suppress_warnings_if()`](https://ccsarapas.github.io/lighthouse/reference/suppress_if.md)
+  [`suppress_messages_if()`](https://ccsarapas.github.io/lighthouse/reference/suppress_if.md)
+  : Conditionally suppress warnings or messages
+- [`untidyselect()`](https://ccsarapas.github.io/lighthouse/reference/untidyselect.md)
+  : Convert a tidy selection to a vector of column names
+- [`zap_everything()`](https://ccsarapas.github.io/lighthouse/reference/zap_everything.md)
+  : Strip special attributes from SPSS dataset
+- [`gain_ss_score()`](https://ccsarapas.github.io/lighthouse/reference/gain_ss_score.md)
+  : Compute time period scores for GAIN-SS scales
+- [`rbool()`](https://ccsarapas.github.io/lighthouse/reference/rbool.md)
+  : Generate random logicals
+
+## Datasets
+
+- [`gain_missing_codes`](https://ccsarapas.github.io/lighthouse/reference/gain_missing_codes.md)
+  : Missing codes for GAIN ABS
+- [`holidays_chestnut`](https://ccsarapas.github.io/lighthouse/reference/holidays_chestnut.md)
+  : CHS holidays over a 20-year period
+- [`holidays_il`](https://ccsarapas.github.io/lighthouse/reference/holidays_il.md)
+  : Illinois state holidays over a 20-year period
+- [`holidays_us`](https://ccsarapas.github.io/lighthouse/reference/holidays_us.md)
+  : US federal holidays over a 20-year period
+- [`state.terr.name`](https://ccsarapas.github.io/lighthouse/reference/territory.md)
+  [`state.terr.abb`](https://ccsarapas.github.io/lighthouse/reference/territory.md)
+  [`state.terr.data`](https://ccsarapas.github.io/lighthouse/reference/territory.md)
+  : US state and territory data
+
+## Deprecated
+
+- [`get_col_types()`](https://ccsarapas.github.io/lighthouse/reference/get_col_types.md)
+  : Summarize a dataframe's column types - DEPRECATED
+- [`ggview()`](https://ccsarapas.github.io/lighthouse/reference/ggview.md)
+  : Nicer ggplot rendering - DEPRECATED
+- [`median_dbl()`](https://ccsarapas.github.io/lighthouse/reference/median_dbl.md)
+  : Median value as double - DEPRECATED
+- [`na_like()`](https://ccsarapas.github.io/lighthouse/reference/na_like.md)
+  : Generate NA values of appropriate type - DEPRECATED
+- [`coerce_na_range()`](https://ccsarapas.github.io/lighthouse/reference/coerce_na_range.md)
+  : Set NA values based on numbers stored as strings - DEPRECATED
+- [`row_sums_spss()`](https://ccsarapas.github.io/lighthouse/reference/row_sums_spss.md)
+  : Replicate SPSS SUM() function - DEPRECATED
+- [`safe_max()`](https://ccsarapas.github.io/lighthouse/reference/safe_minmax.md)
+  [`safe_min()`](https://ccsarapas.github.io/lighthouse/reference/safe_minmax.md)
+  : Maxima and minima with alternative missing value handling -
+  DEPRECATED
+- [`se()`](https://ccsarapas.github.io/lighthouse/reference/se.md) :
+  Compute the standard error - DEPRECATED
+

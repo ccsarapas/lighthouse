@@ -1,0 +1,93 @@
+# Add a plot to a PowerPoint slide
+
+This function adds a new slide to a PowerPoint presentation with a plot
+centered beneath the title, scaled to be as large as possible within the
+specified margins while preserving aspect ratio.
+
+## Usage
+
+``` r
+add_plot_slide(
+  pptx,
+  title = NULL,
+  plot = ggplot2::last_plot(),
+  w = 7,
+  h = 4,
+  bg = "white",
+  w_margin = 0.15,
+  h_margin = 0.15,
+  layout = "Title and Content",
+  ...
+)
+```
+
+## Arguments
+
+- pptx:
+
+  an object of class rpptx, as created by officer::read_pptx()
+
+- title:
+
+  optional slide title
+
+- plot:
+
+  the plot to add. Default is the last plot created.
+
+- w:
+
+  plot width in inches
+
+- h:
+
+  plot height in inches
+
+- bg:
+
+  background color of the plot area
+
+- w_margin:
+
+  horizontal margin in inches
+
+- h_margin:
+
+  vertical margin in inches
+
+- layout:
+
+  slide layout to use
+
+- ...:
+
+  additional arguments passed to officer::ph_with()
+
+## Value
+
+An updated rpptx object
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+library(ggplot2)
+library(officer)
+
+plot <- ggplot(mtcars, aes(mpg, wt)) +
+  geom_point()
+
+pptx <- read_pptx()
+pptx <- pptx |>
+add_plot_slide("Larger Elements", plot, w = 5, h = 3.5) |>
+  add_plot_slide("Smaller Elements", plot, w = 10, h = 7) |>
+  add_plot_slide("Wider", plot, w = 9, h = 3) |>
+  add_plot_slide("Taller", plot, w = 4, h = 6)
+
+path <- paste0(tempfile(), ".pptx")
+print(pptx, target = path)
+file.open(path)
+
+invisible(file.remove(path))
+} # }
+```
