@@ -19,7 +19,7 @@ lhs %!in% rhs
 
 some_letters <- sample(letters, 10)
 letters[letters %in% some_letters]
-#>  [1] "a" "h" "i" "m" "o" "p" "r" "u" "x" "y"
+#>  [1] "c" "d" "e" "k" "n" "o" "q" "t" "v" "y"
 letters[letters %!in% some_letters]
-#>  [1] "b" "c" "d" "e" "f" "g" "j" "k" "l" "n" "q" "s" "t" "v" "w" "z"
+#>  [1] "a" "b" "f" "g" "h" "i" "j" "l" "m" "p" "r" "s" "u" "w" "x" "z"
 ```

@@ -30,7 +30,7 @@ ex_data %>%
 #> # A tibble: 1 × 7
 #>   Predictor       n Kappa Sensitivity Specificity   PPV   NPV
 #>   <fct>       <dbl> <dbl>       <dbl>       <dbl> <dbl> <dbl>
-#> 1 prediction1   250 0.844         0.9       0.947 0.889 0.953
+#> 1 prediction1   250 0.845       0.901       0.947 0.890 0.952
 
 # can test multiple predictors simultaneously
 ex_data %>%
@@ -38,11 +38,11 @@ ex_data %>%
 #> # A tibble: 5 × 7
 #>   Predictor       n Kappa Sensitivity Specificity   PPV   NPV
 #>   <fct>       <dbl> <dbl>       <dbl>       <dbl> <dbl> <dbl>
-#> 1 prediction1   250 0.844        0.9        0.947 0.889 0.953
-#> 2 prediction2   250 0.636        0.85       0.824 0.694 0.921
-#> 3 prediction3   250 0.214        0.6        0.635 0.436 0.771
-#> 4 prediction4   250 0.820        1          0.876 0.792 1    
-#> 5 prediction5   250 0.845        0.8        1     1     0.914
+#> 1 prediction1   250 0.845       0.901       0.947 0.890 0.952
+#> 2 prediction2   250 0.628       0.840       0.822 0.694 0.914
+#> 3 prediction3   250 0.213       0.593       0.639 0.440 0.766
+#> 4 prediction4   250 0.828       1           0.882 0.802 1    
+#> 5 prediction5   250 0.846       0.802       1     1     0.914
 
 # if `include_counts` = TRUE, will also return n of false positives,
 # false negatives, etc., as well as and observed and expected % agreement
@@ -51,11 +51,11 @@ ex_data %>%
 #> # A tibble: 5 × 13
 #>   Predictor       n    TP    FP    TN    FN pAgreeObserved pAgreeExpected Kappa
 #>   <fct>       <dbl> <int> <int> <int> <int>          <dbl>          <dbl> <dbl>
-#> 1 prediction1   250    72     9   161     8          0.932          0.563 0.844
-#> 2 prediction2   250    68    30   140    12          0.832          0.539 0.636
-#> 3 prediction3   250    48    62   108    32          0.624          0.522 0.214
-#> 4 prediction4   250    80    21   149     0          0.916          0.535 0.820
-#> 5 prediction5   250    64     0   170    16          0.936          0.588 0.845
+#> 1 prediction1   250    73     9   160     8          0.932          0.561 0.845
+#> 2 prediction2   250    68    30   139    13          0.828          0.538 0.628
+#> 3 prediction3   250    48    61   108    33          0.624          0.523 0.213
+#> 4 prediction4   250    81    20   149     0          0.92           0.534 0.828
+#> 5 prediction5   250    65     0   169    16          0.936          0.584 0.846
 #> # ℹ 4 more variables: Sensitivity <dbl>, Specificity <dbl>, PPV <dbl>,
 #> #   NPV <dbl>
 ```
