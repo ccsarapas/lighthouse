@@ -13,6 +13,8 @@ division of Chestnut Health Systems.
 Install the lighthouse package by running:
 
 ``` r
+## git2r is needed only if Git isn't installed on your system
+# install.packages(c("git2r", "remotes"))
 remotes::install_github("ccsarapas/lighthouse")
 ```
 
