@@ -1,3 +1,9 @@
+## unreleased
+
+## Bug fixes
+
+* `count_with_total()`, `count_pct()`, `count_multiple()`, `count_duplicates()`, `count_unique()`, `count_na()`, `crosstab()`, `summary_table()`, `summary_report()`, `in_excel()`, and `write_xlsx_styled()` now convert `sf` inputs to tibbles before processing (#29, #30).
+
 # lighthouse 0.7.4
 
 * Removed unused `...` argument from `n_valid()`, `n_pct()`, and `n_pct_valid()`.

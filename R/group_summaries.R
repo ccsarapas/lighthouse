@@ -96,6 +96,7 @@ summary_table <- function(.data,
                           .cols_group_order = c("by_group", "by_function"),
                           .var_col_name = "Variable",
                           .cols_group_opts = list()) {
+  .data <- handle_sf(.data)
   .fns <- pairlist_auto_name(...) %>% 
     lapply(
       \(fn, na.rm) {
@@ -436,6 +437,7 @@ summary_report <- function(.data,
         vars <- list(arg)
         types <- .default
       }
+      .data <- handle_sf(.data)
       vars <- names(tidyselect::eval_select(rlang::expr(c(!!!vars)), .data, env = env))
       types <- switch(
         types,

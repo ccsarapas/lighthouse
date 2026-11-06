@@ -19,6 +19,20 @@ is_logical_vec <- function(x) {
   }
 }
 
+handle_sf <- function(x, quiet = FALSE) {
+  if (inherits(x, "sf")) {
+    x <- tibble::as_tibble(x)
+    if (!quiet) {
+      cli::cli_inform(
+        "{.cls sf} object converted to {.cls tibble}.",
+        .frequency = "once",
+        .frequency_id = "lighthouse_handle_sf"
+      )
+    }
+  }
+  x
+}
+
 try.na.rm <- function(fn, x, na.rm = FALSE, ...) {
   if (any(c("na.rm", "...") %in% formalArgs(args(fn)))) {
     fn(x, na.rm = na.rm, ...)
