@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+* Explicitly setting `.cols_group_by = NULL` in `summary_table()` now works as expected (fixes #41).
+
 * `count_with_total()`, `count_pct()`, `count_multiple()`, `count_duplicates()`, `count_unique()`, `count_na()`, `crosstab()`, `summary_table()`, `summary_report()`, `in_excel()`, and `write_xlsx_styled()` now convert `sf` inputs to tibbles before processing (fixes #29, #30).
 
 * `df_compare()` and `write_xlsx_styled()` now remove list columns with a warning (fixes #32).

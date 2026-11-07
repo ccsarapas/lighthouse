@@ -135,7 +135,7 @@ summary_table <- function(.data,
   if (.var_col_name == "..TMP_VAR_COL..") {
     .data[[.var_col_name]] <- NULL
   }
-  if (!missing(.cols_group_by)) {
+  if (!rlang::quo_is_null(rlang::enquo(.cols_group_by))) {
     if (!missing(.cols_group_opts)) {
       cli::cli_warn(c(
         "!" = "{.arg .cols_group_opts} is deprecated and will be removed in a future release.",
