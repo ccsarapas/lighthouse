@@ -134,7 +134,7 @@ before_opacity <- function(color, alpha, bg = "white") {
 #' @param .by Grouping variable(s). Useful for computing crossings for faceted plots.
 #'
 #' @details
-#' The returned dataframe will include columns `pos_neg` and `cross_group`. Within `geom_area()`, `cross_group` should be mapped to `group`, while `pos_neg` should be mapped to aesthetics such as `fill` or `color`.
+#' The returned dataframe will include columns `pos_neg` and `cross_grp`. Within `geom_area()`, `cross_grp` should be mapped to `group`, while `pos_neg` should be mapped to aesthetics such as `fill` or `color`.
 #'
 #' @return The input data frame with additional rows representing the crossings (where y = 0), and two new columns:
 #' - `pos_neg`: Indicates whether the y-value is positive ("pos") or negative ("neg").

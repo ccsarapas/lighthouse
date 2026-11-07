@@ -26,7 +26,7 @@ The input data frame with additional rows representing the crossings (where y = 
 Augments a dataframe with x-values where y = f(x) = 0. This is useful for creating area charts with different fills for values less than versus greater than 0.
 }
 \details{
-The returned dataframe will include columns \code{pos_neg} and \code{cross_group}. Within \code{geom_area()}, \code{cross_group} should be mapped to \code{group}, while \code{pos_neg} should be mapped to aesthetics such as \code{fill} or \code{color}.
+The returned dataframe will include columns \code{pos_neg} and \code{cross_grp}. Within \code{geom_area()}, \code{cross_grp} should be mapped to \code{group}, while \code{pos_neg} should be mapped to aesthetics such as \code{fill} or \code{color}.
 }
 \examples{
 nile_flow <- tibble::tibble(

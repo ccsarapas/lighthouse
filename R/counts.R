@@ -49,11 +49,11 @@ count_with_total <- function(.data,
     rearrange <- TRUE
   }
   counts <- .data %>%
-    dplyr::count(..., wt = {{wt}}, sort = sort, name = name, .drop = .drop) %>%
+    dplyr::count(..., wt = {{ wt }}, sort = sort, name = name, .drop = .drop) %>%
     dplyr::mutate(!!totals_for := as.character(!!totals_for))
   totals <- .data %>%
     dplyr::mutate(!!totals_for := label) %>%
-    dplyr::count(..., wt = {{wt}}, sort = sort, name = name, .drop = .drop)
+    dplyr::count(..., wt = {{ wt }}, sort = sort, name = name, .drop = .drop)
   if (first_row) {
     out <- dplyr::bind_rows(totals, counts)
   } else {
@@ -85,7 +85,7 @@ count_with_total <- function(.data,
 #' @return A data frame with columns for grouping variables, `n` (the count of observations in each group), and `pct` (the percentage of total observations in each group).
 #'
 #' @details
-#' Percentages within subgroups can be obtained by grouping with `group_by`
+#' Percentages within subgroups can be obtained by grouping with the `.by` argument or with [dplyr::group_by()].
 #'
 #' @family count variants
 #'
