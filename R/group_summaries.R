@@ -524,7 +524,7 @@ cont <- meas_wrap_error
 
 #' Compare two data frames and show differences
 #'
-#' Given two data frames with the same dimensions and column order, returns a data frame including only rows and columns with differences.
+#' Given two data frames with the same dimensions, column order, and column classes, returns a data frame including only rows and columns with differences.
 #'
 #' @param x,y a pair of data frames
 #' @param suffix suffixes to indicate source data frame in output.
@@ -546,9 +546,18 @@ df_compare <- function(x, y, suffix = c(".x", ".y"), keep = NULL) {
   eq_na <- function(x, y) {
     (!is.na(x) & !is.na(y) & x == y) | (is.na(x) & is.na(y))
   }
-  stopifnot(all(dim(x) == dim(y)))
-  nms <- names(x)
-  stopifnot(all(nms == names(y)))
+  if (!identical(dim(x), dim(y))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical dimensions.")
+  }
+    nms <- names(x)
+  if (!identical(nms, names(y))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical column names.")
+  }
+  if (!identical(lapply(x, class), lapply(y, class))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical column classes.")
+  }
+  x <- handle_list_cols(x, caller = "df_compare")
+  y <- handle_list_cols(y, quiet = TRUE)
   df_diff <- !eq_na(x, y)
   rows_diff <- apply(df_diff, 1, any)
   cols_diff <- nms[apply(df_diff, 2, any)]

@@ -33,6 +33,22 @@ handle_sf <- function(x, quiet = FALSE) {
   x
 }
 
+handle_list_cols <- function(x, caller, quiet = FALSE) {
+  stopifnot(inherits(x, "data.frame"))
+  idx_list_cols <- vapply(x, is.list, logical(1))
+  if (any(list_cols)) {
+    list_cols <- names(x)[idx_list_cols]
+    x <- x[, !idx_list_cols, drop = FALSE]
+    if (!quiet) {
+      cli::cli_warn(c(
+        "*" = "`{caller}()` does not support list columns.",
+        "i" = "List column{?s} removed: {list_cols}."
+      ))
+    }
+  }
+  x
+}
+
 try.na.rm <- function(fn, x, na.rm = FALSE, ...) {
   if (any(c("na.rm", "...") %in% formalArgs(args(fn)))) {
     fn(x, na.rm = na.rm, ...)
