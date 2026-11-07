@@ -6,7 +6,7 @@
 #' @export
 try_numeric <- function(x) {
   if (is.factor(x)) {
-    warning(
+    cli::cli_warn(
       "`x` is a factor and will be converted based on factor codes, not factor labels."
     )
   }
@@ -137,9 +137,9 @@ fct_collapse_alt <- function(.f,
   } else {
     tmp <- purrr::quietly(forcats::fct_collapse)(.f = .f, ..., other_level = other_level)
     is_unknown_warning <- grepl("Unknown levels in `f`:", tmp$warnings)
-    for (w in tmp$warnings[!is_unknown_warning]) warning(w)
+    for (w in tmp$warnings[!is_unknown_warning]) cli::cli_warn("{w}")
     if (unknown_levels == "error" && any(is_unknown_warning)) {
-      stop(tmp$warnings[is_unknown_warning][[1]])
+      cli::cli_abort("{tmp$warnings[is_unknown_warning][[1]]}")
     }
     out <- tmp$result
   }
@@ -221,7 +221,7 @@ winsorize <- function(x,
                       mad.center = c("median", "mean")) {
   method <- match.arg(method)
   if (method == "sd" && !missing(mad.center)) {
-    warning('Argument `mad.center` ignored when `method` = "sd"')
+    cli::cli_warn('Argument `mad.center` ignored when `method` = "sd"')
   }
   if (method == "sd") {
     cent <- mean(x, na.rm = TRUE)

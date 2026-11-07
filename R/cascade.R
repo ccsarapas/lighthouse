@@ -8,8 +8,8 @@
 #' @export
 cascade_fill_bwd <- function(data, vars) {
   vars <- untidyselect(data, !!rlang::enexpr(vars))
-  if (length(vars) < 2) stop("At least two variables required.")
-  if (!(all(sapply(data[vars], is.logical)))) stop("All variabes must be logical.")
+  if (length(vars) < 2) cli::cli_abort("At least two variables required.")
+  if (!(all(sapply(data[vars], is.logical)))) cli::cli_abort("All variabes must be logical.")
   for (i in seq(length(vars), 2)) {
     data[[vars[[i - 1]]]] <- data[[vars[[i]]]] | data[[vars[[i - 1]]]]
   }
@@ -24,8 +24,8 @@ cascade_fill_fwd <- function(data,
                              # initial_NAs_as = c("FALSE", "missing")
 ) {
   vars <- untidyselect(data, !!rlang::enexpr(vars))
-  if (length(vars) < 2) stop("At least two variables required.")
-  if (!(all(sapply(data[vars], is.logical)))) stop("All variabes must be logical.")
+  if (length(vars) < 2) cli::cli_abort("At least two variables required.")
+  if (!(all(sapply(data[vars], is.logical)))) cli::cli_abort("All variabes must be logical.")
   fill <- match.arg(fill)
   # initial_NAs_as <- match.arg(initial_NAs_as)
   # if (initial_NAs_as == "missing") {

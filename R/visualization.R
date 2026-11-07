@@ -28,7 +28,7 @@ set_ggplot_opts <- function(base_theme = NULL,
     if (rlang::is_installed("hrbrthemes")) {
       base_theme <- hrbrthemes::theme_ipsum_rc
     } else {
-      stop(
+      cli::cli_abort(
         'install "hrbrthemes" (https://github.com/hrbrmstr/hrbrthemes) or pass another installed theme to `base_theme` to use this function.)'
       )
     }

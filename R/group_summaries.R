@@ -213,8 +213,8 @@ cols_info <- function(x, zap_spss = TRUE) {
   } else {
     spss_data <- FALSE
     if (purrr::some(x, ~ "format.spss" %in% names(attributes(.x)))) {
-      message('Install "labelled" package for additional functionality for SPSS dataframes.')
-      if (zap_spss) warning('`zap_spss` argument has no effect because "labelled" package is not installed.')
+      cli::cli_inform('Install "labelled" package for additional functionality for SPSS dataframes.')
+      if (zap_spss) cli::cli_warn('`zap_spss` argument has no effect because "labelled" package is not installed.')
     }
   }
   out <- tibble::tibble(
