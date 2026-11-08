@@ -21,7 +21,9 @@ is_logical_vec <- function(x) {
 
 handle_sf <- function(x, quiet = FALSE) {
   if (inherits(x, "sf")) {
+    grp_vars <- dplyr::group_vars(x)
     x <- tibble::as_tibble(x)
+    x <- dplyr::group_by(x, !!!rlang::syms(grp_vars))
     if (!quiet) {
       cli::cli_inform(
         "{.cls sf} object converted to {.cls tibble}.",
@@ -36,7 +38,7 @@ handle_sf <- function(x, quiet = FALSE) {
 handle_list_cols <- function(x, caller, quiet = FALSE) {
   stopifnot(inherits(x, "data.frame"))
   idx_list_cols <- vapply(x, is.list, logical(1))
-  if (any(list_cols)) {
+  if (any(idx_list_cols)) {
     list_cols <- names(x)[idx_list_cols]
     x <- x[, !idx_list_cols, drop = FALSE]
     if (!quiet) {

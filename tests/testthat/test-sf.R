@@ -22,6 +22,29 @@ test_that("handle_sf converts sf inputs and leaves ordinary inputs unchanged", {
   expect_identical(handle_sf(plain), plain)
 })
 
+test_that("handle_sf preserves existing grouping", {
+  grouped <- dplyr::group_by(sf_test_data(), group)
+  converted <- handle_sf(grouped, quiet = TRUE)
+
+  expect_identical(dplyr::group_vars(converted), "group")
+  expect_equal(dplyr::group_data(converted), dplyr::group_data(grouped))
+})
+
+test_that("count_pct computes percentages within existing sf groups", {
+  grouped <- dplyr::group_by(sf_test_data(), group)
+  expected <- dplyr::group_by(
+    tibble::tibble(
+      group = c("a", "b", "b"),
+      value = c(2, 4, NA_real_),
+      n = c(2L, 1L, 1L),
+      pct = c(1, 0.5, 0.5)
+    ),
+    group
+  )
+
+  expect_equal(suppressMessages(count_pct(grouped, value)), expected)
+})
+
 test_that("counting functions give tabular results for sf inputs", {
   spatial <- sf_test_data()
   tabular <- tibble::as_tibble(spatial)
