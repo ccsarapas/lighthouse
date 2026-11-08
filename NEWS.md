@@ -10,11 +10,11 @@
 
 ## Other changes
 
-* Increased R dependency to >= 4.2.0 for use of baseline pipe and placeholder.
+* Increased R dependency to >= 4.2.0 for use of baseline pipe and placeholder (closes #35).
 
-* All conditions now use cli.
+* All conditions now use cli (clsoes #25).
 
-* Minor documentation corrections.
+* Minor documentation corrections (closes #28, #33, #35, #36).
 
 # lighthouse 0.7.4
 
