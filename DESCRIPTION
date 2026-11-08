@@ -1,6 +1,6 @@
 Package: lighthouse
 Title: Utility Functions for Lighthouse Institute Projects
-Version: 0.7.4
+Version: 0.7.5
 Authors@R: c(
     person("Casey", "Sarapas", 
            email = "ccsarapas@chestnut.org", 
@@ -40,6 +40,7 @@ Suggests:
     openxlsx,
     psych,
     rstudioapi,
+    sf,
     testthat (>= 3.0.0)
 Remotes:
     git::https://codeberg.org/hrbrmstr/hrbrthemes.git
@@ -48,7 +49,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: 
-    R (>= 2.10)
+    R (>= 4.2.0)
 LazyData: true
 URL: https://github.com/ccsarapas/lighthouse,
     https://ccsarapas.github.io/lighthouse/

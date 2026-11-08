@@ -71,7 +71,7 @@ se_prop <- function(x,
                     low_var_action = c("warn", "ignore", "error")) {
   low_var_action <- match.arg(low_var_action)
   if (!(is.logical(x) || (is.numeric(x) && x %all_in% c(0, 1, NA)))) {
-    stop("`x` must be a logical vector or a numeric vector containing only 0s and 1s.")
+    cli::cli_abort("`x` must be a logical vector or a numeric vector containing only 0s and 1s.")
   }
   p <- mean(x, na.rm = na.rm)
   if (is.na(p)) return(p)
@@ -80,12 +80,12 @@ se_prop <- function(x,
   npq <- n * p * q
   if (low_var_action != "ignore" && npq < min_var) {
     if (low_var_action == "error") {
-      stop(
-        "The variance (n*p*q = ", round(npq, 3), ") is < ", round(min_var, 3), ". See `?se_prop`."
+      cli::cli_abort(
+        "The variance (n*p*q = {round(npq, 3)}) is < {round(min_var, 3)}. See `?se_prop`."
       )
     }
-    warning(
-      "Result may be unreliable due to low variance (n*p*q = ", round(npq, 3), "). See `?se_prop`."
+    cli::cli_warn(
+      "Result may be unreliable due to low variance (n*p*q = {round(npq, 3)}). See `?se_prop`."
     )
   }
   sqrt((p * q)/n)
@@ -241,7 +241,7 @@ ci_sig <- function(ll,
   return <- match.arg(return)
   out <- !(ll <= reference & ul >= reference)
   if (return == "logical") return(out)
-  if (length(marks) != 2) stop("`marks` must be a vector of length 2.")
+  if (length(marks) != 2) cli::cli_abort("`marks` must be a vector of length 2.")
   ifelse(out, marks[[1]], marks[[2]])
 }
 
@@ -275,12 +275,12 @@ asterisks <- function(p,
                       marks = c(sig = "*", trend = "+", ns = NA_character_),
                       include_key = FALSE) {
   if (any(!is.na(p) & !dplyr::between(p, 0, 1))) {
-    stop("p values <0 or >1 detected. Check your input.")
+    cli::cli_abort("p values <0 or >1 detected. Check your input.")
   }
   if (!missing(marks)) {
     defaults <- c(sig = "*", trend = "+", ns = NA_character_)
     if (any(names(marks) %!in% names(defaults))) {
-      warning("Unrecognized name in `marks`, ignored.")
+      cli::cli_warn("Unrecognized name in `marks`, ignored.")
     }
     for (nm in names(marks)) {
       defaults[[nm]] <- marks[[nm]]

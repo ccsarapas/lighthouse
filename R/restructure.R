@@ -7,13 +7,13 @@
 #' @export
 add_empty_rows <- function(.data, .before = NULL, .after = NULL, .nrows = 1) {
   if (!is.null(.before) && !is.null(.after)) {
-    stop("Can't specify both `.before` and `.after`.")
+    cli::cli_abort("Can't specify both `.before` and `.after`.")
   }
   if (is.null(.after)) .after <- .before - 1
   sort_order <- order(.after, decreasing = TRUE)
   .after <- .after[sort_order]
   if (length(.nrows) != 1 && length(.nrows) != length(.after)) {
-    stop("`.nrows` must be either length 1 or same length as `.before` or `.after`.")
+    cli::cli_abort("`.nrows` must be either length 1 or same length as `.before` or `.after`.")
   }
   if (length(.nrows) == 1) {
     .rows <- tibble::tibble(.rows = .nrows)
@@ -82,9 +82,9 @@ add_rows_at_value <- function(.data,
   find_loc <- function(val, col, where, no_match) {
     if (val %!in% col) {
       if (no_match == "error") {
-        stop('Value "', val, '" not found in specified column.', call. = FALSE)
+        cli::cli_abort('Value "{val}" not found in specified column.', call = NULL)
       } else if (no_match == "warn") {
-        warning('Value "', val, '" not found in specified column.', call. = FALSE)
+        cli::cli_warn('Value "{val}" not found in specified column.', call = NULL)
       }
       return(integer())
     }
@@ -95,24 +95,24 @@ add_rows_at_value <- function(.data,
   vals_chk <- rlang::enexpr(vals)
   where_chk <- rlang::enexpr(where)
   if (is.symbol(vals_chk) && (!exists(vals_chk, rlang::caller_env()) || is.symbol(where_chk))) {
-    stop(
-      "`add_rows_at_value()` no longer supports passing values as symbols. Instead, \n",
-      "    pass values to `vals` as a character vector. `lighthouse::syms_to_chr()` may \n",
-      "    be useful for updating code."
-    )
+    cli::cli_abort(c(
+      "!" = "`add_rows_at_value()` no longer supports passing values as symbols.",
+      "i" = "Instead, pass values to `vals` as a character vector.", 
+      "i" = "`lighthouse::syms_to_chr()` may be useful for updating code."
+    ))
   }
   dots <- list(...)
   if (length(dots) > 0) {
     dot_names <- names(dots)
     if (is.null(dot_names) || !all(dot_names %in% c(".where", ".nrows"))) {
-      stop("`...` must be empty.")
+      cli::cli_abort("`...` must be empty.")
     }
     if (".where" %in% dot_names) {
-      warning("The `.where` argument is deprecated. Please use `where` instead.")
+      cli::cli_warn("The `.where` argument is deprecated. Please use `where` instead.")
       where <- dots$.where
     }
     if (".nrows" %in% dot_names) {
-      warning("The `.nrows` argument is deprecated. Please use `nrows` instead.")
+      cli::cli_warn("The `.nrows` argument is deprecated. Please use `nrows` instead.")
       nrows <- dots$.nrows
     }
   }
@@ -467,7 +467,7 @@ t_tibble <- function(x, names_to = "Variable", names_from = NULL) {
 #' @export
 pad_vectors <- function(...) {
   dots <- rlang::list2(...)
-  if (!all(sapply(dots, is.vector))) stop("All arguments must be vectors.")
+  if (!all(sapply(dots, is.vector))) cli::cli_abort("All arguments must be vectors.")
   max_length <- max(sapply(dots, length))
   lapply(dots, `length<-`, max_length)
 }
@@ -481,7 +481,7 @@ pad_vectors <- function(...) {
 #' @export
 fct_filter <- function(.data, .fct, .keep = NULL, .drop = NULL) {
   if (!xor(is.null(.keep), is.null(.drop))) {
-    stop("Must specify either .keep or .drop (not both).")
+    cli::cli_abort("Must specify either .keep or .drop (not both).")
   } else if (!is.null(.keep)) {
     .data %>%
       dplyr::filter({{.fct}} %in% .keep) %>%
@@ -501,7 +501,7 @@ fct_filter <- function(.data, .fct, .keep = NULL, .drop = NULL) {
 #' @export
 filter_drop <- function(.data, .col, .keep = NULL, .drop = NULL) {
   if (!xor(is.null(.keep), is.null(.drop))) {
-    stop("Must specify either .keep or .drop (not both).")
+    cli::cli_abort("Must specify either .keep or .drop (not both).")
   } else if (!is.null(.keep)) {
     .data %>%
       dplyr::filter({{.col}} %in% .keep) %>%

@@ -23,7 +23,7 @@
 #' @export
 is_duplicate <- function(..., nmax = 1, incomparables = FALSE) {
   if (length(unique(purrr::map_int(list(...), length))) != 1) {
-    stop("All vectors passed to `...` must be of equal length.")
+    cli::cli_abort("All vectors passed to `...` must be of equal length.")
   }
   x <- suppress_messages_if(
     tibble::tibble(..., .name_repair = "unique"),

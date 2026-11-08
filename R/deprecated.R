@@ -174,13 +174,6 @@ se <- function(x, na.rm = FALSE) {
   se_mean(x, na.rm)
 }
 
-
-se <- function(x, na.rm = FALSE) {
-  .Deprecated(msg = "`se()` is deprecated. Use `se_mean()` or `se_prop()` instead.")
-  se_mean(x, na.rm)
-}
-
-
 #' Set NA values based on numbers stored as strings - DEPRECATED
 #'
 #' @description

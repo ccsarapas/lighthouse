@@ -11,7 +11,7 @@ df_compare(x, y, suffix = c(".x", ".y"), keep = NULL)
 
 \item{suffix}{suffixes to indicate source data frame in output.}
 
-\item{keep}{<[\code{tidy-select}][dplyr_tidy_select> Columns to include in the output even if they have no differences.}
+\item{keep}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Columns to include in the output even if they have no differences.}
 }
 \value{
 A data frame with rows and columns that have differing values between
@@ -19,7 +19,7 @@ A data frame with rows and columns that have differing values between
 Columns specified in \code{keep} are always included.
 }
 \description{
-Given two data frames with the same dimensions and column order, returns a data frame including only rows and columns with differences.
+Given two data frames with the same dimensions, column order, and column classes, returns a data frame including only rows and columns with differences.
 }
 \examples{
 x <- data.frame(id = 1:3, A = c(7, 8, 9), B = c(10, 20, 30), C = c("x", "y", "z"))

@@ -41,11 +41,12 @@ nth_bizday <- function(x,
   inrange <- dplyr::between(x, attr(bizdays, "start"), attr(bizdays,
                                                             "end"))
   if (!rlang::is_scalar_integerish(n)) {
-    stop("`n` must be a whole number of length 1.")
+    cli::cli_abort("`n` must be a whole number of length 1.")
   }
   if (!all(is_TRUE_or_NA(inrange)))
-    stop("Dates before ", attr(bizdays, "start"), " or after ",
-         attr(bizdays, "end"), " are not currently supported.")
+    cli::cli_abort(
+      "Dates before {attr(bizdays, 'start')} or after {attr(bizdays, 'end')} are not currently supported."
+    )
   if (!include_today)
     x <- x + lubridate::days(1)
   x <- purrr::map(lubridate::as_date(x), \(x) bizdays[bizdays >= x][[n]])
@@ -93,7 +94,7 @@ floor_days <- function(x,
                        reset_monthly = FALSE) {
   if (reset_monthly) {
     if (!missing(start))
-      warning("`start` is ignored when `reset_monthly` = TRUE")
+      cli::cli_warn("`start` is ignored when `reset_monthly` = TRUE")
     return(lubridate::floor_date(x, unit = paste(n, "days")))
   }
   start <- lubridate::as_date(start)
@@ -108,7 +109,7 @@ floor_days <- function(x,
 #' @export
 days_diff <- function(d1, d2, warn = TRUE) {
   if (xor(lubridate::is.POSIXt(d1), lubridate::is.POSIXt(d2))) {
-    if (warn) warning("Datetime converted to Date to compute days difference")
+    if (warn) cli::cli_warn("Datetime converted to Date to compute days difference")
     if (lubridate::is.POSIXct(d1)) d1 <- as.Date(d1)
     else d2 <- as.Date(d2)
   }
@@ -261,7 +262,7 @@ strftime_no_lead <- function(x,
                              ),
                              ...) {
   if (length(format) > 1) {
-    stop("`strftime_no_lead()` does not support `format` with length > 1.")
+    cli::cli_abort("`strftime_no_lead()` does not support `format` with length > 1.")
   }
   OSn <- paste0("%OS", 0:6)
   specs_all <- c(
@@ -272,16 +273,15 @@ strftime_no_lead <- function(x,
   )
   no_lead_unrec <- setdiff(no_lead, specs_all)
   if (length(no_lead_unrec) > 0) {
-    stop(
-      "Unrecognized conversion specification(s) in `no_lead`:\n",
-      no_lead_unrec
-    )
-  }
+    cli::cli_abort(c(
+      "!" = "Unrecognized conversion {cli::qty(no_lead_unrec)} specification{?s} in `no_lead`:",
+      "i" = "{no_lead_unrec}"
+    ))  }
   if (any(no_lead %in% c("%c", "%D", "%x", "%X"))) {
-    stop(
-      "`strftime_no_lead()` does not support the locale-dependent conversion ",
-      'specifications "%c", "%D", "%x", or "%X" in the `no_lead` argument.'
-    )
+    cli::cli_abort(c(
+      "!" = "`strftime_no_lead()` does not support these locale-dependent conversion specifications in the `no_lead` argument:",
+      "*" = '"%c", "%D", "%x", "%X"'
+    ))
   }
   x <- as.POSIXlt(x, tz = tz)
   if (format == "") {
@@ -296,11 +296,10 @@ strftime_no_lead <- function(x,
   if ("%F" %in% names(elements) && "%F" %in% no_lead) {
     elements[["%F"]] <- stringr::str_remove_all(elements[["%F"]], "(?<=-)0")
     if (any(stringr::str_starts(elements[["%F"]], "0"))) {
-      warning(
-        "Leading zeros removed for month and day but not year components of ",
-        '"%F". To change this behavior, use "%Y-%m-%d" and adjust `no_lead` ',
-        "argument."
-      )
+      cli::cli_warn(c(
+        "!" = 'Leading zeros removed for month and day but not year components of "%F".',
+        "i" = 'To change this behavior, use "%Y-%m-%d" and adjust `no_lead` argument.'
+      ))
     }
     no_lead <- setdiff(no_lead, "%F")
   }

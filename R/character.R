@@ -152,7 +152,7 @@ str_c_narm <- function(...,
                        collapse = NULL,
                        if_all_na = c("empty", "NA", "remove")) {
   stop_dots <- function(...) {
-    stop("`...` must contain atomic vectors of equal length or a single data.frame.")
+    cli::cli_abort("`...` must contain atomic vectors of equal length or a single data.frame.")
   }
   dots <- list(...)
   if (any(sapply(dots, is.data.frame))) {

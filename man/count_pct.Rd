@@ -45,7 +45,7 @@ A data frame with columns for grouping variables, \code{n} (the count of observa
 This variant of \code{\link[dplyr:count]{dplyr::count()}} includes a column showing percentage of total observations for each group.
 }
 \details{
-Percentages within subgroups can be obtained by grouping with \code{group_by}
+Percentages within subgroups can be obtained by grouping with the \code{.by} argument or with \code{\link[dplyr:group_by]{dplyr::group_by()}}.
 }
 \examples{
 library(dplyr)

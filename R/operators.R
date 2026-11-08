@@ -36,7 +36,7 @@
     if (is.symbol(x) || rlang::is_scalar_character(x)) {
       as.character(x)
     } else {
-      stop("Invalid component in left-hand side")
+      cli::cli_abort("Invalid component in left-hand side")
     }
   }
   lhs <- rlang::enexpr(lhs)
@@ -47,7 +47,7 @@
       if (length(lhs) %in% c(1L, length(rhs))) {
         invisible(purrr::map2(lhs, rhs, ~ assign(.x, .y, pos = envr)))
       } else {
-        stop("Left-hand side must be same length as right-hand side, or length 1")
+        cli::cli_abort("Left-hand side must be same length as right-hand side, or length 1")
       }
     } else if (fn == rlang::expr(`%<-%`)) {
       rightmost <- `%<-%`(!!lhs[[3]], rhs, envr = envr)
@@ -57,7 +57,7 @@
     lhs <- as.character(lhs)
     assign(lhs, rhs, pos = envr)
   } else {
-    stop("Invalid left-hand side")
+    cli::cli_abort("Invalid left-hand side")
   }
 }
 
@@ -69,7 +69,7 @@
     if (is.symbol(x) || rlang::is_scalar_character(x)) {
       as.character(x)
     } else {
-      stop("Invalid component in right-hand side")
+      cli::cli_abort("Invalid component in right-hand side")
     }
   }
   envr <- rlang::caller_env()
@@ -79,13 +79,13 @@
     if (length(rhs) %in% c(1L, length(lhs))) {
       invisible(purrr::map2(rhs, lhs, ~ assign(.x, .y, pos = envr)))
     } else {
-      stop("Right-hand side must be same length as left-hand side, or length 1")
+      cli::cli_abort("Right-hand side must be same length as left-hand side, or length 1")
     }
   } else if (is.symbol(rhs) || rlang::is_scalar_character(rhs)) {
     rhs <- as.character(rhs)
     assign(rhs, lhs, pos = envr)
   } else {
-    stop("Invalid right-hand side")
+    cli::cli_abort("Invalid right-hand side")
   }
 }
 

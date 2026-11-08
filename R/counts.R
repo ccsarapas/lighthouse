@@ -39,6 +39,7 @@ count_with_total <- function(.data,
                              sort = FALSE,
                              name = NULL,
                              .drop = dplyr::group_by_drop_default()) {
+  .data <- handle_sf(.data)
   vars <- rlang::enquos(...)
   if (is.null(rlang::enexpr(totals_for))) {
     totals_for <- vars[[1]]
@@ -48,11 +49,11 @@ count_with_total <- function(.data,
     rearrange <- TRUE
   }
   counts <- .data %>%
-    dplyr::count(..., wt = {{wt}}, sort = sort, name = name, .drop = .drop) %>%
+    dplyr::count(..., wt = {{ wt }}, sort = sort, name = name, .drop = .drop) %>%
     dplyr::mutate(!!totals_for := as.character(!!totals_for))
   totals <- .data %>%
     dplyr::mutate(!!totals_for := label) %>%
-    dplyr::count(..., wt = {{wt}}, sort = sort, name = name, .drop = .drop)
+    dplyr::count(..., wt = {{ wt }}, sort = sort, name = name, .drop = .drop)
   if (first_row) {
     out <- dplyr::bind_rows(totals, counts)
   } else {
@@ -84,7 +85,7 @@ count_with_total <- function(.data,
 #' @return A data frame with columns for grouping variables, `n` (the count of observations in each group), and `pct` (the percentage of total observations in each group).
 #'
 #' @details
-#' Percentages within subgroups can be obtained by grouping with `group_by`
+#' Percentages within subgroups can be obtained by grouping with the `.by` argument or with [dplyr::group_by()].
 #'
 #' @family count variants
 #'
@@ -120,9 +121,10 @@ count_pct <- function(.data,
                       wt = NULL,
                       sort = FALSE,
                       .drop = dplyr::group_by_drop_default()) {
+  .data <- handle_sf(.data)
   if (!is.null(rlang::enexpr(.by))) {
     if (dplyr::is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
-      stop(
+      cli::cli_abort(
         "Can't supply `.by` when `.data` is a grouped or rowwise data frame."
       )
     }
@@ -201,6 +203,7 @@ count_multiple <- function(.data,
                            na.rm = FALSE,
                            .by = NULL,
                            .drop = TRUE) {
+  .data <- handle_sf(.data)
   name <- name %||% "n"
   args <- rlang::enexprs(...)
   if (!is.null(names(args))) {
@@ -211,7 +214,7 @@ count_multiple <- function(.data,
   }
   if (!is.null(rlang::enexpr(.by))) {
     if (dplyr::is_grouped_df(.data) || inherits(.data, "rowwise_df")) {
-      stop(
+      cli::cli_abort(
         "Can't supply `.by` when `.data` is a grouped or rowwise data frame."
       )
     }
@@ -288,6 +291,7 @@ count_multiple <- function(.data,
 #'
 #' @export
 count_duplicates <- function(.data, ..., na.rm = FALSE) {
+  .data <- handle_sf(.data)
   if(na.rm) .data <- tidyr::drop_na(.data, ...)
   .data %>%
     dplyr::count(..., name = "instances") %>%
@@ -316,6 +320,7 @@ count_duplicates <- function(.data, ..., na.rm = FALSE) {
 #'
 #' @export
 count_unique <- function(.data, ..., name = "n_unique", na.rm = FALSE) {
+  .data <- handle_sf(.data)
   .data %>%
     dplyr::summarize(
       !!name := dplyr::n_distinct(!!!rlang::enquos(...), na.rm = na.rm)
@@ -334,6 +339,7 @@ count_na <- function(.data,
                      .label_missing = NA_character_,
                      .label_valid = "OK",
                      .add_percent = FALSE) {
+  .data <- handle_sf(.data)
   count_fx <- if (.add_percent) count_pct else dplyr::count
   .data %>%
     dplyr::select(...) %>%
@@ -363,6 +369,7 @@ count_na <- function(.data,
 crosstab <- function(.data,
                      ...,
                      .drop = TRUE) {
+  .data <- handle_sf(.data)
   stopifnot(length(rlang::ensyms(...)) == 2)
   .data <- dplyr::count(.data, ..., .drop = .drop)
   names(.data)[[2]] <- "to_pivot"

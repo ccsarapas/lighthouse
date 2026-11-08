@@ -96,6 +96,7 @@ summary_table <- function(.data,
                           .cols_group_order = c("by_group", "by_function"),
                           .var_col_name = "Variable",
                           .cols_group_opts = list()) {
+  .data <- handle_sf(.data)
   .fns <- pairlist_auto_name(...) %>% 
     lapply(
       \(fn, na.rm) {
@@ -134,7 +135,7 @@ summary_table <- function(.data,
   if (.var_col_name == "..TMP_VAR_COL..") {
     .data[[.var_col_name]] <- NULL
   }
-  if (!missing(.cols_group_by)) {
+  if (!rlang::quo_is_null(rlang::enquo(.cols_group_by))) {
     if (!missing(.cols_group_opts)) {
       cli::cli_warn(c(
         "!" = "{.arg .cols_group_opts} is deprecated and will be removed in a future release.",
@@ -212,8 +213,8 @@ cols_info <- function(x, zap_spss = TRUE) {
   } else {
     spss_data <- FALSE
     if (purrr::some(x, ~ "format.spss" %in% names(attributes(.x)))) {
-      message('Install "labelled" package for additional functionality for SPSS dataframes.')
-      if (zap_spss) warning('`zap_spss` argument has no effect because "labelled" package is not installed.')
+      cli::cli_inform('Install "labelled" package for additional functionality for SPSS dataframes.')
+      if (zap_spss) cli::cli_warn('`zap_spss` argument has no effect because "labelled" package is not installed.')
     }
   }
   out <- tibble::tibble(
@@ -436,6 +437,7 @@ summary_report <- function(.data,
         vars <- list(arg)
         types <- .default
       }
+      .data <- handle_sf(.data)
       vars <- names(tidyselect::eval_select(rlang::expr(c(!!!vars)), .data, env = env))
       types <- switch(
         types,
@@ -522,11 +524,11 @@ cont <- meas_wrap_error
 
 #' Compare two data frames and show differences
 #'
-#' Given two data frames with the same dimensions and column order, returns a data frame including only rows and columns with differences.
+#' Given two data frames with the same dimensions, column order, and column classes, returns a data frame including only rows and columns with differences.
 #'
 #' @param x,y a pair of data frames
 #' @param suffix suffixes to indicate source data frame in output.
-#' @param keep <[`tidy-select`][dplyr_tidy_select> Columns to include in the output even if they have no differences.
+#' @param keep <[`tidy-select`][dplyr_tidy_select]> Columns to include in the output even if they have no differences.
 #'
 #' @return A data frame with rows and columns that have differing values between
 #'   `x` and `y`. Differing columns are included twice, with suffixes appended.
@@ -544,12 +546,20 @@ df_compare <- function(x, y, suffix = c(".x", ".y"), keep = NULL) {
   eq_na <- function(x, y) {
     (!is.na(x) & !is.na(y) & x == y) | (is.na(x) & is.na(y))
   }
-  stopifnot(all(dim(x) == dim(y)))
-  nms <- names(x)
-  stopifnot(all(nms == names(y)))
+  if (!identical(dim(x), dim(y))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical dimensions.")
+  }
+  if (!identical(names(x), names(y))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical column names.")
+  }
+  if (!identical(lapply(x, class), lapply(y, class))) {
+    cli::cli_abort("{.arg x} and {.arg y} must have identical column classes.")
+  }
+  x <- handle_list_cols(x, caller = "df_compare")
+  y <- handle_list_cols(y, quiet = TRUE)
   df_diff <- !eq_na(x, y)
   rows_diff <- apply(df_diff, 1, any)
-  cols_diff <- nms[apply(df_diff, 2, any)]
+  cols_diff <- names(x)[apply(df_diff, 2, any)]
   keep <- rlang::enexpr(keep)
   if (!is.null(keep)) {
     keep <- untidyselect(x, !!keep)

@@ -77,9 +77,9 @@ find_na_cols <- function(.data, cols = tidyselect::everything()) {
 drop_na_cols <- function(.data, cols = tidyselect::everything(), quietly = FALSE) {
   dropped <- find_na_cols(.data, cols = {{cols}})
   if (!quietly) {
-    message(glue::glue(
-      "Dropped {length(dropped)} columns with all NA values: ",
-      "{str_collapse(dropped, sep = ', ')}"
+    cli::cli_inform(c(
+      "*" = "Dropped {length(dropped)} column{?s} with all NA values.",
+      "i" = "Dropped column{?s}: {dropped}"
     ))
   }
   dplyr::select(.data, !dplyr::any_of(dropped))
@@ -193,11 +193,10 @@ na_if_range.labelled <- function(x, range_min = -Inf, range_max = -1) {
   } else if ("character" %in% cls) {
     x <- na_if_range.character(x, range_min, range_max)
   } else {
-    stop(
-      "no applicable method for 'na_if_range' applied to an object of class \"c('",
-      paste(cls, collapse = "', '"),
-      "')\""
+        cli::cli_abort(
+      "no applicable method for 'na_if_range' applied to an object of class {.cls {cls}}."
     )
+
   }
   labs <- labelled::val_labels(x)
   labelled::val_labels(x) <- labs[labs < range_min | labs > range_max]

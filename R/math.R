@@ -78,7 +78,7 @@ pmean <- function(..., na.rm = FALSE) {
 
 pfx <- function(..., na.rm, .caller, .fx) {
   if (any(sapply(list(...), \(x) length(dim(x))) > 1)) {
-    stop(.caller, " does not support objects with more than one dimension.")
+    cli::cli_abort("{(.caller)} does not support objects with more than one dimension.")
   }
   check_dots <- vctrs::vec_recycle_common(...)
   cols <- cbind(...)

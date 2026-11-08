@@ -9,6 +9,7 @@
 #'
 #' @export
 in_excel <- function(df, name = NULL, na = "") {
+  df <- handle_sf(df)
   csv_dir <- file.path(tempdir(), "csv")
   if (!dir.exists(csv_dir)) {
     dir.create(csv_dir)
@@ -152,6 +153,8 @@ add_plot_slide <- function(pptx,
 #' @export
 write_xlsx_styled <- function(x, file, asTable = FALSE, overwrite = TRUE, ...) {
   rlang::check_installed("openxlsx")
+  x <- handle_sf(x)
+  x <- handle_list_cols(x, caller = "write_xlsx_styled")
   openxlsx::write.xlsx(
     x,
     file,

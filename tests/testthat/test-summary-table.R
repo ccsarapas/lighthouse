@@ -134,6 +134,13 @@ test_that("summary_table groups rows when `.data` is grouped", {
   )
 })
 
+test_that("summary_table accepts `NULL` for `.cols_group_by`", {
+  expect_equal(
+    summary_table(mtcars, mean, sd, .vars = c(mpg, disp, wt), .cols_group_by = NULL),
+    summary_table(mtcars, mean, sd, .vars = c(mpg, disp, wt))
+  )
+})
+
 test_that("summary_table groups columns when `.cols_group_by` is specified", {
   expect_equal(
     summary_table(mtcars2, median, .vars = mpg, .cols_group_by = c(trans, cyl)),

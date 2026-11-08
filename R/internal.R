@@ -19,6 +19,39 @@ is_logical_vec <- function(x) {
   }
 }
 
+handle_sf <- function(x, quiet = FALSE) {
+  if (inherits(x, "sf")) {
+    grp_vars <- dplyr::group_vars(x)
+    grp_drop <- dplyr::group_by_drop_default(x)
+    x <- tibble::as_tibble(x)
+    x <- dplyr::group_by(x, !!!rlang::syms(grp_vars), .drop = grp_drop)
+    if (!quiet) {
+      cli::cli_inform(
+        "{.cls sf} object converted to {.cls tibble}.",
+        .frequency = "once",
+        .frequency_id = "lighthouse_handle_sf"
+      )
+    }
+  }
+  x
+}
+
+handle_list_cols <- function(x, caller, quiet = FALSE) {
+  stopifnot(inherits(x, "data.frame"))
+  idx_list_cols <- vapply(x, is.list, logical(1))
+  if (any(idx_list_cols)) {
+    list_cols <- names(x)[idx_list_cols]
+    x <- x[, !idx_list_cols, drop = FALSE]
+    if (!quiet) {
+      cli::cli_warn(c(
+        "*" = "`{caller}()` does not support list columns.",
+        "i" = "List column{?s} removed: {list_cols}."
+      ))
+    }
+  }
+  x
+}
+
 try.na.rm <- function(fn, x, na.rm = FALSE, ...) {
   if (any(c("na.rm", "...") %in% formalArgs(args(fn)))) {
     fn(x, na.rm = na.rm, ...)
