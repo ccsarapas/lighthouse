@@ -22,8 +22,9 @@ is_logical_vec <- function(x) {
 handle_sf <- function(x, quiet = FALSE) {
   if (inherits(x, "sf")) {
     grp_vars <- dplyr::group_vars(x)
+    grp_drop <- dplyr::group_by_drop_default(x)
     x <- tibble::as_tibble(x)
-    x <- dplyr::group_by(x, !!!rlang::syms(grp_vars))
+    x <- dplyr::group_by(x, !!!rlang::syms(grp_vars), .drop = grp_drop)
     if (!quiet) {
       cli::cli_inform(
         "{.cls sf} object converted to {.cls tibble}.",
