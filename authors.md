@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/ccsarapas/lighthouse/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/ccsarapas/lighthouse/blob/v0.7.5/DESCRIPTION)
 
 Sarapas C (2026). *lighthouse: Utility Functions for Lighthouse
 Institute Projects*. R package version 0.7.5,
