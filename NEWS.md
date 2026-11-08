@@ -1,4 +1,4 @@
-## unreleased
+# lighthouse 0.7.5
 
 ## Bug fixes
 
@@ -7,6 +7,14 @@
 * `count_with_total()`, `count_pct()`, `count_multiple()`, `count_duplicates()`, `count_unique()`, `count_na()`, `crosstab()`, `summary_table()`, `summary_report()`, `in_excel()`, and `write_xlsx_styled()` now convert `sf` inputs to tibbles before processing (fixes #29, #30).
 
 * `df_compare()` and `write_xlsx_styled()` now remove list columns with a warning (fixes #32).
+
+## Other changes
+
+* Increased R dependency to >= 4.2.0 for use of baseline pipe and placeholder.
+
+* All conditions now use cli.
+
+* Minor documentation corrections.
 
 # lighthouse 0.7.4
 
