@@ -69,8 +69,9 @@ kruskal.test(mpg ~ gear, data = mtcars2)
 #> 
 dunn_test(mpg, gear, data = mtcars2)
 #> 
-#>                    Dunn's Pairwise Comparison of x by groups                  
-#>                                     (Holm)                                    
+#>                     Dunn's Pairwise Comparison of x by groups                   
+#>                                      (Holm)                                     
+#> 
 #> Col Mean-│
 #> Row Mean │          3          4
 #> ─────────┼──────────────────────
@@ -81,7 +82,7 @@ dunn_test(mpg, gear, data = mtcars2)
 #>          │     0.0998     0.1270 
 #> 
 #> FWER = 0.05
-#> Reject Ho if p ≤ FWER/2 with stopping rule, where p = Pr(Z ≥ |z|)
+#> Reject Ho if adjusted p ≤ FWER/2 with stopping rule, where (unadjusted) p = Pr(Z ≥ |z|)
 #> # A tibble: 3 × 3
 #>   contrast statistic adj.p.value
 #>   <chr>        <dbl>       <dbl>

@@ -41,8 +41,8 @@ The input data frame with additional rows representing the crossings
 
 ## Details
 
-The returned dataframe will include columns `pos_neg` and `cross_group`.
-Within `geom_area()`, `cross_group` should be mapped to `group`, while
+The returned dataframe will include columns `pos_neg` and `cross_grp`.
+Within `geom_area()`, `cross_grp` should be mapped to `group`, while
 `pos_neg` should be mapped to aesthetics such as `fill` or `color`.
 
 ## Examples

@@ -1,7 +1,8 @@
 # Compare two data frames and show differences
 
-Given two data frames with the same dimensions and column order, returns
-a data frame including only rows and columns with differences.
+Given two data frames with the same dimensions, column order, and column
+classes, returns a data frame including only rows and columns with
+differences.
 
 ## Usage
 
@@ -21,8 +22,8 @@ df_compare(x, y, suffix = c(".x", ".y"), keep = NULL)
 
 - keep:
 
-  \<\[`tidy-select`\]\[dplyr_tidy_select\> Columns to include in the
-  output even if they have no differences.
+  \<[`tidy-select`](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html)\>
+  Columns to include in the output even if they have no differences.
 
 ## Value
 

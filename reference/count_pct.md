@@ -71,7 +71,9 @@ observations in each group).
 
 ## Details
 
-Percentages within subgroups can be obtained by grouping with `group_by`
+Percentages within subgroups can be obtained by grouping with the `.by`
+argument or with
+[`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html).
 
 ## Examples
 

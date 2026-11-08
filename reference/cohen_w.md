@@ -20,6 +20,7 @@ cohen_w(chisq)
 ## Examples
 
 ``` r
+
 chisq_out <- chisq.test(ggplot2::diamonds$cut, ggplot2::diamonds$color)
 cohen_w(chisq_out)
 #> [1] 0.07584867

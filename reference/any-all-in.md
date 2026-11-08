@@ -22,6 +22,7 @@ found in right operand (`rhs`). Equivalent to `any(lhs %in% rhs)`.
 ## Examples
 
 ``` r
+
 maybe_states <- c("Idaho", "Illinois", "North Tuba", "Maine")
 maybe_states %any_in% state.name  # TRUE
 #> [1] TRUE

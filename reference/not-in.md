@@ -12,6 +12,7 @@ lhs %!in% rhs
 ## Examples
 
 ``` r
+
 "April" %!in% month.name
 #> [1] FALSE
 "Junvember" %!in% month.name

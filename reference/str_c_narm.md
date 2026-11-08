@@ -55,6 +55,7 @@ A character vector.
 [`stringr::str_c()`](https://stringr.tidyverse.org/reference/str_c.html).
 Given some vectors with missing values:
 
+
     #> (dat <- tibble::tibble(v1 = c("a1", "b1", "c1", NA),
                           v2 = c("a2", NA, "c2", NA),
                           v3 = c("a3", "b3", NA, NA)))
@@ -70,6 +71,7 @@ Given some vectors with missing values:
 [`paste0()`](https://rdrr.io/r/base/paste.html) convert `NA`s to the
 string `"NA"` before concatenating:
 
+
     #> dplyr::mutate(dat, paste = paste(v1, v2, v3, sep = " | "))
     # A tibble: 4 × 4
       v1    v2    v3    paste
@@ -83,6 +85,7 @@ string `"NA"` before concatenating:
 [`stringr::str_c`](https://stringr.tidyverse.org/reference/str_c.html)
 returns `NA` if any value in a row is `NA`:
 
+
     #> dplyr::mutate(dat, str_c = stringr::str_c(v1, v2, v3, sep = " | "))
     # A tibble: 4 × 4
       v1    v2    v3    str_c
@@ -95,6 +98,7 @@ returns `NA` if any value in a row is `NA`:
 In contrast, `str_c_narm()` removes `NAs` from each row before
 concatenating:
 
+
     #> dplyr::mutate(dat, str_c_narm = str_c_narm(v1, v2, v3, sep = " | "))
     # A tibble: 4 × 4
       v1    v2    v3    str_c_narm
@@ -105,6 +109,7 @@ concatenating:
     4 NA    NA    NA    ""
 
 ...with options for the case where all values in a row are `NA`:
+
 
     #> dplyr::mutate(dat, str_c_narm = str_c_narm(v1, v2, v3, sep = " | ", if_all_na = "NA"))
     # A tibble: 4 × 4

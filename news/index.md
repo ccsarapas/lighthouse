@@ -1,5 +1,51 @@
 # Changelog
 
+## lighthouse 0.7.5
+
+### Bug fixes
+
+- Explicitly setting `.cols_group_by = NULL` in
+  [`summary_table()`](https://ccsarapas.github.io/lighthouse/reference/summary_table.md)
+  now works as expected (fixes
+  [\#41](https://github.com/ccsarapas/lighthouse/issues/41)).
+
+- [`count_with_total()`](https://ccsarapas.github.io/lighthouse/reference/count_with_total.md),
+  [`count_pct()`](https://ccsarapas.github.io/lighthouse/reference/count_pct.md),
+  [`count_multiple()`](https://ccsarapas.github.io/lighthouse/reference/count_multiple.md),
+  [`count_duplicates()`](https://ccsarapas.github.io/lighthouse/reference/count_duplicates.md),
+  [`count_unique()`](https://ccsarapas.github.io/lighthouse/reference/count_unique.md),
+  [`count_na()`](https://ccsarapas.github.io/lighthouse/reference/count_na.md),
+  [`crosstab()`](https://ccsarapas.github.io/lighthouse/reference/crosstab.md),
+  [`summary_table()`](https://ccsarapas.github.io/lighthouse/reference/summary_table.md),
+  [`summary_report()`](https://ccsarapas.github.io/lighthouse/reference/summary_report.md),
+  [`in_excel()`](https://ccsarapas.github.io/lighthouse/reference/in_excel.md),
+  and
+  [`write_xlsx_styled()`](https://ccsarapas.github.io/lighthouse/reference/write_xlsx_styled.md)
+  now convert `sf` inputs to tibbles before processing (fixes
+  [\#29](https://github.com/ccsarapas/lighthouse/issues/29),
+  [\#30](https://github.com/ccsarapas/lighthouse/issues/30)).
+
+- [`df_compare()`](https://ccsarapas.github.io/lighthouse/reference/df_compare.md)
+  and
+  [`write_xlsx_styled()`](https://ccsarapas.github.io/lighthouse/reference/write_xlsx_styled.md)
+  now remove list columns with a warning (fixes
+  [\#32](https://github.com/ccsarapas/lighthouse/issues/32)).
+
+### Other changes
+
+- Increased R dependency to \>= 4.2.0 for use of baseline pipe and
+  placeholder (closes
+  [\#35](https://github.com/ccsarapas/lighthouse/issues/35)).
+
+- All conditions now use cli (clsoes
+  [\#25](https://github.com/ccsarapas/lighthouse/issues/25)).
+
+- Minor documentation corrections (closes
+  [\#28](https://github.com/ccsarapas/lighthouse/issues/28),
+  [\#33](https://github.com/ccsarapas/lighthouse/issues/33),
+  [\#35](https://github.com/ccsarapas/lighthouse/issues/35),
+  [\#36](https://github.com/ccsarapas/lighthouse/issues/36)).
+
 ## lighthouse 0.7.4
 
 - Removed unused `...` argument from

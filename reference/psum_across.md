@@ -68,6 +68,7 @@ Both sets of functions differ from
 
 `psum_across()` and friends support tidyselect expressions; e.g.,
 
+
     dat 
       mutate(
         IDScrTotal = psum_across(IDScr1:IDScr6),
@@ -85,6 +86,7 @@ Conversely,
 friends do not support tidyselect expressions, but can be used both
 inside or outside a data-masking context:
 
+
     # data-masking
     dat 
       mutate(
@@ -95,6 +97,7 @@ inside or outside a data-masking context:
     psum(1:10, 6:15, 11:20)
 
 and support "on the fly" or "implicit" computations:
+
 
     dat 
       mutate(
