@@ -549,8 +549,7 @@ df_compare <- function(x, y, suffix = c(".x", ".y"), keep = NULL) {
   if (!identical(dim(x), dim(y))) {
     cli::cli_abort("{.arg x} and {.arg y} must have identical dimensions.")
   }
-    nms <- names(x)
-  if (!identical(nms, names(y))) {
+  if (!identical(names(x), names(y))) {
     cli::cli_abort("{.arg x} and {.arg y} must have identical column names.")
   }
   if (!identical(lapply(x, class), lapply(y, class))) {
@@ -560,7 +559,7 @@ df_compare <- function(x, y, suffix = c(".x", ".y"), keep = NULL) {
   y <- handle_list_cols(y, quiet = TRUE)
   df_diff <- !eq_na(x, y)
   rows_diff <- apply(df_diff, 1, any)
-  cols_diff <- nms[apply(df_diff, 2, any)]
+  cols_diff <- names(x)[apply(df_diff, 2, any)]
   keep <- rlang::enexpr(keep)
   if (!is.null(keep)) {
     keep <- untidyselect(x, !!keep)
